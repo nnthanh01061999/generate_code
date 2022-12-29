@@ -1,5 +1,6 @@
 import { Button, Col, Form, notification, Row, Typography } from "antd";
 import TextArea from "antd/lib/input/TextArea";
+import { camelCase, snakeCase } from "lodash";
 import React from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -17,9 +18,9 @@ import {
   importInterfaces,
   importModal,
   importQueryString,
-  snakeCase,
   titleCase,
 } from "../data/funcGenCodeSplit";
+import { stringFormat } from "../data/utils";
 import { CustomCheckbox, CustomInput, CustomRadio } from "./CustomFormItem";
 import FormCreate from "./FormCreate";
 import FormSearch from "./FormSearch";
@@ -30,6 +31,8 @@ function GenerateCode() {
   const [resultJson, setResultJson] = React.useState("");
   const [resultForm, setResultForm] = React.useState("");
   const [resultTable, setResultTable] = React.useState("");
+  const [resultTableColumn, setResultTableColumn] = React.useState("");
+  const [resultInterface, setResultInterface] = React.useState("");
   const [resultSite, setResultSite] = React.useState("");
   const {
     control,
@@ -54,43 +57,64 @@ function GenerateCode() {
   };
 
   const generateCodeJson = (value: any) => {
-    let resultText = `"${value.key}.title":"${titleCase(value.title)}",\n`;
-    resultText += `"${value.key}.createTitle":"Tạo ${titleCase(
+    let resultText = `"${camelCase(value.key)}.title":"${titleCase(
       value.title
     )}",\n`;
-    resultText += `"${value.key}.updateTitle":"Chỉnh Sửa ${titleCase(
-      value.title
-    )}",\n`;
-    resultText += `"${value.key}.detailTitle":"Chi tiết ${titleCase(
-      value.title
-    )}",\n`;
+    if (value.action?.includes("ACTION_CREATE")) {
+      resultText += `"${camelCase(value.key)}.createTitle":"Tạo ${titleCase(
+        value.title
+      )}",\n`;
+    }
+    if (value.action?.includes("ACTION_UPDATE")) {
+      resultText += `"${camelCase(
+        value.key
+      )}.updateTitle":"Chỉnh Sửa ${titleCase(value.title)}",\n`;
+    }
+    if (value.action?.includes("ACTION_VIEW_DETAIL")) {
+      resultText += `"${camelCase(
+        value.key
+      )}.detailTitle":"Chi tiết ${titleCase(value.title)}",\n`;
+    }
     resultText += value.tableColumn?.reduce(
       (prev: any, cur: any) =>
-        prev + `"${value.key}.${cur.key}":"${titleCase(cur.title)}",\n`,
-      ""
-    );
-    resultText += value.formSearch?.reduce(
-      (prev: any, cur: any) =>
-        prev + `"${value.key}.search.${cur.key}":"${titleCase(cur.title)}",\n`,
+        prev +
+        `"${camelCase(value.key)}.${camelCase(cur.key)}":"${titleCase(
+          cur.title
+        )}",\n`,
       ""
     );
     resultText += value.formSearch?.reduce(
       (prev: any, cur: any) =>
         prev +
-        `"${value.key}.search.${cur.key}.placeholder":"Vui Lòng ${
+        `"${camelCase(value.key)}.search.${camelCase(cur.key)}":"${titleCase(
+          cur.title
+        )}",\n`,
+      ""
+    );
+    resultText += value.formSearch?.reduce(
+      (prev: any, cur: any) =>
+        prev +
+        `"${camelCase(value.key)}.search.${camelCase(
+          cur.key
+        )}.placeholder":"Vui Lòng ${
           cur.type === "input" ? "Nhập " : "Chọn "
         }${titleCase(cur.title)}",\n`,
       ""
     );
     resultText += value.formCreate?.reduce(
       (prev: any, cur: any) =>
-        prev + `"${value.key}.form.${cur.key}":"${titleCase(cur.title)}",\n`,
+        prev +
+        `"${camelCase(value.key)}.form.${camelCase(cur.key)}":"${titleCase(
+          cur.title
+        )}",\n`,
       ""
     );
     resultText += value.formCreate?.reduce(
       (prev: any, cur: any) =>
         prev +
-        `"${value.key}.form.${cur.key}.placeholder":"Vui Lòng ${
+        `"${camelCase(value.key)}.form.${camelCase(
+          cur.key
+        )}.placeholder":"Vui Lòng ${
           cur.type === "input" ? "Nhập " : "Chọn "
         }${titleCase(cur.title)}",\n`,
       ""
@@ -137,6 +161,91 @@ function GenerateCode() {
     setResultTable(resultText);
   };
 
+  const columnRenderByType = (type: string, key: string) => {
+    switch (type) {
+      case "string":
+        return `value.key.${snakeCase(key)} || '--';`;
+      case "date":
+        return `formatDate(value.key.create_date, DATE_FORMAT, true) || '--';`;
+      case "number":
+        return `numberWithCommas(value.key.cod_fee) || '--';`;
+      case "boolean":
+        return `!!value.key.${snakeCase(key)};`;
+      default:
+        return `value.key.${snakeCase(key)} || '--';`;
+    }
+  };
+
+  const columnAlignByType = (type: string) => {
+    switch (type) {
+      case "string":
+        return `left`;
+      case "date":
+        return `center`;
+      case "number":
+        return `right`;
+      case "boolean":
+        return `center`;
+      default:
+        return `left`;
+    }
+  };
+
+  const generateCodeTableColumn = (value: any) => {
+    const key = snakeCase(value.key);
+    const headerCell =
+      value?.tableHeaderType === "none"
+        ? `<p className="header-title header-align-center">{{1}}</p>`
+        : `<CustomDataGridHeader {0} caption={{1}} name={{2}} filters={filters} {3} />}`;
+
+    let resultText =
+      (value?.tableRowIndex
+        ? `<Column
+    alignment={'center'}
+    dataType="string"
+    width={60}
+    allowResizing={false}
+    allowGrouping={false}
+    allowSearch={false}
+    caption={messages['common.index']}
+    headerCellComponent={() => <p className="header-title header-align-center">{messages['common.index']}</p>}
+    cellRender={(value: IRenderDataGrid<${
+      value.tableRowInterface || "any"
+    }>) => {
+        return numberWithCommas(value.row.dataIndex + 1);
+    }}
+/>\n`
+        : "") +
+      value.tableColumn?.reduce((prev: any, cur: any) => {
+        const columnKey = `TC_${key?.toUpperCase()}_${cur.key?.toUpperCase()}`;
+        return (
+          prev +
+          ` <Column
+          alignment="${columnAlignByType(cur.dataType)}"
+          dataType="${cur.dataType}"
+          minWidth={164}
+          width={${cur.width || 164}}
+          allowResizing={true}
+          dataField={${columnKey}}
+          caption={messages['${camelCase(key)}.${camelCase(cur.key)}']}
+          headerCellComponent={() => ${stringFormat(
+            headerCell,
+            cur.search ? `ref={columnRef[${columnKey}]} ` : "",
+            `messages['${camelCase(key)}.${camelCase(cur.key)}']`,
+            `${columnKey}`,
+            cur.search ? `onChange={onSearchChange}` : ""
+          )}}
+          cellRender={(value: IRenderDataGrid<${
+            value.tableRowInterface || "any"
+          }>) => {
+              return ${columnRenderByType(cur.dataType, cur.key)}
+          }}
+      />\n`
+        );
+      }, "");
+    setResultTableColumn(resultText);
+  };
+
   const generateSiteCode = (value: any) => {
     const key = value.key;
 
@@ -152,11 +261,45 @@ function GenerateCode() {
     setResultSite(resultText);
   };
 
+  const generateFormInterface = (value: any) => {
+    const key = snakeCase(value.key);
+    const orinalKey =
+      value.key?.charAt(0)?.toLocaleUpperCase() + value?.key?.slice(1);
+    let resultText = "";
+    if (value.formSearch?.length) {
+      resultText += `export type ${orinalKey}SearchFormSearch = {\n`;
+      resultText += value.formSearch?.reduce(
+        (prev: any, cur: any) =>
+          prev +
+          `[FS_${key?.toUpperCase()}_${cur.key?.toUpperCase()}]:${
+            cur.interface
+          }\n`,
+        ""
+      );
+      resultText += "}\n";
+    }
+    if (value.formCreate?.length) {
+      resultText += `export type ${orinalKey}FormValues = {\n`;
+      resultText += value.formCreate?.reduce(
+        (prev: any, cur: any) =>
+          prev +
+          `[FC_${key?.toUpperCase()}_${cur.key?.toUpperCase()}]:${
+            cur.interface
+          }\n`,
+        ""
+      );
+      resultText += "}\n";
+    }
+    setResultInterface(resultText);
+  };
+
   const onSubmit = (value: any) => {
     generateCodeJson(value);
     generateCodeForm(value);
     generateCodeTable(value);
+    generateCodeTableColumn(value);
     generateSiteCode(value);
+    generateFormInterface(value);
   };
 
   return (
@@ -182,7 +325,7 @@ function GenerateCode() {
                 <CustomInput
                   control={control}
                   name="key"
-                  label="Key"
+                  label="Key (camel)"
                   errors={errors}
                 />
               </Col>
@@ -219,8 +362,9 @@ function GenerateCode() {
               <Col span={24}>
                 <FormCreate control={control} errors={errors} />
               </Col>
+
               <Col span={24}>
-                <TableColumn control={control} errors={errors} />
+                <TableColumn control={control} errors={errors} watch={watch} />
               </Col>
               {/* <Col span={24}>
                 <DetailField control={control} errors={errors} />
@@ -251,10 +395,34 @@ function GenerateCode() {
               />
             </Col>
             <Col span={12}>
-              <Text>Json form</Text>
-              <Button onClick={() => copyTextToClipboard("table")}>Copy</Button>
+              <Text>Form Interface</Text>
+              <Button onClick={() => copyTextToClipboard("formInterface")}>
+                Copy
+              </Button>
               <TextArea
-                id="table"
+                id="formInterface"
+                value={resultInterface}
+                style={{ height: 250 }}
+              />
+            </Col>
+            <Col span={12}>
+              <Text>TABLE COLUMN</Text>
+              <Button onClick={() => copyTextToClipboard("tableColumn")}>
+                Copy
+              </Button>
+              <TextArea
+                id="tableColumn"
+                value={resultTableColumn}
+                style={{ height: 250 }}
+              />
+            </Col>
+            <Col span={12}>
+              <Text>Json form</Text>
+              <Button onClick={() => copyTextToClipboard("jsonForm")}>
+                Copy
+              </Button>
+              <TextArea
+                id="jsonForm"
                 value={JSON.stringify(watchValues)}
                 style={{ height: 250 }}
               />

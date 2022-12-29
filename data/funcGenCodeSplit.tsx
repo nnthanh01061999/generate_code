@@ -1,20 +1,9 @@
-export const snakeCase = (value: string) => {
-  const charUp = value?.split("")?.find((char) => char.toUpperCase() === char);
-  const position = charUp ? value?.indexOf(charUp) : 0;
-  return position
-    ? value.slice(0, position) + "_" + value.slice(position)
-    : value;
-};
-
-export const kebabCase = (value: string) => {
-  return snakeCase(value)?.toLocaleUpperCase()?.replace("_", "-");
-};
+import { snakeCase } from "lodash";
 
 export const titleCase = (str: string) => {
   var splitStr = str ? str.toLowerCase().split(" ") : [];
   for (var i = 0; i < splitStr.length; i++) {
-    splitStr[i] =
-      splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+    splitStr[i] = splitStr[i].charAt(0) + splitStr[i].substring(1);
   }
   return splitStr.join(" ");
 };
