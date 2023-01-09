@@ -18,7 +18,6 @@ import {
   importInterfaces,
   importModal,
   importQueryString,
-  titleCase,
 } from "../data/funcGenCodeSplit";
 import { stringFormat } from "../data/utils";
 import { CustomCheckbox, CustomInput, CustomRadio } from "./CustomFormItem";
@@ -57,38 +56,34 @@ function GenerateCode() {
   };
 
   const generateCodeJson = (value: any) => {
-    let resultText = `"${camelCase(value.key)}.title":"${titleCase(
-      value.title
-    )}",\n`;
+    let resultText = `"${camelCase(value.key)}.title":"${value.title}",\n`;
     if (value.action?.includes("ACTION_CREATE")) {
-      resultText += `"${camelCase(value.key)}.createTitle":"Tạo ${titleCase(
+      resultText += `"${camelCase(value.key)}.createTitle":"Tạo ${
         value.title
-      )}",\n`;
+      }",\n`;
     }
     if (value.action?.includes("ACTION_UPDATE")) {
-      resultText += `"${camelCase(
-        value.key
-      )}.updateTitle":"Chỉnh Sửa ${titleCase(value.title)}",\n`;
+      resultText += `"${camelCase(value.key)}.updateTitle":"Chỉnh Sửa ${
+        value.title
+      }",\n`;
     }
     if (value.action?.includes("ACTION_VIEW_DETAIL")) {
-      resultText += `"${camelCase(
-        value.key
-      )}.detailTitle":"Chi tiết ${titleCase(value.title)}",\n`;
+      resultText += `"${camelCase(value.key)}.detailTitle":"Chi tiết ${
+        value.title
+      }",\n`;
     }
     resultText += value.tableColumn?.reduce(
       (prev: any, cur: any) =>
         prev +
-        `"${camelCase(value.key)}.${camelCase(cur.key)}":"${titleCase(
-          cur.title
-        )}",\n`,
+        `"${camelCase(value.key)}.${camelCase(cur.key)}":"${cur.title}",\n`,
       ""
     );
     resultText += value.formSearch?.reduce(
       (prev: any, cur: any) =>
         prev +
-        `"${camelCase(value.key)}.search.${camelCase(cur.key)}":"${titleCase(
+        `"${camelCase(value.key)}.search.${camelCase(cur.key)}":"${
           cur.title
-        )}",\n`,
+        }",\n`,
       ""
     );
     resultText += value.formSearch?.reduce(
@@ -96,17 +91,17 @@ function GenerateCode() {
         prev +
         `"${camelCase(value.key)}.search.${camelCase(
           cur.key
-        )}.placeholder":"Vui Lòng ${
-          cur.type === "input" ? "Nhập " : "Chọn "
-        }${titleCase(cur.title)}",\n`,
+        )}.placeholder":"Vui lòng ${cur.type === "input" ? "nhập " : "chọn "}${
+          cur.title
+        }",\n`,
       ""
     );
     resultText += value.formCreate?.reduce(
       (prev: any, cur: any) =>
         prev +
-        `"${camelCase(value.key)}.form.${camelCase(cur.key)}":"${titleCase(
+        `"${camelCase(value.key)}.form.${camelCase(cur.key)}":"${
           cur.title
-        )}",\n`,
+        }",\n`,
       ""
     );
     resultText += value.formCreate?.reduce(
@@ -114,9 +109,9 @@ function GenerateCode() {
         prev +
         `"${camelCase(value.key)}.form.${camelCase(
           cur.key
-        )}.placeholder":"Vui Lòng ${
-          cur.type === "input" ? "Nhập " : "Chọn "
-        }${titleCase(cur.title)}",\n`,
+        )}.placeholder":"Vui lòng ${cur.type === "input" ? "nhập " : "chọn "}${
+          cur.title
+        }",\n`,
       ""
     );
 
