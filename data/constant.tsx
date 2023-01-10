@@ -138,3 +138,8 @@ export const dataTypeOptions = [
     label: "Date",
   },
 ];
+
+export const TypeOptions = [
+  { value: "input", label: "Input" },
+  { value: "select", label: "Select" },
+];
