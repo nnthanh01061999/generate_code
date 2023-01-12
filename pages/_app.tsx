@@ -1,12 +1,35 @@
-import 'antd/dist/reset.css';
-import '../styles/index.scss';
-import type { AppProps } from 'next/app';
+import { usePreload } from '@/utils';
 import { ConfigProvider, Layout, theme } from 'antd';
+import 'antd/dist/reset.css';
+import { NextComponentType, NextPageContext } from 'next';
 import { NextIntlProvider } from 'next-intl';
-import ProcessBar from '@/components/shared/ProcessBar';
+import type { AppProps } from 'next/app';
+import { ExoticComponent, Fragment, ReactNode, useMemo } from 'react';
+import '../styles/index.scss';
 
-function MyApp({ Component, pageProps }: AppProps) {
-    console.log('🚀 >>> pageProps', pageProps);
+export type CusAppProps = AppProps & {
+    Component: NextComponentType<NextPageContext, any> & {
+        Layout: ExoticComponent<{
+            children?: ReactNode | undefined;
+        }>;
+    };
+};
+
+function MyApp({ Component, pageProps }: CusAppProps) {
+    usePreload();
+
+    const content = useMemo(() => {
+        const PageLayout = Component.Layout || Fragment;
+
+        return (
+            <Layout>
+                <PageLayout>
+                    <Component {...pageProps} />
+                </PageLayout>
+            </Layout>
+        );
+    }, [Component, pageProps]);
+
     return (
         <NextIntlProvider messages={pageProps.messages}>
             <ConfigProvider
@@ -15,10 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                     token: { colorPrimary: 'white' },
                 }}
             >
-                <Layout>
-                    <ProcessBar />
-                    <Component {...pageProps} />
-                </Layout>
+                {content}
             </ConfigProvider>
         </NextIntlProvider>
     );

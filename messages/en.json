@@ -1,6 +1,6 @@
 {
     "Generate": {
-        "title": "Tạo mã"
+        "title": "Generate"
     },
     "LocaleSwitcher": {
         "switchLocale": "Switch to {locale, select, vi {VietNam} en {English} other {Unknown}}"

@@ -39,8 +39,8 @@ function NextLink(props: NextLinkProps) {
         const linkProps: LinkProps = typeof href === 'string' ? { href } : href;
 
         link = (
-            <Link {...linkProps}>
-                <a {...anchorProps}>{children}</a>
+            <Link {...linkProps} {...anchorProps}>
+                {children}
             </Link>
         );
     }

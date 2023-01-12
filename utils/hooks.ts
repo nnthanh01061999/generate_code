@@ -4,6 +4,30 @@ import { useRouter } from 'next/router';
 import { DependencyList, EffectCallback, useCallback, useEffect, useRef, useState } from 'react';
 import { qsParseNumber } from '.';
 
+export const usePreload = () => {
+    useEffect(() => {
+        const preloader = document.querySelector('.spinner-box');
+
+        if (!preloader) {
+            return;
+        }
+
+        setTimeout(() => {
+            const onTransitionEnd = (event: Event) => {
+                if (event instanceof TransitionEvent && event.propertyName === 'opacity' && preloader.parentNode) {
+                    preloader.parentNode.removeChild(preloader);
+                }
+            };
+            preloader.addEventListener('transitionend', onTransitionEnd);
+            preloader.classList.add('spinner-box__fade');
+
+            if (getComputedStyle(preloader).opacity === '0' && preloader.parentNode) {
+                preloader.parentNode.removeChild(preloader);
+            }
+        }, 100);
+    }, []);
+};
+
 export const useDebouncedEffect = (effect: EffectCallback, delay: number, deps: DependencyList[]) => {
     const callback = useCallback(effect, deps);
 
@@ -140,8 +164,8 @@ export const usePageProcess = () => {
 
     useEffect(() => {
         const handleStart = (url: any) => {
-            const curPath = url.split('?')[0];
-            if (!prevPath.current || (prevPath.current && prevPath.current !== curPath)) {
+            const curPath = url.split('?')[0].replace('/vn', '').replace('/en', '');
+            if (!prevPath.current || (prevPath.current && prevPath.current.replace('/vn', '').replace('/en', '') !== curPath)) {
                 setLoading(true);
             }
             prevPath.current = curPath;

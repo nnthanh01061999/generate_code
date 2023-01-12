@@ -1,22 +1,23 @@
-import { copyTextToClipboard } from '@/utils';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Col, Form, Input, Layout, Row, Space, Typography } from 'antd';
+import { Button, Col, Form, Input, Row, Space, Typography, Layout } from 'antd';
 import { startCase } from 'lodash';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { generateForm, generateInterface, generateLocale, generateTableColumn } from '../../function/generate';
+import { copyTextToClipboard } from '@/utils';
 import Common from './Common';
 import FormSearchCreate from './FormSearchCreate';
 import TableColumn from './TableColumn';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import NextLink from '../shared/NextLink';
+import LocaleSwitcher from '../shared/LocaleSwitcher';
 const { Title } = Typography;
 const { TextArea } = Input;
 const { Header } = Layout;
 
 function Generate() {
     const schema = yup.object({
-        title: yup.string().required('Required'),
-        key: yup.string().required('Required'),
+        key: yup.string().required('required'),
     });
 
     const formMethod = useForm<any>({
@@ -70,8 +71,9 @@ function Generate() {
                 }}
             >
                 <Button onClick={handleSubmit(onGenerate)}>Generate</Button>
+                <LocaleSwitcher />
             </Header>
-            <Layout style={{ padding: 30, height: '100vh', overflow: 'auto' }}>
+            <div style={{ padding: 30, height: '100vh', overflow: 'auto' }}>
                 <Row gutter={[12, 12]}>
                     <Col md={12}>
                         <Form layout="vertical">
@@ -104,7 +106,7 @@ function Generate() {
                         </Row>
                     </Col>
                 </Row>
-            </Layout>
+            </div>
         </>
     );
 }
