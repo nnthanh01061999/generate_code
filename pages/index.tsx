@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import type { GetStaticPropsContext, NextPage } from 'next';
 import Head from 'next/head';
 import Generate from '../components/generate/Generate';
 
@@ -15,5 +15,13 @@ const Home: NextPage = () => {
         </>
     );
 };
+
+export async function getStaticProps({ locale }: GetStaticPropsContext) {
+    return {
+        props: {
+            messages: (await import(`@/messages/${locale}.json`)).default,
+        },
+    };
+}
 
 export default Home;
