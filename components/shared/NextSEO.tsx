@@ -1,7 +1,7 @@
 import Head from 'next/head';
 
 const DOMAIN = 'https://generate-code-n6ny.vercel.app';
-const DEFAULT_OG_IMAGE = 'https://img.icons8.com/external-icongeek26-flat-icongeek26/64/null/external-whale-sea-life-icongeek26-flat-icongeek26.png';
+const DEFAULT_OG_IMAGE = 'https://www.svgrepo.com/show/423844/whale-origami-paper.svg';
 
 export default function NextSEO({
     title = "NNThanh's Code Space",
