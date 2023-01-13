@@ -1,6 +1,6 @@
-import type { GetStaticPropsContext, NextPage } from 'next';
-import Generate from '@/sites/Generate';
 import MainLayout from '@/layouts/MainLayout';
+import Generate from '@/sites/Generate';
+import type { GetStaticPropsContext } from 'next';
 
 const Page = () => {
     return <Generate />;
