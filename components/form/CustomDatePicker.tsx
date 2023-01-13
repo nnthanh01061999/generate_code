@@ -45,8 +45,8 @@ function CustomDatePicker(props: CommonFormProps<DatePickerProps>) {
             control={control}
             name={name}
             render={({ field: { ref, value, onChange, onBlur } }) => (
-                <Form.Item {...wrapperProps} label={label} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
-                    <DatePicker {...childProps} ref={ref} value={value} onChange={handleOnChange(onChange)} onBlur={handleOnBlur(onBlur)} />
+                <Form.Item {...wrapperProps} label={label} htmlFor={name} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
+                    <DatePicker {...childProps} ref={ref} id={name} value={value} onChange={handleOnChange(onChange)} onBlur={handleOnBlur(onBlur)} />
                 </Form.Item>
             )}
         />

@@ -46,8 +46,8 @@ function CustomInput(props: CommonFormProps<InputProps>) {
             control={control}
             name={name}
             render={({ field: { ref, value, onChange, onBlur } }) => (
-                <Form.Item {...wrapperProps} label={label} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
-                    <Input {...childProps} ref={ref} value={value} onChange={handleOnChange(onChange)} onBlur={handleOnBlur(onBlur)} />
+                <Form.Item {...wrapperProps} label={label} htmlFor={name} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
+                    <Input {...childProps} id={name} ref={ref} value={value} onChange={handleOnChange(onChange)} onBlur={handleOnBlur(onBlur)} />
                 </Form.Item>
             )}
         />

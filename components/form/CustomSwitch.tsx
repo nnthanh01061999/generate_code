@@ -36,8 +36,8 @@ function CustomSwitch(props: CommonFormProps<SwitchProps>) {
             control={control}
             name={name}
             render={({ field: { ref, value, onChange, onBlur } }) => (
-                <Form.Item {...wrapperProps} label={label} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
-                    <Switch {...childProps} ref={ref} checked={value} onChange={handleOnChange(onChange)} />
+                <Form.Item {...wrapperProps} label={label} htmlFor={name} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
+                    <Switch {...childProps} ref={ref} id={name} checked={value} onChange={handleOnChange(onChange)} />
                 </Form.Item>
             )}
         />

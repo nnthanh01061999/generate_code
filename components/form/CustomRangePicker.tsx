@@ -47,8 +47,8 @@ function CustomRangePicker(props: CommonFormProps<TimeRangePickerProps>) {
             control={control}
             name={name}
             render={({ field: { ref, value, onChange, onBlur } }) => (
-                <Form.Item {...wrapperProps} label={label} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
-                    <RangePicker {...childProps} ref={ref} value={value} onChange={handleOnChange(onChange)} onBlur={handleOnBlur(onBlur)} />
+                <Form.Item {...wrapperProps} label={label} htmlFor={name} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
+                    <RangePicker {...childProps} ref={ref} id={name} value={value} onChange={handleOnChange(onChange)} onBlur={handleOnBlur(onBlur)} />
                 </Form.Item>
             )}
         />

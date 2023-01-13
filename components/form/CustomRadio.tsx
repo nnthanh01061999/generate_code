@@ -35,9 +35,9 @@ function CustomRadio(props: CommonFormProps<RadioGroupProps>) {
         <Controller
             control={control}
             name={name}
-            render={({ field: { ref, value, onChange, onBlur } }) => (
-                <Form.Item {...wrapperProps} label={label} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
-                    <Radio.Group {...childProps} ref={ref} value={value} onChange={handleOnChange(onChange)} />
+            render={({ field: { ref, value, onChange } }) => (
+                <Form.Item {...wrapperProps} label={label} htmlFor={name} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
+                    <Radio.Group {...childProps} ref={ref} name={name} id={name} value={value} onChange={handleOnChange(onChange)} />
                 </Form.Item>
             )}
         />

@@ -40,8 +40,8 @@ function CustomCheckBox(props: CustomCheckBoxProps) {
             control={control}
             name={name}
             render={({ field: { ref, value, onChange, onBlur } }) => (
-                <Form.Item {...wrapperProps} label={label} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
-                    <Checkbox {...childProps} ref={ref} checked={value} onChange={handleOnChange(onChange)}>
+                <Form.Item {...wrapperProps} label={label} htmlFor={name} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
+                    <Checkbox {...childProps} ref={ref} id={name} checked={value} onChange={handleOnChange(onChange)}>
                         {labelCheckBox}
                     </Checkbox>
                 </Form.Item>

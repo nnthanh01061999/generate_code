@@ -5,12 +5,13 @@ import Result from '@/components/generate/Result';
 import TableColumn from '@/components/generate/TableColumn';
 import { generateForm, generateInterface, generateLocale, generateTableColumn } from '@/function/generate';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Col, Form, Row } from 'antd';
+import { Col, Form, Row, Typography } from 'antd';
 import { useTranslations } from 'next-intl';
 import Head from 'next/head';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
+const { Title } = Typography;
 
 function Generate() {
     const t = useTranslations('Generate');
@@ -65,6 +66,7 @@ function Generate() {
             </Head>
 
             <div style={{ display: 'flex', flexDirection: 'column', padding: 30, height: '100vh', overflow: 'auto' }}>
+                <Title level={1}>{t('title')}</Title>
                 <Row gutter={[12, 12]}>
                     <Col md={12} sm={24} xs={24}>
                         <Form layout="vertical">

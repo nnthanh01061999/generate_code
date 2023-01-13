@@ -6,7 +6,7 @@ const { Title } = Typography;
 function Common() {
     return (
         <>
-            <Title level={3}>Common</Title>
+            <Title level={2}>Common</Title>
             <Row gutter={[24, 0]}>
                 <Col md={12} sm={24} xs={24}>
                     <CustomInput name="title" label="Title" />

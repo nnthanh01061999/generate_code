@@ -36,8 +36,8 @@ function CustomCheckBoxGroup(props: CommonFormProps<RadioGroupProps>) {
             control={control}
             name={name}
             render={({ field: { ref, value, onChange, onBlur } }) => (
-                <Form.Item {...wrapperProps} label={label} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
-                    <Checkbox.Group {...childProps} ref={ref} value={value} onChange={handleOnChange(onChange)} />
+                <Form.Item {...wrapperProps} label={label} htmlFor={name} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
+                    <Checkbox.Group {...childProps} ref={ref} id={name} value={value} onChange={handleOnChange(onChange)} />
                 </Form.Item>
             )}
         />

@@ -34,7 +34,7 @@ function FormSearchCreate(props: Props) {
                 }}
                 align="center"
             >
-                <Title level={3}>{startCase(name)}</Title>
+                <Title level={2}>{startCase(name)}</Title>
                 <Button onClick={onAdd}>Add</Button>
             </Space>
             <Row gutter={[24, 24]}>
