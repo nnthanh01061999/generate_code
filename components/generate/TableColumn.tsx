@@ -42,15 +42,16 @@ function TableColumn(props: Props) {
                 <Button onClick={onAdd}>Add</Button>
             </Space>
             <Row gutter={[24, 24]}>
-                <Col md={8}>
+                <Col md={8} xs={12} sm={12}>
                     <CustomRadio label="Header Type" name="tableHeaderType" childProps={{ options: tableHeaderOptions }} />
                 </Col>
-                <Col md={8}>
-                    <CustomInput label="Row Interface" name="rowInterface" />
-                </Col>
-                <Col md={8}>
+                <Col md={8} xs={12} sm={12}>
                     <CustomCheckBox label="Row Index" name="rowIndex" labelCheckBox="yes/no" />
                 </Col>
+                <Col md={8} xs={24} sm={24}>
+                    <CustomInput label="Row Interface" name="rowInterface" />
+                </Col>
+
                 {fields?.map((field, index) => (
                     <TableColumnCard key={field.id} index={index} name={name} onRemove={onRemove} />
                 ))}

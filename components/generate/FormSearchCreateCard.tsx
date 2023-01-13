@@ -14,7 +14,7 @@ interface Props {
 function FormSearchCreateCard(props: Props) {
     const { index, name, onRemove } = props;
     return (
-        <Col md={24}>
+        <Col md={24} sm={24} xs={24}>
             <Card
                 title={
                     <Space
@@ -30,13 +30,13 @@ function FormSearchCreateCard(props: Props) {
                 }
             >
                 <Row gutter={[24, 0]} align={'top'}>
-                    <Col span={8}>
+                    <Col sm={24} xs={24} md={8}>
                         <CustomInput name={`${name}[${index}].key`} label="Key" />
                     </Col>
-                    <Col span={8}>
+                    <Col sm={24} xs={24} md={8}>
                         <CustomInput name={`${name}[${index}].title`} label="Title" />
                     </Col>
-                    <Col span={8}>
+                    <Col sm={24} xs={24} md={8}>
                         <CustomRadio
                             name={`${name}[${index}].type`}
                             label="Type"
@@ -45,7 +45,7 @@ function FormSearchCreateCard(props: Props) {
                             }}
                         />
                     </Col>
-                    <Col span={24}>
+                    <Col sm={24} xs={24} md={24}>
                         <CustomRadio
                             name={`${name}[${index}].interface`}
                             label="Interface"

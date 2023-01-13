@@ -1,8 +1,12 @@
 {
+    "Common": {
+        "title": "Whale's Space"
+    },
     "Generate": {
-        "title": "Tạo mã"
+        "title": "Tạo mã",
+        "copy": "Copy"
     },
     "LocaleSwitcher": {
-        "switchLocale": "Switch to {locale, select, vi {VietNam} en {English} other {Unknown}}"
+        "switchLocale": "{locale, select, en {VietNam} vi {English} other {Unknown}}"
     }
 }

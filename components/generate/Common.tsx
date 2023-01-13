@@ -8,10 +8,10 @@ function Common() {
         <>
             <Title level={3}>Common</Title>
             <Row gutter={[24, 0]}>
-                <Col md={12}>
+                <Col md={12} sm={24} xs={24}>
                     <CustomInput name="title" label="Title" />
                 </Col>
-                <Col md={12}>
+                <Col md={12} sm={24} xs={24}>
                     <CustomInput name="key" label="Key" wrapperProps={{ tooltip: 'camelCase' }} />
                 </Col>
             </Row>

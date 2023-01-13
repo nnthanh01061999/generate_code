@@ -35,16 +35,16 @@ function TableColumnCard(props: Props) {
                 }
             >
                 <Row gutter={[24, 0]} align={'top'}>
-                    <Col span={8}>
+                    <Col sm={24} xs={24} md={8}>
                         <CustomInput name={`${name}[${index}].key`} label="Key" />
                     </Col>
-                    <Col span={8}>
+                    <Col sm={24} xs={24} md={8}>
                         <CustomInput name={`${name}[${index}].title`} label="Title" />
                     </Col>
-                    <Col span={8}>
+                    <Col sm={24} xs={24} md={8}>
                         <CustomInputNumber name={`${name}[${index}].width`} label="Width" />
                     </Col>
-                    <Col span={18}>
+                    <Col sm={24} xs={24} md={18}>
                         <CustomRadio
                             name={`${name}[${index}].type`}
                             label="Type"
@@ -54,7 +54,7 @@ function TableColumnCard(props: Props) {
                         />
                     </Col>
                     {watchHeaderType === 'filter' ? (
-                        <Col span={6}>
+                        <Col sm={24} xs={24} md={6}>
                             <CustomCheckBox name={`${name}[${index}].search`} label="Search" labelCheckBox="Search" />
                         </Col>
                     ) : null}

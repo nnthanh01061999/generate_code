@@ -8,7 +8,7 @@ function Page() {
                 <div className="denied__wrapper">
                     <h1>500</h1>
                     <h3>
-                        LOST IN <span>SPACE</span> App-Name? Hmm, looks like that page is broken.
+                        OH <span>F*CK</span>? Hmm, looks like that page is broken.
                     </h3>
                     <svg id="astronaut" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                         <style>{'.st1{fill:#504e55}.st3{fill:#fff}.st4{opacity:.24}.st5{fill:#77574e}.st10{opacity:.28}.st13{fill:#dae7be}.st15{fill:#5f5e60}'}</style>
