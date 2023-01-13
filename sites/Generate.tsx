@@ -3,6 +3,7 @@ import Common from '@/components/generate/Common';
 import FormSearchCreate from '@/components/generate/FormSearchCreate';
 import Result from '@/components/generate/Result';
 import TableColumn from '@/components/generate/TableColumn';
+import NextLink from '@/components/shared/NextLink';
 import { generateForm, generateInterface, generateLocale, generateTableColumn } from '@/function/generate';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Col, Form, Row, Typography } from 'antd';
@@ -64,7 +65,8 @@ function Generate() {
             <Head>
                 <title>{t('title')}</title>
             </Head>
-
+            <NextLink href="/">link</NextLink>
+            <NextLink href="/generate">1</NextLink>
             <div style={{ display: 'flex', flexDirection: 'column', padding: 30, height: '100vh', overflow: 'auto' }}>
                 <Title level={1}>{t('title')}</Title>
                 <Row gutter={[12, 12]}>

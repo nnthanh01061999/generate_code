@@ -1,3 +1,4 @@
+import ProcessBar from '@/components/shared/ProcessBar';
 import { usePreload } from '@/utils';
 import { ConfigProvider, Layout, theme } from 'antd';
 import 'antd/dist/reset.css';
@@ -38,6 +39,7 @@ function MyApp({ Component, pageProps }: CusAppProps) {
                     token: { colorPrimary: 'white' },
                 }}
             >
+                <ProcessBar />
                 {content}
             </ConfigProvider>
         </NextIntlProvider>

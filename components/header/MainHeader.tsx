@@ -15,7 +15,7 @@ function MainHeader() {
         <Header style={{ display: 'flex', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 1, width: '100%' }}>
             <NextLink href={'/'}>
                 <Space>
-                    <NextImage src={Icon} alt="main-logo" layout="responsive" width={64} height={64} />
+                    <NextImage src={Icon} alt="main-logo" width={64} height={64} />
                     <Text>{t('title')}</Text>
                 </Space>
             </NextLink>

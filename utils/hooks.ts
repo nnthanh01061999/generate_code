@@ -172,7 +172,9 @@ export const usePageProcess = () => {
         };
 
         const handleComplete = (url: any) => {
-            if (url === router.asPath) {
+            let curPath = url === '/vn' || url === '/en' ? '/' : url.split('?')[0].replace('/vn', '').replace('/en', '');
+
+            if (curPath === router.asPath) {
                 setLoading(false);
             }
         };
