@@ -6,6 +6,7 @@ import { NextComponentType, NextPageContext } from 'next';
 import { NextIntlProvider } from 'next-intl';
 import type { AppProps } from 'next/app';
 import { ExoticComponent, Fragment, ReactNode, useMemo } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import '../styles/index.scss';
 
 export type CusAppProps = AppProps & {
@@ -41,6 +42,7 @@ function MyApp({ Component, pageProps }: CusAppProps) {
             >
                 <ProcessBar />
                 {content}
+                <Analytics />
             </ConfigProvider>
         </NextIntlProvider>
     );
