@@ -8,6 +8,7 @@ import type { AppProps } from 'next/app';
 import { ExoticComponent, Fragment, ReactNode, useMemo } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import '../styles/index.scss';
+import ModalContextProvider from '@/context/ModalContext';
 
 export type CusAppProps = AppProps & {
     Component: NextComponentType<NextPageContext, any> & {
@@ -40,9 +41,11 @@ function MyApp({ Component, pageProps }: CusAppProps) {
                     token: { colorPrimary: 'white' },
                 }}
             >
-                <ProcessBar />
-                {content}
-                <Analytics />
+                <ModalContextProvider>
+                    <ProcessBar />
+                    {content}
+                    <Analytics />
+                </ModalContextProvider>
             </ConfigProvider>
         </NextIntlProvider>
     );

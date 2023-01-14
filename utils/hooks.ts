@@ -1,7 +1,8 @@
+import { IModalConTextData, IModalContextState, ModalContext } from '@/context/ModalContext';
 import { DEFAULT_PAGE, DEFAULT_SIZE } from '@/data/pagination';
 import { TParam } from '@/interfaces/query-string';
 import { useRouter } from 'next/router';
-import { DependencyList, EffectCallback, useCallback, useEffect, useRef, useState } from 'react';
+import { DependencyList, EffectCallback, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { qsParseNumber } from '.';
 
 export const usePreload = () => {
@@ -257,5 +258,41 @@ export const usePagination = ({ page, size, ...filters }: IPaginationProps) => {
         reloadPage,
         onChange,
         onRefresh,
+    };
+};
+
+export const useModalHandle = () => {
+    const { data, setData } = useContext(ModalContext);
+
+    const openModal = (name: string) => {
+        if (name) {
+            if (!data.openedModals.includes(name)) {
+                setData((prev) => ({
+                    ...prev,
+                    openedModals: [...prev.openedModals, name],
+                }));
+            }
+        }
+    };
+
+    const closeModal = (name: string) => {
+        if (name) {
+            setData({
+                ...data,
+                openedModals: data?.openedModals?.filter((item) => item !== name),
+            });
+        }
+    };
+
+    const closeAllModal = () => {
+        setData({
+            ...data,
+            openedModals: [],
+        });
+    };
+    return {
+        openModal,
+        closeModal,
+        closeAllModal,
     };
 };
