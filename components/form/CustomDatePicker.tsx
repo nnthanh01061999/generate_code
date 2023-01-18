@@ -33,7 +33,7 @@ function CustomDatePicker(props: CommonFormProps<DatePickerProps>) {
     };
 
     const isHaveError = React.useMemo(() => {
-        return get(errors, `${name}`, undefined);
+        return get(errors, name, undefined);
     }, [errors, name]);
 
     const errorElement = React.useMemo(() => {
@@ -46,7 +46,7 @@ function CustomDatePicker(props: CommonFormProps<DatePickerProps>) {
             name={name}
             render={({ field: { ref, value, onChange, onBlur } }) => (
                 <Form.Item {...wrapperProps} label={label} htmlFor={name} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
-                    <DatePicker {...childProps} ref={ref} id={name} value={value} onChange={handleOnChange(onChange)} onBlur={handleOnBlur(onBlur)} />
+                    <DatePicker {...childProps} format={'DD/MM/YYYY'} ref={ref} id={name} value={value} onChange={handleOnChange(onChange)} onBlur={handleOnBlur(onBlur)} />
                 </Form.Item>
             )}
         />

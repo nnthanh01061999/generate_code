@@ -35,7 +35,7 @@ function CustomTimePicker(props: CommonFormProps<TimePickerProps>) {
     };
 
     const isHaveError = React.useMemo(() => {
-        return get(errors, `${name}`, undefined);
+        return get(errors, name, undefined);
     }, [errors, name]);
 
     const errorElement = React.useMemo(() => {

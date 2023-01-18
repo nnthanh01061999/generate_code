@@ -1,12 +1,14 @@
 import { ErrorMessage } from '@hookform/error-message';
-import { Form, InputNumber, InputNumberProps, Typography } from 'antd';
+import { DatePicker, Form, DatePickerProps, Typography } from 'antd';
 import React from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
 import { CommonFormProps } from '../../interfaces/form';
 
+const { MonthPicker } = DatePicker;
+
 const { Text } = Typography;
 
-function CustomInputNumber(props: CommonFormProps<InputNumberProps>) {
+function CustomMonthPicker(props: CommonFormProps<DatePickerProps>) {
     const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
 
     const {
@@ -46,11 +48,11 @@ function CustomInputNumber(props: CommonFormProps<InputNumberProps>) {
             name={name}
             render={({ field: { ref, value, onChange, onBlur } }) => (
                 <Form.Item {...wrapperProps} label={label} htmlFor={name} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
-                    <InputNumber style={{ width: '100%' }} {...childProps} ref={ref} id={name} value={value} onChange={handleOnChange(onChange)} onBlur={handleOnBlur(onBlur)} />
+                    <MonthPicker {...childProps} ref={ref} id={name} value={value} onChange={handleOnChange(onChange)} onBlur={handleOnBlur(onBlur)} />
                 </Form.Item>
             )}
         />
     );
 }
 
-export default CustomInputNumber;
+export default CustomMonthPicker;

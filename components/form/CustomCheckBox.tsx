@@ -6,7 +6,7 @@ import { CommonFormProps } from '../../interfaces/form';
 
 const { Text } = Typography;
 
-interface CustomCheckBoxProps extends CommonFormProps<RadioProps> {
+export interface CustomCheckBoxProps extends CommonFormProps<RadioProps> {
     labelCheckBox?: ReactNode;
 }
 
@@ -28,7 +28,7 @@ function CustomCheckBox(props: CustomCheckBoxProps) {
     };
 
     const isHaveError = React.useMemo(() => {
-        return get(errors, `${name}`, undefined);
+        return get(errors, name, undefined);
     }, [errors, name]);
 
     const errorElement = React.useMemo(() => {

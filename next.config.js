@@ -7,6 +7,9 @@ const nextConfig = {
         defaultLocale: 'vi',
         localeDetection: false,
     },
+    experimental: {
+        appDir: false,
+    },
 };
 
 module.exports = nextConfig;

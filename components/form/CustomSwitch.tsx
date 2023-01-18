@@ -24,7 +24,7 @@ function CustomSwitch(props: CommonFormProps<SwitchProps>) {
     };
 
     const isHaveError = React.useMemo(() => {
-        return get(errors, `${name}`, undefined);
+        return get(errors, name, undefined);
     }, [errors, name]);
 
     const errorElement = React.useMemo(() => {

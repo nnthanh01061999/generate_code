@@ -18,7 +18,7 @@ function CustomInput(props: CommonFormProps<InputProps>) {
     const handleOnChange = (onChange: (value: any) => void) => {
         return (value: any) => {
             onChange(value);
-            if (onChangeCallBack instanceof Function) {
+            if (onChangeCallBack && onChangeCallBack instanceof Function) {
                 onChangeCallBack(value);
             }
         };
@@ -27,14 +27,14 @@ function CustomInput(props: CommonFormProps<InputProps>) {
     const handleOnBlur = (onBlur: () => void) => {
         return () => {
             onBlur();
-            if (onBlurCallBack instanceof Function) {
+            if (onBlurCallBack && onBlurCallBack instanceof Function) {
                 onBlurCallBack();
             }
         };
     };
 
     const isHaveError = React.useMemo(() => {
-        return get(errors, `${name}`, undefined);
+        return get(errors, name, undefined);
     }, [errors, name]);
 
     const errorElement = React.useMemo(() => {
