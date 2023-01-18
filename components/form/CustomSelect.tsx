@@ -3,7 +3,7 @@ import { Form, Select, SelectProps, Typography } from 'antd';
 import { get } from 'lodash';
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { CommonFormProps } from '../../interfaces/form';
+import { CommonFormProps } from '@/interfaces/form';
 const { Text } = Typography;
 
 function CustomSelect(props: CommonFormProps<SelectProps>) {

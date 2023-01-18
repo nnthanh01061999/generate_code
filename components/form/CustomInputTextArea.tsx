@@ -3,7 +3,7 @@ import { Form, Input, Typography } from 'antd';
 import { TextAreaProps } from 'antd/es/input';
 import React from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
-import { CommonFormProps } from '../../interfaces/form';
+import { CommonFormProps } from '@/interfaces/form';
 
 const { TextArea } = Input;
 

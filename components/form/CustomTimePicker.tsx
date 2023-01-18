@@ -2,7 +2,7 @@ import { ErrorMessage } from '@hookform/error-message';
 import { DatePicker, Form, TimePickerProps, Typography } from 'antd';
 import React from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
-import { CommonFormProps } from '../../interfaces/form';
+import { CommonFormProps } from '@/interfaces/form';
 
 const { TimePicker } = DatePicker;
 
