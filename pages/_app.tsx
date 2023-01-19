@@ -1,5 +1,5 @@
 import ProcessBar from '@/components/shared/ProcessBar';
-import { usePreload } from '@/utils';
+import { usePageProcess, usePreload } from '@/utils';
 import { ConfigProvider, Layout, theme } from 'antd';
 import 'antd/dist/reset.css';
 import { NextComponentType, NextPageContext } from 'next';
@@ -20,6 +20,7 @@ export type CusAppProps = AppProps & {
 
 function MyApp({ Component, pageProps }: CusAppProps) {
     usePreload();
+    const loadingPage = usePageProcess();
 
     const content = useMemo(() => {
         const PageLayout = Component.Layout || Fragment;
@@ -42,7 +43,7 @@ function MyApp({ Component, pageProps }: CusAppProps) {
                 }}
             >
                 <ModalContextProvider>
-                    <ProcessBar />
+                    <ProcessBar loading={loadingPage} />
                     {content}
                     <Analytics />
                 </ModalContextProvider>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function PreLoading() {
+function Loading() {
     return (
         <div className="spinner-box">
             <div className="blue-orbit leo"></div>
@@ -16,4 +16,4 @@ function PreLoading() {
     );
 }
 
-export default PreLoading;
+export default Loading;

@@ -1,9 +1,9 @@
 import Image, { ImageLoaderProps, ImageProps } from 'next/image';
 import * as React from 'react';
 
-type NextImageProps = ({ width: string | number; height: string | number } | { layout: 'fill'; width?: string | number; height?: string | number }) & ImageProps;
+export type TNextImageProps = ({ width: string | number; height: string | number } | { layout: 'fill'; width?: string | number; height?: string | number }) & ImageProps;
 
-export default function NextImage({ className, src, width, height, layout, alt, ...rest }: NextImageProps) {
+export default function NextImage({ className, src, width, height, layout, alt, ...rest }: TNextImageProps) {
     return (
         <div>
             <Image

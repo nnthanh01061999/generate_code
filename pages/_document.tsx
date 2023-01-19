@@ -1,5 +1,5 @@
 // third-party
-import PreLoading from '@/components/shared/PreLoading';
+import Loading from '@/components/shared/Loading';
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
 
 class MyDocument extends Document {
@@ -15,7 +15,7 @@ class MyDocument extends Document {
                     <link rel="shortcut icon" href="/favicon.ico" />
                 </Head>
                 <body>
-                    <PreLoading />
+                    <Loading />
                     <Main />
                     <NextScript />
                 </body>

@@ -1,8 +1,10 @@
-import { usePageProcess } from '@/utils';
 import React from 'react';
+export interface IProcessBarProps {
+    loading: boolean;
+}
 
-function ProcessBar() {
-    const loading = usePageProcess();
+function ProcessBar(props: IProcessBarProps) {
+    const { loading } = props;
     return loading ? (
         <div className="processbar-container">
             <div className="processbar a"></div>
