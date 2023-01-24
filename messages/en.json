@@ -8,5 +8,15 @@
     },
     "LocaleSwitcher": {
         "switchLocale": "{locale, select, en {VietNam} vi {English} other {Unknown}}"
+    },
+    "Home": {
+        "title": "Home",
+        "data": {
+            "generate": "Generate",
+            "generate-desc": "Generate code",
+            "react-query": "React query",
+            "react-query-desc": "React query example"
+        },
+        "link": "Link"
     }
 }

@@ -173,7 +173,7 @@ export const usePageProcess = () => {
         };
 
         const handleComplete = (url: any) => {
-            let curPath = url === '/vn' || url === '/en' ? '/' : url.split('?')[0].replace('/vn', '').replace('/en', '');
+            let curPath = (url && url === '/vn') || url === '/en' ? '/' : typeof url === 'string' && url?.split('?')[0].replace('/vn', '').replace('/en', '');
 
             if (curPath === router.asPath) {
                 setLoading(false);
