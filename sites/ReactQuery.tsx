@@ -9,7 +9,7 @@ import { Button, Card, Col, Descriptions, Form, Row, Space, Spin, Typography } f
 import axios from 'axios';
 import { useTranslations } from 'next-intl';
 import Head from 'next/head';
-import React from 'react';
+import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
 import * as yup from 'yup';
@@ -26,6 +26,11 @@ function ReactQuery() {
     const tC = useTranslations('Common');
     const notify = useNotify();
     const { pagination, onChange } = usePagination({});
+
+    const [action, setAtion] = useState(() => ({
+        action: 'create',
+        id: ''
+    }))
 
     const schema = yup.object({
         name: yup.string().required(),
@@ -46,6 +51,10 @@ function ReactQuery() {
 
     const createPet = (data: IPet) => {
         return axios.post('/api/pet', data);
+    };
+
+    const updatePet = ({ id, data }: { id: string, data: IPet }) => {
+        return axios.put(`/api/pet/${id}`, data);
     };
 
     const deletePet = (id: string) => {
@@ -72,9 +81,21 @@ function ReactQuery() {
         },
     });
 
+    const { mutate: mutateUpdate, isLoading: isLoadingUpdate } = useMutation(updatePet, {
+        onSuccess: () => {
+            refetch();
+            reset(defaultValueForm)
+            notify.notifySuccess();
+        },
+        onError: (error: any) => {
+            notify.notifyError(error?.response?.data?.message);
+        },
+    });
+
     const { mutate: mutateDelete, isLoading: isLoadingDelete } = useMutation(deletePet, {
         onSuccess: () => {
             refetch();
+            reset(defaultValueForm)
             notify.notifySuccess();
         },
         onError: (error: any) => {
@@ -83,7 +104,12 @@ function ReactQuery() {
     });
 
     const onSuccess = (data: IPet) => {
-        mutateCreate(data);
+        if (action.action === 'create') {
+            mutateCreate(data)
+        }
+        else if (action.action === 'update') {
+            mutateUpdate({ id: action.id, data })
+        }
     };
 
     const onDelete = (id: string) => {
@@ -91,8 +117,14 @@ function ReactQuery() {
     };
 
     const onEdit = (item: IPet) => {
+        setAtion((prev) => ({ ...prev, action: 'update', id: item._id }))
         reset(item);
     };
+
+    const onClear = () => {
+        reset(defaultValueForm)
+        setAtion((prev) => ({ ...prev, action: 'create', id: '' }))
+    }
 
     return (
         <>
@@ -104,7 +136,7 @@ function ReactQuery() {
             <Row gutter={[12, 12]}>
                 <Col md={8} sm={12} xs={24}>
                     <Title>{tC('form')}</Title>
-                    <Spin spinning={isLoadingCreate}>
+                    <Spin spinning={isLoadingCreate || isLoadingUpdate}>
                         <Form layout="vertical" onFinish={handleSubmit(onSuccess)}>
                             <FormProvider {...formMethod}>
                                 <CustomInput name="name" label={t('pet.name')} />
@@ -112,7 +144,7 @@ function ReactQuery() {
                                 <CustomInputNumber name="age" label={t('pet.age')} />
                                 <Space>
                                     <Button htmlType="submit">{tC('submit')}</Button>
-                                    <Button onClick={() => reset(defaultValueForm)}>{tC('clear')}</Button>
+                                    <Button onClick={onClear}>{tC('clear')}</Button>
                                 </Space>
                             </FormProvider>
                         </Form>
