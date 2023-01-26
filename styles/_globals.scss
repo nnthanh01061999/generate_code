@@ -12,4 +12,22 @@ a {
 
 * {
     box-sizing: border-box;
+    &::-webkit-scrollbar {
+        height: 8px;
+        width: 8px;
+        border-radius: 4px;
+    }
+    &::-webkit-scrollbar-track {
+        border-radius: 8px;
+        background-color: #d9d9d9;
+        border-left: 3px solid transparent;
+        border-right: 3px solid transparent;
+        border-top: 3px solid transparent;
+        border-bottom: 3px solid transparent;
+        background-clip: padding-box;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: gray;
+        border-radius: 8px;
+    }
 }

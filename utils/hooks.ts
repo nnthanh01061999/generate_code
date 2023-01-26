@@ -1,9 +1,10 @@
-import { IModalConTextData, IModalContextState, ModalContext } from '@/context/ModalContext';
+import { ModalContext } from '@/context/ModalContext';
 import { DEFAULT_PAGE, DEFAULT_SIZE } from '@/data/pagination';
 import { TParam } from '@/interfaces/query-string';
 import { useRouter } from 'next/router';
 import { DependencyList, EffectCallback, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { qsParseNumber } from '.';
+import { message, notification } from 'antd';
 
 export const usePreload = () => {
     useEffect(() => {
@@ -111,11 +112,11 @@ export interface DeferredDataProps<T> {
     defaultData: T;
     initialData?: T;
     deps: DependencyList[];
-    condition: (deps?: DependencyList[]) => boolean;
+    condition?: boolean;
     errorCallBack?: (error: Error) => void;
 }
 
-export function useDeferredData<T>({ source, defaultData, initialData, deps = [], condition = () => true, errorCallBack }: DeferredDataProps<T>): DeferredDataState<T> {
+export function useDeferredData<T>({ source, defaultData, initialData, deps = [], condition = true, errorCallBack }: DeferredDataProps<T>): DeferredDataState<T> {
     const [state, setState] = useState(() => ({
         isLoading: initialData === undefined,
         data: initialData || defaultData,
@@ -135,7 +136,7 @@ export function useDeferredData<T>({ source, defaultData, initialData, deps = []
             }
             return curState;
         });
-        if (condition(deps)) {
+        if (condition) {
             memoizedSource()
                 .then((data) => {
                     if (canceled) {
@@ -295,4 +296,37 @@ export const useModalHandle = () => {
         closeModal,
         closeAllModal,
     };
+};
+
+export const useNotify = () => {
+    const customNoti = {
+        notifySuccess: (content = 'Thành công!', key?: number | string) => {
+            message.success({ content, key, duration: 2 });
+        },
+        notifyError: (content = 'Thất bại!', key?: number | string) => {
+            message.error({ content, key, duration: 3 });
+        },
+        notifyWarning: (content: string | React.ReactNode, key?: number | string) => {
+            message.warning({ content, key, duration: 2 });
+        },
+        notifyInfo: (content: string | React.ReactNode, key?: number | string) => {
+            message.info({ content, key, duration: 2 });
+        },
+        notifyLoading: (content: string | React.ReactNode = 'Đang xử lý..', key?: number | string) => {
+            message.loading({ content, key, duration: 60 });
+        },
+        notifyDestroy: () => {
+            message.destroy();
+        },
+        notifyBoxInfo: (title: string | React.ReactNode, content: string | React.ReactNode, key: string, options = {}) => {
+            notification.info({
+                message: title,
+                key,
+                description: content,
+                ...options,
+            });
+        },
+    };
+
+    return customNoti;
 };

@@ -7,3 +7,4 @@ export * from '@/utils/storage';
 export * from '@/utils/cookie';
 export * from '@/utils/session';
 export * from '@/utils/shared';
+export * from '@/utils/api';

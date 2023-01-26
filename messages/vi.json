@@ -1,9 +1,17 @@
 {
     "Common": {
-        "title": "Whale's Space"
+        "title": "Whale's Space",
+        "list": "List",
+        "submit": "Submit",
+        "form": "Form",
+        "refetch": "Refresh",
+        "total": "Total",
+        "delete": "Delete",
+        "update": "Update",
+        "clear": "Clear"
     },
     "Generate": {
-        "title": "Tạo mã",
+        "title": "Generate",
         "copy": "Copy"
     },
     "LocaleSwitcher": {
@@ -18,5 +26,13 @@
             "react-query-desc": "React query example"
         },
         "link": "Link"
+    },
+    "ReactQuery": {
+        "title": "React query example",
+        "pet": {
+            "age": "Age",
+            "name": "Name",
+            "species": "spicies"
+        }
     }
 }

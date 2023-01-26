@@ -5,3 +5,8 @@ export interface IOption<T> {
     label: ReactNode;
     [key: string | number]: any;
 }
+
+export interface IDataSource<T> {
+    data: T[];
+    total: number;
+}

@@ -1,14 +1,16 @@
 import ProcessBar from '@/components/shared/ProcessBar';
+import ModalContextProvider from '@/context/ModalContext';
 import { usePageProcess, usePreload } from '@/utils';
+import { Analytics } from '@vercel/analytics/react';
 import { ConfigProvider, Layout, theme } from 'antd';
-import 'antd/dist/reset.css';
 import { NextComponentType, NextPageContext } from 'next';
 import { NextIntlProvider } from 'next-intl';
 import type { AppProps } from 'next/app';
-import { ExoticComponent, Fragment, ReactNode, useMemo } from 'react';
-import { Analytics } from '@vercel/analytics/react';
+import { ExoticComponent, Fragment, ReactNode, useMemo, useState } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import 'antd/dist/reset.css';
 import '../styles/index.scss';
-import ModalContextProvider from '@/context/ModalContext';
 
 export type CusAppProps = AppProps & {
     Component: NextComponentType<NextPageContext, any> & {
@@ -20,6 +22,7 @@ export type CusAppProps = AppProps & {
 
 function MyApp({ Component, pageProps }: CusAppProps) {
     usePreload();
+    const [queryClient] = useState(() => new QueryClient());
     const loadingPage = usePageProcess();
 
     const content = useMemo(() => {
@@ -42,11 +45,14 @@ function MyApp({ Component, pageProps }: CusAppProps) {
                     token: { colorPrimary: 'white' },
                 }}
             >
-                <ModalContextProvider>
-                    <ProcessBar loading={loadingPage} />
-                    {content}
-                    <Analytics />
-                </ModalContextProvider>
+                <QueryClientProvider client={queryClient}>
+                    <ModalContextProvider>
+                        <ProcessBar loading={loadingPage} />
+                        {content}
+                        <Analytics />
+                    </ModalContextProvider>
+                    <ReactQueryDevtools initialIsOpen={false} />
+                </QueryClientProvider>
             </ConfigProvider>
         </NextIntlProvider>
     );

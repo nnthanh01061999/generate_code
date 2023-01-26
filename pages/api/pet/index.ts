@@ -1,18 +1,26 @@
 import dbConnect from '@/mongo/lib/dbConnect';
 import Pet from '@/mongo/models/Pet';
+import { getErrorMessage, getPageSizeFromQuery } from '@/utils';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req: any, res: any) {
-    const { method } = req;
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    const { query, method } = req;
 
     await dbConnect();
 
     switch (method) {
         case 'GET':
             try {
-                const pets = await Pet.find({}); /* find all the data in our database */
-                res.status(200).json({ success: true, data: pets });
+                const { page = 1, size = 20 } = getPageSizeFromQuery(query);
+                const pets_total = await Pet.find({});
+                const pets = await Pet.find({})
+                    .sort({ _id: -1 })
+                    .skip(size * page - size)
+                    .limit(size); /* find all the data in our database */
+                res.status(200).json({ success: true, data: { data: pets, total: pets_total.length } });
             } catch (error) {
-                res.status(400).json({ success: false });
+                const errorMessage = getErrorMessage(error);
+                res.status(400).json({ success: false, message: errorMessage });
             }
             break;
         case 'POST':

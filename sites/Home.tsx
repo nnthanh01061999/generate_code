@@ -15,19 +15,18 @@ function Home({ isConnected }: InferGetServerSidePropsType<typeof getServerSideP
             <Head>
                 <title>{t('title')}</title>
             </Head>
-            <div style={{ padding: 30, height: '100vh' }}>
-                <Title level={1}>{t('title')}</Title>
-                <Text> {isConnected ? 'Connected' : 'not Conected'}</Text>
-                <Row gutter={[12, 12]}>
-                    {SiteData?.map((item, index) => (
-                        <Col key={index} md={8} sm={12} xs={24}>
-                            <Card title={t(`data.${item.title}`)} extra={<NextLink href={item.href}>{t('link')}</NextLink>}>
-                                {t(`data.${item.description}`)}
-                            </Card>
-                        </Col>
-                    ))}
-                </Row>
-            </div>
+
+            <Title level={1}>{t('title')}</Title>
+            <Text> {isConnected ? 'Connected' : 'not Conected'}</Text>
+            <Row gutter={[12, 12]}>
+                {SiteData?.map((item, index) => (
+                    <Col key={index} md={8} sm={12} xs={24}>
+                        <Card title={t(`data.${item.title}`)} extra={<NextLink href={item.href}>{t('link')}</NextLink>}>
+                            {t(`data.${item.description}`)}
+                        </Card>
+                    </Col>
+                ))}
+            </Row>
         </>
     );
 }

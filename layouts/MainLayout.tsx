@@ -1,5 +1,6 @@
 import MainHeader from '@/components/header/MainHeader';
 import NextSEO from '@/components/shared/NextSEO';
+import { Layout } from 'antd';
 import { useTranslations } from 'next-intl';
 import React, { PropsWithChildren, ReactNode } from 'react';
 
@@ -17,8 +18,7 @@ function MainLayout(props: ILayoutProps) {
         <>
             {seo ? seo : <NextSEO />}
             {header ? header : <MainHeader />}
-
-            {children}
+            <Layout style={{ padding: 20, height: 'calc(100vh - 64px)', overflow: 'auto' }}>{children}</Layout>
             {footer ? footer : null}
         </>
     );

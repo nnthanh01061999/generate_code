@@ -1,6 +1,14 @@
 {
     "Common": {
-        "title": "Whale's Space"
+        "title": "Whale's Space",
+        "list": "List",
+        "submit": "Submit",
+        "form": "Form",
+        "refetch": "Refresh",
+        "total": "Total",
+        "delete": "Delete",
+        "update": "Update",
+        "clear": "Clear"
     },
     "Generate": {
         "title": "Generate",
@@ -10,7 +18,7 @@
         "switchLocale": "{locale, select, en {VietNam} vi {English} other {Unknown}}"
     },
     "Home": {
-        "title": "Home",
+        "title": "List",
         "data": {
             "generate": "Generate",
             "generate-desc": "Generate code",
@@ -18,5 +26,13 @@
             "react-query-desc": "React query example"
         },
         "link": "Link"
+    },
+    "ReactQuery": {
+        "title": "React query example",
+        "pet": {
+            "age": "Age",
+            "name": "Name",
+            "species": "spicies"
+        }
     }
 }

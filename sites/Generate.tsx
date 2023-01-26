@@ -71,24 +71,23 @@ function Generate() {
                 <title>{t('title')}</title>
             </Head>
             <Button onClick={() => openModal('example')}>Open Example</Button>
-            <div style={{ padding: 30 }}>
-                <Title level={1}>{t('title')}</Title>
-                <Row gutter={[12, 12]}>
-                    <Col md={12} sm={24} xs={24}>
-                        <Form layout="vertical">
-                            <FormProvider {...formMethod}>
-                                <Common />
-                                <FormSearchCreate name="search" />
-                                <FormSearchCreate name="form" />
-                                <TableColumn name="table" />
-                            </FormProvider>
-                        </Form>
-                    </Col>
-                    <Col md={12} sm={24} xs={24}>
-                        <Result config={resultArr} data={result} />
-                    </Col>
-                </Row>
-            </div>
+
+            <Title level={1}>{t('title')}</Title>
+            <Row gutter={[12, 12]}>
+                <Col md={12} sm={24} xs={24}>
+                    <Form layout="vertical">
+                        <FormProvider {...formMethod}>
+                            <Common />
+                            <FormSearchCreate name="search" />
+                            <FormSearchCreate name="form" />
+                            <TableColumn name="table" />
+                        </FormProvider>
+                    </Form>
+                </Col>
+                <Col md={12} sm={24} xs={24}>
+                    <Result config={resultArr} data={result} />
+                </Col>
+            </Row>
 
             <FooterGenerate callback={handleSubmit(onGenerate)} />
             <ExampleModalWithHandler />
