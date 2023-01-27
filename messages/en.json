@@ -2,13 +2,17 @@
     "Common": {
         "title": "Whale's Space",
         "list": "List",
+        "infiniteList": "Infinite List",
         "submit": "Submit",
         "form": "Form",
         "refetch": "Refresh",
         "total": "Total",
         "delete": "Delete",
         "update": "Update",
-        "clear": "Clear"
+        "clear": "Clear",
+        "loadingMore": "Loading More...",
+        "loadMore": "Load More",
+        "nothingMore": "Nothing more to load..."
     },
     "Generate": {
         "title": "Generate",

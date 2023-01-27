@@ -11,7 +11,7 @@ import { useTranslations } from 'next-intl';
 import Head from 'next/head';
 import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useMutation, useQuery } from 'react-query';
+import { QueryFunctionContext, QueryKey, useInfiniteQuery, useMutation, useQuery, useQueryClient } from 'react-query';
 import * as yup from 'yup';
 const { Title } = Typography;
 
@@ -21,16 +21,23 @@ const defaultValueForm = {
     age: 0,
 };
 
+interface IGetPetParam {
+    page: number;
+    size: number;
+}
+
 function ReactQuery() {
     const t = useTranslations('ReactQuery');
     const tC = useTranslations('Common');
     const notify = useNotify();
-    const { pagination, onChange } = usePagination({});
+    const queryClient = useQueryClient();
+    const { backToFirstPage, pagination, onChange } = usePagination({});
+    const { backToFirstPage: backToFirstPageInfinite, onChangeNextPage, getNextPage } = usePagination({ page: '1', size: '1' });
 
     const [action, setAtion] = useState(() => ({
         action: 'create',
-        id: ''
-    }))
+        id: '',
+    }));
 
     const schema = yup.object({
         name: yup.string().required(),
@@ -45,15 +52,36 @@ function ReactQuery() {
 
     const { handleSubmit, reset } = formMethod;
 
-    const fetchPetList = (): Promise<IDataSource<IPet>> => {
-        return axios.get('/api/pet').then((rp) => rp.data?.data);
+    const fetchPetList = (page = 0, size = 20): Promise<IDataSource<IPet>> => {
+        return axios
+            .get('/api/pet', {
+                params: {
+                    page: page ? page - 1 : null,
+                    size,
+                },
+            })
+            .then((rp) => rp.data?.data);
+    };
+
+    const fetchPetListInfinite = (data: QueryFunctionContext<QueryKey, IGetPetParam>): Promise<IDataSource<IPet>> => {
+        const { pageParam } = data;
+        const page = pageParam ? pageParam.page : 0;
+        const size = pageParam ? pageParam.size : 1;
+        return axios
+            .get('/api/pet', {
+                params: {
+                    page: page ? page - 1 : null,
+                    size,
+                },
+            })
+            .then((rp) => rp.data?.data);
     };
 
     const createPet = (data: IPet) => {
         return axios.post('/api/pet', data);
     };
 
-    const updatePet = ({ id, data }: { id: string, data: IPet }) => {
+    const updatePet = ({ id, data }: { id: string; data: IPet }) => {
         return axios.put(`/api/pet/${id}`, data);
     };
 
@@ -61,20 +89,41 @@ function ReactQuery() {
         return axios.delete(`/api/pet/${id}`);
     };
 
-    const { refetch, isLoading, isFetching, data } = useQuery<IDataSource<IPet>, any>(['pets', pagination.page], fetchPetList, {
-        cacheTime: 0,
-        retry: false,
-        keepPreviousData: true,
-        refetchOnWindowFocus: false,
-        onError: (error: any) => {
-            notify.notifyError(error?.response?.data?.message);
+    const { refetch, isLoading, isFetching, data } = useQuery<IDataSource<IPet>, any>(
+        ['pets', { page: pagination.page, size: pagination.size }],
+        () => fetchPetList(pagination.page, pagination.size),
+        {
+            cacheTime: 0,
+            retry: false,
+            keepPreviousData: true,
+            refetchOnWindowFocus: false,
+            onError: (error: any) => {
+                notify.notifyError(error?.response?.data?.message);
+            },
         },
+    );
+
+    const {
+        refetch: refetchInfinite,
+        data: dataInfinite,
+        fetchNextPage: fetchNextPageInfinite,
+        hasNextPage: hasNextPageInfinite,
+        isFetchingNextPage: isFetchingNextPageInfinite,
+        isLoading: isLoadingInfinite,
+    } = useInfiniteQuery('pets-infinite', fetchPetListInfinite, {
+        getNextPageParam: (lastPage) => {
+            const nextPage = getNextPage(lastPage.total);
+            return nextPage ? { page: nextPage, size: 1 } : undefined;
+        },
+        refetchOnWindowFocus: false,
     });
 
     const { mutate: mutateCreate, isLoading: isLoadingCreate } = useMutation(createPet, {
         onSuccess: () => {
-            refetch();
-            reset();
+            reset(defaultValueForm);
+            queryClient.invalidateQueries(['pets', { page: pagination.page, size: pagination.size }]);
+            queryClient.invalidateQueries('pets-infinite');
+            notify.notifySuccess();
         },
         onError: (error: any) => {
             notify.notifyError(error?.response?.data?.message);
@@ -83,8 +132,9 @@ function ReactQuery() {
 
     const { mutate: mutateUpdate, isLoading: isLoadingUpdate } = useMutation(updatePet, {
         onSuccess: () => {
-            refetch();
-            reset(defaultValueForm)
+            reset(defaultValueForm);
+            queryClient.invalidateQueries(['pets', { page: pagination.page, size: pagination.size }]);
+            queryClient.invalidateQueries('pets-infinite');
             notify.notifySuccess();
         },
         onError: (error: any) => {
@@ -94,8 +144,9 @@ function ReactQuery() {
 
     const { mutate: mutateDelete, isLoading: isLoadingDelete } = useMutation(deletePet, {
         onSuccess: () => {
-            refetch();
-            reset(defaultValueForm)
+            reset(defaultValueForm);
+            queryClient.invalidateQueries(['pets', { page: pagination.page, size: pagination.size }]);
+            queryClient.invalidateQueries('pets-infinite');
             notify.notifySuccess();
         },
         onError: (error: any) => {
@@ -105,10 +156,9 @@ function ReactQuery() {
 
     const onSuccess = (data: IPet) => {
         if (action.action === 'create') {
-            mutateCreate(data)
-        }
-        else if (action.action === 'update') {
-            mutateUpdate({ id: action.id, data })
+            mutateCreate(data);
+        } else if (action.action === 'update') {
+            mutateUpdate({ id: action.id, data });
         }
     };
 
@@ -117,14 +167,29 @@ function ReactQuery() {
     };
 
     const onEdit = (item: IPet) => {
-        setAtion((prev) => ({ ...prev, action: 'update', id: item._id }))
+        setAtion((prev) => ({ ...prev, action: 'update', id: item._id }));
         reset(item);
     };
 
+    const onRefresh = () => {
+        refetch();
+        backToFirstPage();
+    };
+
     const onClear = () => {
-        reset(defaultValueForm)
-        setAtion((prev) => ({ ...prev, action: 'create', id: '' }))
-    }
+        reset(defaultValueForm);
+        setAtion((prev) => ({ ...prev, action: 'create', id: '' }));
+    };
+
+    const onLoadMore = () => {
+        fetchNextPageInfinite();
+        onChangeNextPage();
+    };
+
+    const onRefreshInfinite = () => {
+        refetchInfinite();
+        backToFirstPageInfinite();
+    };
 
     return (
         <>
@@ -153,7 +218,7 @@ function ReactQuery() {
                 <Col md={8} sm={12} xs={24}>
                     <Title>{tC('list')}</Title>
                     <Space>
-                        <Button onClick={() => refetch()}>{tC('refetch')}</Button>
+                        <Button onClick={onRefresh}>{tC('refetch')}</Button>
                         <CusPagination page={pagination.page} limit={pagination.size} total={data?.total} onChange={onChange} />
                     </Space>
                     <Spin spinning={isLoading || isFetching}>
@@ -184,7 +249,44 @@ function ReactQuery() {
                         </Space>
                     </Spin>
                 </Col>
-                <Col md={8} sm={12} xs={24}></Col>
+                <Col md={8} sm={12} xs={24}>
+                    <Title>{tC('infiniteList')}</Title>
+                    <Button onClick={onRefreshInfinite}>{tC('refetch')}</Button>
+                    <Spin spinning={isLoadingInfinite}>
+                        <Space direction="vertical">
+                            {dataInfinite?.pages?.map((pets, index) => (
+                                <React.Fragment key={index}>
+                                    {pets.data?.map((item) => (
+                                        <Card
+                                            key={item._id}
+                                            title={item.name}
+                                            extra={
+                                                <Space>
+                                                    <Button onClick={() => onEdit(item)}>{tC('update')}</Button>
+                                                    <Button disabled={isLoadingDelete} onClick={() => onDelete(item._id)}>
+                                                        {tC('delete')}
+                                                    </Button>
+                                                </Space>
+                                            }
+                                        >
+                                            <Descriptions column={24}>
+                                                <Descriptions.Item span={12} label={t('pet.species')}>
+                                                    {item.species}
+                                                </Descriptions.Item>
+                                                <Descriptions.Item span={12} label={t('pet.age')}>
+                                                    {item.age}
+                                                </Descriptions.Item>
+                                            </Descriptions>
+                                        </Card>
+                                    ))}
+                                </React.Fragment>
+                            ))}
+                            <Button disabled={!hasNextPageInfinite || isFetchingNextPageInfinite} onClick={onLoadMore}>
+                                {isFetchingNextPageInfinite ? tC('loadingMore') : hasNextPageInfinite ? tC('loadMore') : tC('nothingMore')}
+                            </Button>
+                        </Space>
+                    </Spin>
+                </Col>
             </Row>
         </>
     );
