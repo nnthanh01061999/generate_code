@@ -1,10 +1,11 @@
 import { ModalContext } from '@/context/ModalContext';
+import { localeArr } from '@/data';
 import { DEFAULT_PAGE, DEFAULT_SIZE } from '@/data/pagination';
 import { TParam } from '@/interfaces/query-string';
+import { message, notification } from 'antd';
 import { useRouter } from 'next/router';
 import { DependencyList, EffectCallback, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { qsParseNumber } from '.';
-import { message, notification } from 'antd';
+import { formatUrlRemoveLocale, qsParseNumber } from '.';
 
 export const usePreload = () => {
     useEffect(() => {
@@ -166,15 +167,15 @@ export const usePageProcess = () => {
 
     useEffect(() => {
         const handleStart = (url: any) => {
-            const curPath = url.split('?')[0].replace('/vn', '').replace('/en', '');
-            if (!prevPath.current || (prevPath.current && prevPath.current.replace('/vn', '').replace('/en', '') !== curPath)) {
+            const curPath = formatUrlRemoveLocale(url.split('?')[0]);
+            if (!prevPath.current || (prevPath.current && formatUrlRemoveLocale(prevPath.current) !== curPath)) {
                 setLoading(true);
             }
             prevPath.current = curPath;
         };
 
         const handleComplete = (url: any) => {
-            let curPath = (url && url === '/vn') || url === '/en' ? '/' : typeof url === 'string' && url?.split('?')[0].replace('/vn', '').replace('/en', '');
+            let curPath = url && localeArr?.[url as keyof typeof localeArr] ? '/' : formatUrlRemoveLocale(url);
 
             if (curPath === router.asPath) {
                 setLoading(false);
@@ -252,6 +253,20 @@ export const usePagination = ({ page, size, ...filters }: IPaginationProps) => {
         }));
     };
 
+    const getNextPage = (total: number) => {
+        if (total > pagination.page * pagination.size) {
+            return pagination.page + 1;
+        }
+        return null;
+    };
+
+    const onChangeNextPage = () => {
+        setPagination((prev) => ({
+            ...prev,
+            page: prev.page + 1,
+        }));
+    };
+
     return {
         pagination,
         setPagination,
@@ -259,6 +274,8 @@ export const usePagination = ({ page, size, ...filters }: IPaginationProps) => {
         reloadPage,
         onChange,
         onRefresh,
+        getNextPage,
+        onChangeNextPage,
     };
 };
 

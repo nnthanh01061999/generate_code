@@ -1,9 +1,8 @@
-import CustomSelect from '@/components/form/CustomSelect';
-import { CommonFormProps } from '@/interfaces';
+import CustomSelect, { ICustomSelectProps } from '@/components/form/CustomSelect';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { action } from '@storybook/addon-actions';
 import { ComponentMeta, Story } from '@storybook/react';
-import { Button, Form, SelectProps } from 'antd';
+import { Button, Form } from 'antd';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -12,7 +11,7 @@ export default {
     component: CustomSelect,
 } as ComponentMeta<typeof CustomSelect>;
 
-const CusSelect: Story<CommonFormProps<SelectProps>> = (args: CommonFormProps<SelectProps>) => {
+const CusSelect: Story<ICustomSelectProps> = (args: ICustomSelectProps) => {
     const { name, label, ...rest } = args;
 
     const schema = yup.object().shape({
@@ -61,7 +60,11 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { CommonFormProps } from '@/interfaces/form';
 const { Text } = Typography;
 
-function CustomSelect(props: CommonFormProps<SelectProps>) {
+export interface ICustomSelectProps extends CommonFormProps<SelectProps> {
+    onChangeCallBack?: (value: any, options?: any) => void;
+}
+
+function CustomSelect(props: ICustomSelectProps) {
     const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
 
     const {

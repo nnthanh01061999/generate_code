@@ -6,7 +6,11 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { CommonFormProps } from '@/interfaces/form';
 const { Text } = Typography;
 
-function CustomSelect(props: CommonFormProps<SelectProps>) {
+export interface ICustomSelectProps extends CommonFormProps<SelectProps> {
+    onChangeCallBack?: (value: any, options?: any) => void;
+}
+
+function CustomSelect(props: ICustomSelectProps) {
     const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
 
     const {

@@ -8,6 +8,6 @@ export interface CommonFormProps<T> {
     className?: string;
     wrapperProps?: FormItemProps;
     childProps?: T;
-    onChangeCallBack?: (value: any, options?: any) => void;
+    onChangeCallBack?: (value: any) => void;
     onBlurCallBack?: () => void;
 }

@@ -16,7 +16,7 @@ const CusRangePicker: Story<CommonFormProps<TimeRangePickerProps>> = (args: Comm
     const { name, label, ...rest } = args;
 
     const schema = yup.object().shape({
-        [name]: yup.date().nullable().required(),
+        [name]: yup.array().nullable().required(),
     });
 
     const methods = useForm({
