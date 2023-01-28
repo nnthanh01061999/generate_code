@@ -45,6 +45,22 @@ export const useDebouncedEffect = (effect: EffectCallback, delay: number, deps: 
     }, [callback, delay]);
 };
 
+export default function useDebounceValue<T>(value: T, delay: number) {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedValue(value);
+        }, delay);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [value, delay]);
+
+    return debouncedValue;
+}
+
 export const useOutsideClick = (el: any, isOpen: boolean) => {
     const [isActive, setIsActive] = useState(isOpen);
 

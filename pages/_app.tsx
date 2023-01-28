@@ -6,7 +6,7 @@ import { ConfigProvider, Layout, theme } from 'antd';
 import { NextComponentType, NextPageContext } from 'next';
 import { NextIntlProvider } from 'next-intl';
 import type { AppProps } from 'next/app';
-import { ExoticComponent, Fragment, ReactNode, useMemo, useState } from 'react';
+import { ExoticComponent, Fragment, ReactNode, useMemo } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import 'antd/dist/reset.css';
@@ -20,9 +20,11 @@ export type CusAppProps = AppProps & {
     };
 };
 
+export const queryClient = new QueryClient();
+
 function MyApp({ Component, pageProps }: CusAppProps) {
     usePreload();
-    const [queryClient] = useState(() => new QueryClient());
+
     const loadingPage = usePageProcess();
 
     const content = useMemo(() => {

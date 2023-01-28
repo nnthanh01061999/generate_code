@@ -65,7 +65,7 @@ function ReactQuery() {
 
     const fetchPetListInfinite = (data: QueryFunctionContext<QueryKey, IGetPetParam>): Promise<IDataSource<IPet>> => {
         const { pageParam } = data;
-        const page = pageParam ? pageParam.page : 0;
+        const page = pageParam ? pageParam.page : 1;
         const size = pageParam ? pageParam.size : 1;
         return axios
             .get('/api/pet', {
@@ -94,7 +94,7 @@ function ReactQuery() {
         () => fetchPetList(pagination.page, pagination.size),
         {
             cacheTime: 0,
-            retry: false,
+            retry: true,
             keepPreviousData: true,
             refetchOnWindowFocus: false,
             onError: (error: any) => {
@@ -217,10 +217,8 @@ function ReactQuery() {
                 </Col>
                 <Col md={8} sm={12} xs={24}>
                     <Title>{tC('list')}</Title>
-                    <Space>
-                        <Button onClick={onRefresh}>{tC('refetch')}</Button>
-                        <CusPagination page={pagination.page} limit={pagination.size} total={data?.total} onChange={onChange} />
-                    </Space>
+                    <Button onClick={onRefresh}>{tC('refetch')}</Button>
+                    <CusPagination page={pagination.page} limit={pagination.size} total={data?.total} onChange={onChange} />
                     <Spin spinning={isLoading || isFetching}>
                         <Space direction="vertical">
                             {data?.data?.map((item) => (

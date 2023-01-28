@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 export interface IOption<T> {
     value: T;
-    label: ReactNode;
+    label: string | ReactNode;
     [key: string | number]: any;
 }
 
