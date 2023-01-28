@@ -233,4 +233,6 @@ AsyncSelect.defaultProps = {
     labelInValue: true,
 };
 
+AsyncSelect.displayName = 'AsyncSelect';
+
 export default AsyncSelect;
