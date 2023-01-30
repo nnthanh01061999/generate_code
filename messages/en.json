@@ -24,6 +24,8 @@
     "Home": {
         "title": "List",
         "data": {
+            "swagger-docs": "Swagger Docs",
+            "swagger-docs-desc": "Swagger Docs",
             "generate": "Generate",
             "generate-desc": "Generate code",
             "react-query": "React query",

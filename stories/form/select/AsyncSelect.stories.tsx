@@ -17,7 +17,7 @@ const CusAsyncSelect: Story<ICustomAsyncSelectProps> = (args: ICustomAsyncSelect
     const { name, label, ...rest } = args;
 
     const schema = yup.object().shape({
-        [name]: yup.mixed().required(),
+        [name]: yup.object().required().nullable(),
     });
 
     const methods = useForm({
@@ -54,6 +54,9 @@ AsyncSelect.args = {
             valueField: 'id',
             labelField: 'title',
             responseKey: '',
+        },
+        axiosConfig: {
+            timeout: 30000,
         },
     },
 };

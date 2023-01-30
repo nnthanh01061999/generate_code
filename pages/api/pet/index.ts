@@ -12,11 +12,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         case 'GET':
             try {
                 const { page = 1, size = 20 } = getPageSizeFromQuery(query);
+                const { name } = query;
+                var _query: { [key: string]: any } = {};
+                name ? (_query.name = { $regex: name, $options: 'i' }) : '';
+
                 const pets_total = await Pet.find({});
-                const pets = await Pet.find({})
+
+                const pets = await Pet.find(_query)
                     .sort({ _id: -1 })
                     .skip(size * page - size)
-                    .limit(size); /* find all the data in our database */
+                    .limit(size);
+
                 res.status(200).json({ success: true, data: { data: pets, total: pets_total.length } });
             } catch (error) {
                 const errorMessage = getErrorMessage(error);

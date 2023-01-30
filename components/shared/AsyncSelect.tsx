@@ -3,7 +3,7 @@ import { IOption } from '@/interfaces';
 import { IPaginationFilter, usePagination } from '@/utils';
 import useDebounceValue from '@/utils/hooks';
 import { Empty, Select, SelectProps, Spin } from 'antd';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { get } from 'lodash';
 import React, { forwardRef, useRef, useState } from 'react';
 import { QueryFunctionContext, QueryKey, useInfiniteQuery } from 'react-query';
@@ -35,6 +35,7 @@ export interface IAsyncSelectConfigProps {
 
 export interface IAsyncSelectProps extends SelectProps {
     config: IAsyncSelectConfigProps;
+    axiosConfig?: AxiosRequestConfig<any>;
 }
 
 export interface IAsyncSelectParams {
@@ -51,7 +52,7 @@ export interface IAsyncSelectState {
 }
 
 const AsyncSelect = forwardRef<any, IAsyncSelectProps>((props, ref) => {
-    const { config, labelInValue, onChange, ...selectProps } = props;
+    const { config, axiosConfig, labelInValue, onChange, ...selectProps } = props;
     const { mode, showSearch = true } = selectProps;
     const {
         name,
@@ -99,6 +100,7 @@ const AsyncSelect = forwardRef<any, IAsyncSelectProps>((props, ref) => {
                     ...otherFilters,
                     ...(searchKey ? { [searchKey]: search || undefined } : undefined),
                 },
+                ...axiosConfig,
             })
             .then((rp) => {
                 return responseKey ? rp.data?.[responseKey] : rp.data;

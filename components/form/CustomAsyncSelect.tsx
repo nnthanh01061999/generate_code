@@ -21,7 +21,7 @@ function CustomAsyncSelect(props: ICustomAsyncSelectProps) {
 
     const handleOnChange = (onChange: (value: any) => void) => {
         return (value: any, option: any) => {
-            onChange(value);
+            onChange(value || null);
             if (onChangeCallBack instanceof Function) {
                 onChangeCallBack(value, option);
             }
