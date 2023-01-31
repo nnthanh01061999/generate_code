@@ -55,9 +55,6 @@ function Generate() {
                 key: 'form',
             },
             {
-                key: 'table',
-            },
-            {
                 key: 'column',
             },
             {
@@ -78,19 +75,6 @@ function Generate() {
                 <Col md={12} sm={24} xs={24}>
                     <Form layout="vertical">
                         <FormProvider {...formMethod}>
-                            <CustomAsyncSelect
-                                name="pet"
-                                label="pet"
-                                childProps={{
-                                    config: {
-                                        url: '/api/pet',
-                                        name: 'pet',
-                                        valueField: '_id',
-                                        labelField: 'name',
-                                        responseKey: 'data',
-                                    },
-                                }}
-                            />
                             <Common />
                             <FormSearchCreate name="search" />
                             <FormSearchCreate name="form" />

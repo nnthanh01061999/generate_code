@@ -18,7 +18,7 @@ function TableColumn(props: Props) {
     const { control } = useFormContext();
     const { fields, remove, append } = useFieldArray({
         control,
-        name,
+        name: 'column',
     });
     const onAdd = () => {
         append({ type: 'string' });
@@ -53,7 +53,7 @@ function TableColumn(props: Props) {
                 </Col>
 
                 {fields?.map((field, index) => (
-                    <TableColumnCard key={field.id} index={index} name={name} onRemove={onRemove} />
+                    <TableColumnCard key={field.id} index={index} name={'column'} onRemove={onRemove} />
                 ))}
             </Row>
         </>

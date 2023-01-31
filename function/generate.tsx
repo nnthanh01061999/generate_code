@@ -3,7 +3,7 @@ import { stringFormat } from '../utils';
 
 export const generateLocale = (value: any, setResult: (key: string, result: string) => void) => {
     let resultText = `"${camelCase(value.key)}.title":"${value.title}",\n`;
-    resultText += value.table?.reduce((prev: any, cur: any) => prev + `"${camelCase(value.key)}.${camelCase(cur.key)}":"${cur.title}",\n`, '');
+    resultText += value.column?.reduce((prev: any, cur: any) => prev + `"${camelCase(value.key)}.${camelCase(cur.key)}":"${cur.title}",\n`, '');
     resultText += value.search?.reduce((prev: any, cur: any) => prev + `"${camelCase(value.key)}.search.${camelCase(cur.key)}":"${cur.title}",\n`, '');
     resultText += value.search?.reduce(
         (prev: any, cur: any) => prev + `"${camelCase(value.key)}.search.${camelCase(cur.key)}.placeholder":"${cur.type === 'input' ? 'Nhập ' : 'Chọn '}${cur.title}",\n`,
@@ -22,7 +22,7 @@ export const generateForm = (value: any, setResult: (key: string, result: string
     const key = snakeCase(value.key);
     let resultText = value.search?.reduce((prev: any, cur: any) => prev + `export const FS_${key?.toUpperCase()}_${cur.key?.toUpperCase()}="${cur.key}";\n`, '');
     resultText += '\n';
-    resultText += value.create?.reduce((prev: any, cur: any) => prev + `export const FC_${key?.toUpperCase()}_${cur.key?.toUpperCase()}="${cur.key}";\n`, '');
+    resultText += value.form?.reduce((prev: any, cur: any) => prev + `export const FC_${key?.toUpperCase()}_${cur.key?.toUpperCase()}="${cur.key}";\n`, '');
     setResult('form', resultText);
 };
 
@@ -114,14 +114,14 @@ export const generateInterface = (value: any, setResult: (key: string, result: s
     const key = snakeCase(value.key);
     const orinalKey = value.key?.charAt(0)?.toLocaleUpperCase() + value?.key?.slice(1);
     let resultText = '';
-    if (value.formSearch?.length) {
+    if (value.search?.length) {
         resultText += `export type ${orinalKey}SearchFormSearch = {\n`;
-        resultText += value.formSearch?.reduce((prev: any, cur: any) => prev + `[FS_${key?.toUpperCase()}_${cur.key?.toUpperCase()}]:${cur.interface}\n`, '');
+        resultText += value.search?.reduce((prev: any, cur: any) => prev + `[FS_${key?.toUpperCase()}_${cur.key?.toUpperCase()}]:${cur.interface}\n`, '');
         resultText += '}\n';
     }
-    if (value.formCreate?.length) {
+    if (value.form?.length) {
         resultText += `export type ${orinalKey}FormValues = {\n`;
-        resultText += value.formCreate?.reduce((prev: any, cur: any) => prev + `[FC_${key?.toUpperCase()}_${cur.key?.toUpperCase()}]:${cur.interface}\n`, '');
+        resultText += value.form?.reduce((prev: any, cur: any) => prev + `[FC_${key?.toUpperCase()}_${cur.key?.toUpperCase()}]:${cur.interface}\n`, '');
         resultText += '}\n';
     }
     setResult('interface', resultText);
