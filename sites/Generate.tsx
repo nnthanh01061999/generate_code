@@ -1,5 +1,5 @@
 import FooterGenerate from '@/components/footer/FooterGenerate';
-import CustomAsyncSelect from '@/components/form/CustomAsyncSelect';
+import CustomDatePicker from '@/components/form/CustomDatePicker';
 import Common from '@/components/generate/Common';
 import FormSearchCreate from '@/components/generate/FormSearchCreate';
 import Result from '@/components/generate/Result';
@@ -75,6 +75,7 @@ function Generate() {
                 <Col md={12} sm={24} xs={24}>
                     <Form layout="vertical">
                         <FormProvider {...formMethod}>
+                            <CustomDatePicker name="date" label="Date" />
                             <Common />
                             <FormSearchCreate name="search" />
                             <FormSearchCreate name="form" />

@@ -183,7 +183,7 @@ export const usePageProcess = () => {
 
     useEffect(() => {
         const handleStart = (url: any) => {
-            const curPath = formatUrlRemoveLocale(url.split('?')[0]);
+            const curPath = formatUrlRemoveLocale(url);
             if (!prevPath.current || (prevPath.current && formatUrlRemoveLocale(prevPath.current) !== curPath)) {
                 setLoading(true);
             }
@@ -362,4 +362,9 @@ export const useNotify = () => {
     };
 
     return customNoti;
+};
+
+export const useDetectLocaleFormURL = (url: string, defaultLocale: string): string => {
+    const locale = Object.values(localeArr)?.find((item) => url.startsWith(item.key));
+    return locale?.key ?? defaultLocale;
 };
