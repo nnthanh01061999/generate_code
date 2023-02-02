@@ -1,12 +1,10 @@
-// third-party
+import rootReducer from '@/store/root/rootReducer';
+import { RootState } from '@/store/root/rootTypes';
+import version from '@/store/version';
 import { getStorage, setStorage } from '@/utils/storage';
 import { createWrapper, MakeStore } from 'next-redux-wrapper';
 import { createStore, Store } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-// application
-import rootReducer from '@/store/root/rootReducer';
-import { RootState } from '@/store/root/rootTypes';
-import version from '@/store/version';
 
 export const save = (state: any) => {
     try {

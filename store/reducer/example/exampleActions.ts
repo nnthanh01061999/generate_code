@@ -1,18 +1,19 @@
 // application
-import { EXAMPLE_INCREASE, ExampleAction } from '@/store/reducer/example/exampleActionTypes';
+import { EXAMPLE_DECREASE, EXAMPLE_INCREASE } from '@/store/reducer/example/exampleActionTypes';
+import { ExampleDecreaseAction, ExampleIncreaseAction } from '@/store/reducer/example/exampleTypes';
 
 // eslint-disable-next-line import/prefer-default-export
-export function increaseExample(value: number): ExampleAction {
+export function increaseExample(payload: number): ExampleIncreaseAction {
     return {
         type: EXAMPLE_INCREASE,
-        value,
+        payload,
     };
 }
 
 // eslint-disable-next-line import/prefer-default-export
-export function decreaseExample(value: number): ExampleAction {
+export function decreaseExample(payload: number): ExampleDecreaseAction {
     return {
-        type: EXAMPLE_INCREASE,
-        value,
+        type: EXAMPLE_DECREASE,
+        payload,
     };
 }

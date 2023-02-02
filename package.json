@@ -15,6 +15,7 @@
     "dependencies": {
         "@hookform/error-message": "^2.0.1",
         "@hookform/resolvers": "^2.9.7",
+        "@reduxjs/toolkit": "^1.8.2",
         "@vercel/analytics": "^0.1.7",
         "antd": "^5.1.2",
         "axios": "^1.2.4",
@@ -31,6 +32,7 @@
         "react-dom": "18.2.0",
         "react-hook-form": "^7.34.0",
         "react-query": "^3.39.2",
+        "react-redux": "7.2.4",
         "redux": "4.1.1",
         "redux-devtools-extension": "^2.13.9",
         "sass": "^1.57.1",
@@ -50,6 +52,7 @@
         "@types/node": "18.7.2",
         "@types/react": "18.0.17",
         "@types/react-dom": "18.0.6",
+        "@types/react-redux": "7.1.18",
         "@types/swagger-ui-react": "^4.11.0",
         "babel-loader": "^8.3.0",
         "eslint": "8.21.0",

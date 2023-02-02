@@ -1,6 +1,6 @@
-import { Action } from 'redux';
-import { AppReducer } from '@/store/types';
 import { useAppAction } from '@/store/hooks';
+import { AppReducer } from '@/store/types';
+import { Action } from 'redux';
 
 const APPLY_CLIENT_STATE = 'APPLY_CLIENT_STATE';
 
@@ -33,11 +33,14 @@ export function withClientState<T extends AppReducer<any, any>, S extends Return
     return (state: S, action: Action | ApplyClientStateAction<{ [ns: string]: any }>): R => {
         const childState = reducer(state, action);
 
-        if (isApplyClientStateAction(action) && namespace in action.state) {
-            return {
-                ...action.state[namespace],
-                stateFrom: 'client',
-            };
+        if (isApplyClientStateAction(action)) {
+            const action_ = action as ApplyClientStateAction<{ [ns: string]: any }>;
+            if (namespace in action_.state) {
+                return {
+                    ...action_.state[namespace],
+                    stateFrom: 'client',
+                };
+            }
         }
 
         if ('stateFrom' in childState) {

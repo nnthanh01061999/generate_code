@@ -4,18 +4,14 @@ export interface ExampleState {
     count: number;
 }
 
-export interface EXAMPLE_INCREASE_PAYLOAD {
-    value: number;
-}
-
 export type ExampleDecreaseAction = {
     type: typeof EXAMPLE_DECREASE;
-    payload: EXAMPLE_INCREASE_PAYLOAD;
+    payload: number;
 };
 
 export type ExampleIncreaseAction = {
     type: typeof EXAMPLE_INCREASE;
-    payload: EXAMPLE_INCREASE_PAYLOAD;
+    payload: number;
 };
 
-export type ExampleTypes = ExampleIncreaseAction | ExampleDecreaseAction;
+export type ExampleActions = ExampleIncreaseAction | ExampleDecreaseAction;

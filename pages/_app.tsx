@@ -1,7 +1,7 @@
 import ProcessBar from '@/components/shared/ProcessBar';
 import ModalContextProvider from '@/context/ModalContext';
 import { localeArr } from '@/data';
-import { applyClientState } from '@/store/client';
+import { useApplyClientState } from '@/store/client';
 import { load, save, wrapper } from '@/store/store';
 import { usePageProcess, usePreload } from '@/utils';
 import { Analytics } from '@vercel/analytics/react';
@@ -28,22 +28,12 @@ export type CusAppProps = AppProps & {
 export const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: CusAppProps) {
-    usePreload();
     const store = useStore();
+    const applyClientState = useApplyClientState();
     const loadingPage = usePageProcess();
     const router = useRouter();
 
-    const content = useMemo(() => {
-        const PageLayout = Component.Layout || Fragment;
-
-        return (
-            <Layout>
-                <PageLayout>
-                    <Component {...pageProps} />
-                </PageLayout>
-            </Layout>
-        );
-    }, [Component, pageProps]);
+    usePreload();
 
     useEffect(() => {
         const state = load();
@@ -56,7 +46,20 @@ function MyApp({ Component, pageProps }: CusAppProps) {
                 save(store.getState());
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [store]);
+
+    const content = useMemo(() => {
+        const PageLayout = Component.Layout || Fragment;
+
+        return (
+            <Layout>
+                <PageLayout>
+                    <Component {...pageProps} />
+                </PageLayout>
+            </Layout>
+        );
+    }, [Component, pageProps]);
 
     return (
         <NextIntlProvider messages={pageProps.messages}>
