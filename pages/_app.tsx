@@ -1,20 +1,21 @@
 import ProcessBar from '@/components/shared/ProcessBar';
 import ModalContextProvider from '@/context/ModalContext';
-import { useDetectLocaleFormURL, usePageProcess, usePreload } from '@/utils';
+import { localeArr } from '@/data';
+import { applyClientState } from '@/store/client';
+import { load, save, wrapper } from '@/store/store';
+import { usePageProcess, usePreload } from '@/utils';
 import { Analytics } from '@vercel/analytics/react';
 import { ConfigProvider, Layout, theme } from 'antd';
 import { NextComponentType, NextPageContext } from 'next';
 import { NextIntlProvider } from 'next-intl';
 import type { AppProps } from 'next/app';
-import { ExoticComponent, Fragment, ReactNode, useMemo } from 'react';
+import { useRouter } from 'next/router';
+import { ExoticComponent, Fragment, ReactNode, useEffect, useMemo } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { useStore } from 'react-redux';
 import 'antd/dist/reset.css';
-import '../styles/index.scss';
-import { useRouter } from 'next/router';
-
-import dayjs from 'dayjs';
-import { localeArr } from '@/data';
+import '@/styles/index.scss';
 
 export type CusAppProps = AppProps & {
     Component: NextComponentType<NextPageContext, any> & {
@@ -28,7 +29,7 @@ export const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: CusAppProps) {
     usePreload();
-
+    const store = useStore();
     const loadingPage = usePageProcess();
     const router = useRouter();
 
@@ -43,6 +44,19 @@ function MyApp({ Component, pageProps }: CusAppProps) {
             </Layout>
         );
     }, [Component, pageProps]);
+
+    useEffect(() => {
+        const state = load();
+        if (state) {
+            applyClientState(state);
+        }
+
+        if (process.browser) {
+            store.subscribe(() => {
+                save(store.getState());
+            });
+        }
+    }, [store]);
 
     return (
         <NextIntlProvider messages={pageProps.messages}>
@@ -66,4 +80,4 @@ function MyApp({ Component, pageProps }: CusAppProps) {
     );
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);

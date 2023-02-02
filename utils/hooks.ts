@@ -332,7 +332,7 @@ export const useModalHandle = () => {
 };
 
 export const useNotify = () => {
-    const customNoti = {
+    const [customNoti] = useState(() => ({
         notifySuccess: (content = 'Thành công!', key?: number | string) => {
             message.success({ content, key, duration: 2 });
         },
@@ -359,7 +359,7 @@ export const useNotify = () => {
                 ...options,
             });
         },
-    };
+    }));
 
     return customNoti;
 };
