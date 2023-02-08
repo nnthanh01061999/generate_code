@@ -1,8 +1,8 @@
-export const getSession = (key: string) => sessionStorage.getSession(key);
+export const getSession = (key: string) => sessionStorage.getItem(key);
 
-export const setSession = (key: string, value: any) => sessionStorage.setSession(key, value);
+export const setSession = (key: string, value: any) => sessionStorage.setItem(key, value);
 
-export const removeSession = (key: string) => sessionStorage.removeSession(key);
+export const removeSession = (key: string) => sessionStorage.removeItem(key);
 
 export const clearAllSession = () => sessionStorage.clear();
 

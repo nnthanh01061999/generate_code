@@ -1,9 +1,11 @@
 import { IOption } from '@/interfaces';
 import { TParam } from '@/interfaces/query-string';
 import { isDate } from 'lodash';
-import moment, { Moment } from 'moment';
+import dayjs, { Dayjs } from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import qs, { StringifyOptions } from 'query-string';
 import { getNumber, isNumberic } from '.';
+dayjs.extend(utc);
 
 export const qsParseString = (param: TParam, defaultValue: ''): string => {
     return param && typeof param === 'string' ? param : defaultValue;
@@ -30,9 +32,9 @@ export const qsParseObject = (valueParam: TParam, labelParam: TParam, defaultVal
         : defaultValue;
 };
 
-export const qsParseDate = (param: TParam, defaultValue = undefined, utc: false): Moment | undefined => {
-    const momentVal = moment(param);
-    return param && isDate(param) ? (utc ? momentVal.utc() : momentVal) : defaultValue;
+export const qsParseDate = (param: TParam, defaultValue = undefined, utc: false): Dayjs | undefined => {
+    const dayValue = typeof param === 'string' ? dayjs(param) : undefined;
+    return param && dayValue && isDate(param) ? (utc ? dayValue.utc() : dayValue) : defaultValue;
 };
 
 export const qsStringify = (object: Record<string, any>, options?: StringifyOptions): string => {

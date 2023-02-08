@@ -1,8 +1,8 @@
-export const getStorage = (key: string) => localStorage.getStorage(key);
+export const getStorage = (key: string) => localStorage.getItem(key);
 
-export const setStorage = (key: string, value: any) => localStorage.setStorage(key, value);
+export const setStorage = (key: string, value: any) => localStorage.setItem(key, value);
 
-export const removeStorage = (key: string) => localStorage.removeStorage(key);
+export const removeStorage = (key: string) => localStorage.removeItem(key);
 
 export const clearAllStorage = () => localStorage.clear();
 

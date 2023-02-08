@@ -1,6 +1,8 @@
 import { DATE_FORMAT_HMDMY } from '@/data';
 import { isNaN } from 'lodash';
-import moment from 'moment';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 export const stringFormat = (input: string, ...replacer: string[]) => {
     for (let i = 0; i < replacer.length; i++) {
@@ -32,12 +34,12 @@ export const numberFormat = (value: number) => {
 };
 
 export const dateFormat = (value: Date | number | string | undefined, format: string = DATE_FORMAT_HMDMY, utc = false, defaultValue = '--') => {
-    const momentValue = value && moment(value);
-    return momentValue ? (utc ? momentValue.utc().format(format) : momentValue.format(format)) : defaultValue;
+    const dayValue = value && dayjs(value);
+    return dayValue ? (utc ? dayValue.utc().format(format) : dayValue.format(format)) : defaultValue;
 };
 
 export const dateMatchFormat = (str: any, format: string) => {
-    return str && typeof str === 'string' && moment(str, format).valueOf() > 0;
+    return str && typeof str === 'string' && dayjs(str, format).valueOf() > 0;
 };
 
 export const arrayUnique = (arr: (string | number)[]) => {

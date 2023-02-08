@@ -15,7 +15,7 @@ export const copyTextToClipboard = (id: string) => {
 };
 
 export const formatUrlRemoveLocale = (url: string) => {
-    const values = url.split('?')[0]?.split('/');
+    const values = url?.split('?')[0]?.split('/');
     const value = values[1];
     const other = values?.splice(2);
     return localeArr?.[value as keyof typeof localeArr] ? '/' + other?.join('/') : url;

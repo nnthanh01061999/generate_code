@@ -63,13 +63,7 @@ function MyApp({ Component, pageProps }: CusAppProps) {
 
     return (
         <NextIntlProvider messages={pageProps.messages}>
-            <ConfigProvider
-                locale={localeArr?.[router.locale as keyof typeof localeArr]?.locale}
-                theme={{
-                    algorithm: theme.darkAlgorithm,
-                    token: { colorPrimary: 'white' },
-                }}
-            >
+            <ConfigProvider locale={localeArr?.[router.locale as keyof typeof localeArr]?.locale}>
                 <QueryClientProvider client={queryClient}>
                     <ModalContextProvider>
                         <ProcessBar loading={loadingPage} />
