@@ -1,17 +1,18 @@
+import CustomInput from '@/components/form/CustomInput';
+import CustomRadio from '@/components/form/CustomRadio';
+import { interfaceOptions } from '@/data';
 import { Button, Card, Col, Row, Space, Typography } from 'antd';
 import React from 'react';
-import { interfaceOptions, TypeOptions } from '@/data';
-import CustomInput from '../form/CustomInput';
-import CustomRadio from '../form/CustomRadio';
+
 const { Title } = Typography;
 
-interface Props {
+export interface IStateItemProps {
     index: number;
     name: string;
     onRemove: (index: number) => void;
 }
 
-function FormSearchCreateCard(props: Props) {
+function StateItem(props: IStateItemProps) {
     const { index, name, onRemove } = props;
     return (
         <Col md={24} sm={24} xs={24}>
@@ -30,25 +31,13 @@ function FormSearchCreateCard(props: Props) {
                 }
             >
                 <Row gutter={[24, 0]} align={'top'}>
-                    <Col sm={24} xs={24} md={8}>
+                    <Col sm={24} xs={24} md={12}>
                         <CustomInput name={`${name}[${index}].key`} label="Key" />
                     </Col>
-                    <Col sm={24} xs={24} md={8}>
-                        <CustomInput name={`${name}[${index}].title`} label="Title" />
-                    </Col>
-                    <Col sm={24} xs={24} md={8}>
+                    <Col sm={24} xs={24} md={12}>
                         <CustomRadio
                             name={`${name}[${index}].type`}
                             label="Type"
-                            childProps={{
-                                options: TypeOptions,
-                            }}
-                        />
-                    </Col>
-                    <Col sm={24} xs={24} md={24}>
-                        <CustomRadio
-                            name={`${name}[${index}].interface`}
-                            label="Interface"
                             childProps={{
                                 options: interfaceOptions,
                             }}
@@ -60,4 +49,4 @@ function FormSearchCreateCard(props: Props) {
     );
 }
 
-export default FormSearchCreateCard;
+export default StateItem;

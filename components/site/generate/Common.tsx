@@ -1,6 +1,6 @@
 import { Col, Row, Typography } from 'antd';
 import React from 'react';
-import CustomInput from '../form/CustomInput';
+import CustomInput from '@/components/form/CustomInput';
 const { Title } = Typography;
 
 function Common() {

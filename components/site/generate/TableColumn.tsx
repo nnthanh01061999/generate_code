@@ -3,9 +3,9 @@ import { startCase } from 'lodash';
 import React from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { tableHeaderOptions } from '@/data';
-import CustomCheckBox from '../form/CustomCheckBox';
-import CustomInput from '../form/CustomInput';
-import CustomRadio from '../form/CustomRadio';
+import CustomCheckBox from '@/components/form/CustomCheckBox';
+import CustomInput from '@/components/form/CustomInput';
+import CustomRadio from '@/components/form/CustomRadio';
 import TableColumnCard from './TableColumnCard';
 const { Title } = Typography;
 

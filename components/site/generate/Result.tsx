@@ -1,5 +1,6 @@
-import { copyTextToClipboard } from '@/utils';
-import { Button, Col, Input, Row, Space, Typography, Form } from 'antd';
+import { copyTextToClipboard, saveToFile } from '@/utils';
+import { DownloadOutlined } from '@ant-design/icons';
+import { Button, Col, Form, Input, Row, Space, Typography } from 'antd';
 import { startCase } from 'lodash';
 import { useTranslations } from 'next-intl';
 import React from 'react';
@@ -7,14 +8,19 @@ const { Title } = Typography;
 const { TextArea } = Input;
 
 interface Props {
+    name?: string;
     config: { key: string }[];
     data: any;
 }
 
 function Result(props: Props) {
-    const { config, data } = props;
+    const { name, config, data } = props;
 
     const t = useTranslations('Generate');
+
+    const onDownload = (key: string) => {
+        saveToFile(`${name || ''}${startCase(key)}.ts`, data?.[key]);
+    };
 
     return (
         <Form layout="vertical">
@@ -33,7 +39,10 @@ function Result(props: Props) {
                                     align="center"
                                 >
                                     <Title level={3}>{startCase(item.key)} </Title>
-                                    <Button onClick={() => copyTextToClipboard(item.key)}>{t('copy')}</Button>
+                                    <Space>
+                                        <Button onClick={() => onDownload(item.key)} icon={<DownloadOutlined />} />
+                                        <Button onClick={() => copyTextToClipboard(item.key)}>{t('copy')}</Button>
+                                    </Space>
                                 </Space>
                             }
                         >

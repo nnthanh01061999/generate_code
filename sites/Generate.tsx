@@ -1,9 +1,9 @@
 import FooterGenerate from '@/components/footer/FooterGenerate';
 import CustomDatePicker from '@/components/form/CustomDatePicker';
-import Common from '@/components/generate/Common';
-import FormSearchCreate from '@/components/generate/FormSearchCreate';
-import Result from '@/components/generate/Result';
-import TableColumn from '@/components/generate/TableColumn';
+import Common from '@/components/site/generate/Common';
+import FormSearchCreate from '@/components/site/generate/FormSearchCreate';
+import Result from '@/components/site/generate/Result';
+import TableColumn from '@/components/site/generate/TableColumn';
 import ExampleModal from '@/components/modal/ExampleModal';
 import { generateForm, generateInterface, generateLocale, generateTableColumn } from '@/function/generate';
 import { withModalHandler } from '@/HOC/withModalHandler';

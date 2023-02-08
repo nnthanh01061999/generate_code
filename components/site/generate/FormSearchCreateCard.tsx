@@ -1,11 +1,8 @@
 import { Button, Card, Col, Row, Space, Typography } from 'antd';
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
-import { dataTypeOptions } from '@/data';
-import CustomCheckBox from '../form/CustomCheckBox';
-import CustomInput from '../form/CustomInput';
-import CustomInputNumber from '../form/CustomInputNumber';
-import CustomRadio from '../form/CustomRadio';
+import { interfaceOptions, TypeOptions } from '@/data';
+import CustomInput from '@/components/form/CustomInput';
+import CustomRadio from '@/components/form/CustomRadio';
 const { Title } = Typography;
 
 interface Props {
@@ -14,12 +11,10 @@ interface Props {
     onRemove: (index: number) => void;
 }
 
-function TableColumnCard(props: Props) {
+function FormSearchCreateCard(props: Props) {
     const { index, name, onRemove } = props;
-    const { watch } = useFormContext();
-    const watchHeaderType = watch('tableHeaderType');
     return (
-        <Col md={24}>
+        <Col md={24} sm={24} xs={24}>
             <Card
                 title={
                     <Space
@@ -29,7 +24,7 @@ function TableColumnCard(props: Props) {
                             justifyContent: 'space-between',
                         }}
                     >
-                        <Title level={4}>Column {index + 1}</Title>
+                        <Title level={4}>Field {index + 1}</Title>
                         <Button onClick={() => onRemove(index)}>Remove</Button>
                     </Space>
                 }
@@ -42,26 +37,27 @@ function TableColumnCard(props: Props) {
                         <CustomInput name={`${name}[${index}].title`} label="Title" />
                     </Col>
                     <Col sm={24} xs={24} md={8}>
-                        <CustomInputNumber name={`${name}[${index}].width`} label="Width" />
-                    </Col>
-                    <Col sm={24} xs={24} md={18}>
                         <CustomRadio
                             name={`${name}[${index}].type`}
                             label="Type"
                             childProps={{
-                                options: dataTypeOptions,
+                                options: TypeOptions,
                             }}
                         />
                     </Col>
-                    {watchHeaderType === 'filter' ? (
-                        <Col sm={24} xs={24} md={6}>
-                            <CustomCheckBox name={`${name}[${index}].search`} label="Search" labelCheckBox="Search" />
-                        </Col>
-                    ) : null}
+                    <Col sm={24} xs={24} md={24}>
+                        <CustomRadio
+                            name={`${name}[${index}].interface`}
+                            label="Interface"
+                            childProps={{
+                                options: interfaceOptions,
+                            }}
+                        />
+                    </Col>
                 </Row>
             </Card>
         </Col>
     );
 }
 
-export default TableColumnCard;
+export default FormSearchCreateCard;

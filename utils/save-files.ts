@@ -15,3 +15,12 @@ export function saveFileXlsx(base64: string, filename: string) {
     document.body.appendChild(link);
     link.click();
 }
+
+export function saveToFile(filename: string, data: any) {
+    const blob = new Blob([data], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(link.href);
+}
