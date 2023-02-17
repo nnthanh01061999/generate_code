@@ -56,7 +56,7 @@ export const generateType = (data: TReducerFormValues, setResult: (key: string, 
     const payloads = actions.reduce((prev, cur) => {
         const val = formatKeySnake(key, cur.key);
         const prefix = formatKeyTitleCase(key, cur.key);
-        return prev + (cur.payload?.length ? `export interface ${prefix}Payload {\n${cur.payload?.reduce((p, c) => p + `\t${c.key}: ${c.type}`, '')}\n};\n\n` : '');
+        return prev + (cur.payload?.length ? `export interface ${prefix}Payload {${cur.payload?.reduce((p, c) => p + `\n\t${c.key}: ${c.type},`, '')}\n};\n\n` : '');
     }, '');
 
     const actions_ = actions.reduce((prev, cur) => {
