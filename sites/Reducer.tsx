@@ -82,7 +82,7 @@ function Generate() {
     const resultArr = React.useMemo(() => {
         return [
             {
-                key: 'action',
+                key: 'actions',
             },
             {
                 key: 'reducer',
@@ -91,10 +91,10 @@ function Generate() {
                 key: 'hook',
             },
             {
-                key: 'type',
+                key: 'types',
             },
             {
-                key: 'action-type',
+                key: 'action-types',
             },
         ];
     }, []);

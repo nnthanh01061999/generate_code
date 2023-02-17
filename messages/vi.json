@@ -29,7 +29,11 @@
             "generate": "Generate",
             "generate-desc": "Generate code",
             "react-query": "React query",
-            "react-query-desc": "React query example"
+            "react-query-desc": "React query example",
+            "reducer": "Redux Reducer",
+            "reducer-desc": "Redux Reducer Generate",
+            "table": "Table",
+            "table-desc": "Table Generate"
         },
         "link": "Link"
     },

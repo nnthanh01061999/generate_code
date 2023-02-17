@@ -14,4 +14,14 @@ export const SiteData = [
         description: 'react-query-desc',
         href: '/react-query',
     },
+    {
+        title: 'reducer',
+        description: 'reducer-desc',
+        href: '/reducer',
+    },
+    {
+        title: 'table',
+        description: 'table-desc',
+        href: '/table',
+    },
 ];

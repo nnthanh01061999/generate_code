@@ -19,7 +19,7 @@ function Result(props: Props) {
     const t = useTranslations('Generate');
 
     const onDownload = (key: string) => {
-        saveToFile(`${name || ''}${startCase(key)}.ts`, data?.[key]);
+        saveToFile(`${name || ''}${startCase(key).trim().split(' ').join('')}.ts`, data?.[key]);
     };
 
     return (
@@ -38,7 +38,7 @@ function Result(props: Props) {
                                     }}
                                     align="center"
                                 >
-                                    <Title level={3}>{startCase(item.key)} </Title>
+                                    <Title level={3}>{startCase(item.key).trim().split(' ').join('')} </Title>
                                     <Space>
                                         <Button onClick={() => onDownload(item.key)} icon={<DownloadOutlined />} />
                                         <Button onClick={() => copyTextToClipboard(item.key)}>{t('copy')}</Button>
