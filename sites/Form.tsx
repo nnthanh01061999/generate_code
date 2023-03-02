@@ -45,9 +45,9 @@ function Generate() {
             return {
                 key: snakeCase(item),
                 type: 'input',
-                xs: 12,
-                sm: 12,
-                md: 24,
+                xs: 24,
+                sm: 24,
+                md: 12,
                 required: false,
             };
         });

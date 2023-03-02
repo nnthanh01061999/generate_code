@@ -13,9 +13,9 @@ import React from 'react';
 const defaultValue: TFormFormFormValues = {
     key: '',
     type: 'input',
-    xs: 12,
-    sm: 12,
-    md: 24,
+    xs: 24,
+    sm: 24,
+    md: 12,
     required: false,
 };
 
