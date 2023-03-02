@@ -30,7 +30,7 @@ export const generateMessages = (id: string, data: TMessageFormValues, setResult
             ?.map(
                 (field) => `\n\t"${field.key}": {
              "title": "${field.name}",
-        }`,
+        },`,
             )
             ?.join('')}
     }
