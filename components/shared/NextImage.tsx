@@ -1,9 +1,9 @@
 import Image, { ImageLoaderProps, ImageProps } from 'next/image';
 import * as React from 'react';
 
-export type TNextImageProps = ({ width: string | number; height: string | number } | { layout: 'fill'; width?: string | number; height?: string | number }) & ImageProps;
+export type TNextImageProps = ({ width: string | number; height: string | number } | { width?: string | number; height?: string | number }) & ImageProps;
 
-export default function NextImage({ className, src, width, height, layout, alt, ...rest }: TNextImageProps) {
+export default function NextImage({ className, src, width, height, alt, ...rest }: TNextImageProps) {
     return (
         <div>
             <Image
@@ -11,7 +11,6 @@ export default function NextImage({ className, src, width, height, layout, alt, 
                 src={src}
                 width={width}
                 height={height}
-                layout={layout}
                 alt={alt}
                 loader={customLoader}
                 placeholder="blur"

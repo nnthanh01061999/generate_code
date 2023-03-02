@@ -1,4 +1,4 @@
-import CustomDatePicker from '@/components/form/CustomDatePicker';
+import DatePickerControl from '@/components/control/date-picker/DatePickerControl';
 import { CommonFormProps } from '@/interfaces';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { action } from '@storybook/addon-actions';
@@ -8,9 +8,9 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 export default {
-    title: 'Form/Date/DatePicker',
-    component: CustomDatePicker,
-} as ComponentMeta<typeof CustomDatePicker>;
+    title: 'Form/date-picker/Date/date-picker/DatePicker',
+    component: DatePickerControl,
+} as ComponentMeta<typeof DatePickerControl>;
 
 const CusDatePicker: Story<CommonFormProps<DatePickerProps>> = (args: CommonFormProps<DatePickerProps>) => {
     const { name, label, ...rest } = args;
@@ -26,7 +26,7 @@ const CusDatePicker: Story<CommonFormProps<DatePickerProps>> = (args: CommonForm
     return (
         <FormProvider {...methods}>
             <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <CustomDatePicker name={name} label={label} {...rest} />
+                <DatePickerControl name={name} label={label} {...rest} />
                 <Button htmlType="submit">Submit</Button>
             </Form>
         </FormProvider>
@@ -56,7 +56,7 @@ import { CommonFormProps } from '@/interfaces/form';
 
 const { Text } = Typography;
 
-function CustomDatePicker(props: CommonFormProps<DatePickerProps>) {
+function DatePickerControl(props: CommonFormProps<DatePickerProps>) {
     const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
 
     const {
@@ -103,7 +103,7 @@ function CustomDatePicker(props: CommonFormProps<DatePickerProps>) {
     );
 }
 
-export default CustomDatePicker;
+export default DatePickerControl;
 `,
             language: 'yml',
             type: 'auto',

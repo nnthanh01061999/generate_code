@@ -2,10 +2,10 @@ import { Button, Card, Col, Row, Space, Typography } from 'antd';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { dataTypeOptions } from '@/data';
-import CustomCheckBox from '@/components/form/CustomCheckBox';
-import CustomInput from '@/components/form/CustomInput';
-import CustomInputNumber from '@/components/form/CustomInputNumber';
-import CustomRadio from '@/components/form/CustomRadio';
+import CheckBoxControl from '@/components/control/checkbox/CheckboxControl';
+import InputControl from '@/components/control/input/InputControl';
+import InputNumberControl from '@/components/control/input/InputNumberControl';
+import RadioControl from '@/components/control/radio/RadioControl';
 const { Title } = Typography;
 
 interface Props {
@@ -36,16 +36,16 @@ function TableColumnCard(props: Props) {
             >
                 <Row gutter={[24, 0]} align={'top'}>
                     <Col sm={24} xs={24} md={8}>
-                        <CustomInput name={`${name}[${index}].key`} label="Key" />
+                        <InputControl name={`${name}[${index}].key`} label="Key" />
                     </Col>
                     <Col sm={24} xs={24} md={8}>
-                        <CustomInput name={`${name}[${index}].title`} label="Title" />
+                        <InputControl name={`${name}[${index}].title`} label="Title" />
                     </Col>
                     <Col sm={24} xs={24} md={8}>
-                        <CustomInputNumber name={`${name}[${index}].width`} label="Width" />
+                        <InputNumberControl name={`${name}[${index}].width`} label="Width" />
                     </Col>
                     <Col sm={24} xs={24} md={18}>
-                        <CustomRadio
+                        <RadioControl
                             name={`${name}[${index}].type`}
                             label="Type"
                             childProps={{
@@ -55,7 +55,7 @@ function TableColumnCard(props: Props) {
                     </Col>
                     {watchHeaderType === 'filter' ? (
                         <Col sm={24} xs={24} md={6}>
-                            <CustomCheckBox name={`${name}[${index}].search`} label="Search" labelCheckBox="Search" />
+                            <CheckBoxControl name={`${name}[${index}].search`} label="Search" labelCheckBox="Search" />
                         </Col>
                     ) : null}
                 </Row>

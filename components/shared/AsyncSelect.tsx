@@ -1,4 +1,4 @@
-import { DEFAULT_PAGE, DEFAULT_SIZE } from '@/data/pagination';
+import { DEFAULT_PAGE, DEFAULT_SIZE } from '@/data';
 import { IOption } from '@/interfaces';
 import { IPaginationFilter, usePagination } from '@/utils';
 import useDebounceValue from '@/utils/hooks';

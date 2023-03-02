@@ -1,5 +1,5 @@
-import CustomInput from '@/components/form/CustomInput';
-import CustomRadio from '@/components/form/CustomRadio';
+import InputControl from '@/components/control/input/InputControl';
+import RadioControl from '@/components/control/radio/RadioControl';
 import { interfaceOptions } from '@/data';
 import { Button, Card, Col, Row, Space, Typography } from 'antd';
 import React from 'react';
@@ -32,10 +32,10 @@ function ActionPayloadItem(props: IActionPayloadItemProps) {
             >
                 <Row gutter={[24, 0]} align={'top'}>
                     <Col sm={24} xs={24} md={12}>
-                        <CustomInput name={`${name}[${index}].key`} label="Key" />
+                        <InputControl name={`${name}[${index}].key`} label="Key" />
                     </Col>
                     <Col sm={24} xs={24} md={12}>
-                        <CustomRadio
+                        <RadioControl
                             name={`${name}[${index}].type`}
                             label="Type"
                             childProps={{

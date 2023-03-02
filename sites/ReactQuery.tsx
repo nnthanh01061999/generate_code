@@ -1,6 +1,6 @@
-import CustomInput from '@/components/form/CustomInput';
-import CustomInputNumber from '@/components/form/CustomInputNumber';
-import CustomInputTextArea from '@/components/form/CustomInputTextArea';
+import InputControl from '@/components/control/input/InputControl';
+import InputNumberControl from '@/components/control/input/InputNumberControl';
+import InputTextAreaControl from '@/components/control/input/InputTextAreaControl';
 import CusPagination from '@/components/shared/CusPagination';
 import { IDataSource, IPet } from '@/interfaces';
 import { useNotify, usePagination } from '@/utils';
@@ -98,7 +98,7 @@ function ReactQuery() {
             keepPreviousData: true,
             refetchOnWindowFocus: false,
             onError: (error: any) => {
-                notify.notifyError(error?.response?.data?.message);
+                notify.error(error?.response?.data?.message);
             },
         },
     );
@@ -123,10 +123,10 @@ function ReactQuery() {
             reset(defaultValueForm);
             queryClient.invalidateQueries(['pets', { page: pagination.page, size: pagination.size }]);
             queryClient.invalidateQueries('pets-infinite');
-            notify.notifySuccess();
+            notify.success();
         },
         onError: (error: any) => {
-            notify.notifyError(error?.response?.data?.message);
+            notify.error(error?.response?.data?.message);
         },
     });
 
@@ -135,10 +135,10 @@ function ReactQuery() {
             reset(defaultValueForm);
             queryClient.invalidateQueries(['pets', { page: pagination.page, size: pagination.size }]);
             queryClient.invalidateQueries('pets-infinite');
-            notify.notifySuccess();
+            notify.success();
         },
         onError: (error: any) => {
-            notify.notifyError(error?.response?.data?.message);
+            notify.error(error?.response?.data?.message);
         },
     });
 
@@ -147,10 +147,10 @@ function ReactQuery() {
             reset(defaultValueForm);
             queryClient.invalidateQueries(['pets', { page: pagination.page, size: pagination.size }]);
             queryClient.invalidateQueries('pets-infinite');
-            notify.notifySuccess();
+            notify.success();
         },
         onError: (error: any) => {
-            notify.notifyError(error?.response?.data?.message);
+            notify.error(error?.response?.data?.message);
         },
     });
 
@@ -204,9 +204,9 @@ function ReactQuery() {
                     <Spin spinning={isLoadingCreate || isLoadingUpdate}>
                         <Form layout="vertical" onFinish={handleSubmit(onSuccess)}>
                             <FormProvider {...formMethod}>
-                                <CustomInput name="name" label={t('pet.name')} />
-                                <CustomInputTextArea name="species" label={t('pet.species')} />
-                                <CustomInputNumber name="age" label={t('pet.age')} />
+                                <InputControl name="name" label={t('pet.name')} />
+                                <InputTextAreaControl name="species" label={t('pet.species')} />
+                                <InputNumberControl name="age" label={t('pet.age')} />
                                 <Space>
                                     <Button htmlType="submit">{tC('submit')}</Button>
                                     <Button onClick={onClear}>{tC('clear')}</Button>
@@ -221,7 +221,7 @@ function ReactQuery() {
                     <CusPagination page={pagination.page} limit={pagination.size} total={data?.total} onChange={onChange} />
                     <Spin spinning={isLoading || isFetching}>
                         <Space direction="vertical">
-                            {data?.data?.map((item) => (
+                            {data?.items?.map((item) => (
                                 <Card
                                     key={item._id}
                                     title={item.name}
@@ -254,7 +254,7 @@ function ReactQuery() {
                         <Space direction="vertical">
                             {dataInfinite?.pages?.map((pets, index) => (
                                 <React.Fragment key={index}>
-                                    {pets.data?.map((item) => (
+                                    {pets.items?.map((item) => (
                                         <Card
                                             key={item._id}
                                             title={item.name}

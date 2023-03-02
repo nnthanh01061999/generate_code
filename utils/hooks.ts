@@ -1,13 +1,15 @@
-import { ModalContext } from '@/context/ModalContext';
-import { localeArr } from '@/data';
-import { DEFAULT_PAGE, DEFAULT_SIZE } from '@/data/pagination';
-import { TParam } from '@/interfaces/query-string';
-import { message, notification } from 'antd';
+import { ModalContext } from '@/context';
+import { DATE_FORMAT_LONG, DEFAULT_PAGE, DEFAULT_REFRESH, DEFAULT_SIZE, DEFAULT_TOTAL, locales } from '@/data';
+import { IPageState, TParam } from '@/interfaces';
+import { qsParseNumber, qsStringify } from '@/utils';
+import { message, Modal, ModalFuncProps, notification } from 'antd';
+import dayjs from 'dayjs';
+import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/router';
-import { DependencyList, EffectCallback, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { formatUrlRemoveLocale, qsParseNumber } from '.';
+import { DependencyList, Dispatch, EffectCallback, SetStateAction, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { qsParseBoolean } from './query-string';
 
-export const usePreload = () => {
+export const usePreload = (loading: boolean) => {
     useEffect(() => {
         const preloader = document.querySelector('.spinner-box');
 
@@ -15,7 +17,7 @@ export const usePreload = () => {
             return;
         }
 
-        setTimeout(() => {
+        if (!loading) {
             const onTransitionEnd = (event: Event) => {
                 if (event instanceof TransitionEvent && event.propertyName === 'opacity' && preloader.parentNode) {
                     preloader.parentNode.removeChild(preloader);
@@ -27,11 +29,13 @@ export const usePreload = () => {
             if (getComputedStyle(preloader).opacity === '0' && preloader.parentNode) {
                 preloader.parentNode.removeChild(preloader);
             }
-        }, 100);
-    }, []);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loading]);
 };
 
 export const useDebouncedEffect = (effect: EffectCallback, delay: number, deps: DependencyList[]) => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const callback = useCallback(effect, deps);
 
     useEffect(() => {
@@ -42,6 +46,7 @@ export const useDebouncedEffect = (effect: EffectCallback, delay: number, deps: 
         return () => {
             clearTimeout(handler);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [callback, delay]);
 };
 
@@ -56,6 +61,7 @@ export default function useDebounceValue<T>(value: T, delay: number) {
         return () => {
             clearTimeout(handler);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value, delay]);
 
     return debouncedValue;
@@ -85,6 +91,7 @@ export const useOutsideClick = (el: any, isOpen: boolean) => {
 
 export const useDeviceDetect = (screenWidth: number = 768) => {
     const [width, setWidth] = useState(typeof window !== 'undefined' ? window?.innerWidth : 0);
+
     const handleWindowResize = () => {
         setWidth(window.innerWidth);
     };
@@ -119,6 +126,7 @@ export const useUpdateEffect = (effect: EffectCallback, deps: DependencyList[]) 
         } else {
             return effect();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, deps);
 };
 
@@ -138,6 +146,7 @@ export function useDeferredData<T>({ source, defaultData, initialData, deps = []
         isLoading: initialData === undefined,
         data: initialData || defaultData,
     }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const memoizedSource = useCallback(source, deps);
     const skipNextRef = useRef(initialData !== undefined);
 
@@ -172,41 +181,47 @@ export function useDeferredData<T>({ source, defaultData, initialData, deps = []
         return () => {
             canceled = true;
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [memoizedSource]);
     return state;
 }
 
 export const usePageProcess = () => {
     const router = useRouter();
-    const [loading, setLoading] = useState(false);
-    const prevPath = useRef<any>(null);
+    const { closeAllModal } = useModalHandle();
+
+    const [loading, setLoading] = useState<boolean>(false);
+    const [currentPathname, setCurrentPathname] = useState<string | null>(null);
 
     useEffect(() => {
-        const handleStart = (url: any) => {
-            const curPath = formatUrlRemoveLocale(url);
-            if (!prevPath.current || (prevPath.current && formatUrlRemoveLocale(prevPath.current) !== curPath)) {
-                setLoading(true);
-            }
-            prevPath.current = curPath;
+        const handleRouteChange = (pathname: string, query: any) => {
+            setLoading(true);
+            setCurrentPathname(pathname);
         };
 
-        const handleComplete = (url: any) => {
-            let curPath = url && localeArr?.[url as keyof typeof localeArr] ? '/' : formatUrlRemoveLocale(url);
+        router.events.on('routeChangeStart', (url) => {
+            const { pathname, query } = url;
+            const nextPathname = url.pathname;
 
-            if (curPath === router.asPath) {
+            if (pathname === currentPathname && !(query && Object.keys(query).length)) {
                 setLoading(false);
+            } else {
+                handleRouteChange(nextPathname, query);
             }
-        };
-        router.events.on('routeChangeStart', handleStart);
-        router.events.on('routeChangeComplete', handleComplete);
-        router.events.on('routeChangeError', handleComplete);
+        });
+        router.events.on('routeChangeComplete', () => {
+            setLoading(false);
+            closeAllModal();
+        });
+        router.events.on('routeChangeError', () => setLoading(false));
 
         return () => {
-            router.events.off('routeChangeStart', handleStart);
-            router.events.off('routeChangeComplete', handleComplete);
-            router.events.off('routeChangeError', handleComplete);
+            router.events.off('routeChangeStart', handleRouteChange);
+            router.events.off('routeChangeComplete', () => setLoading(false));
+            router.events.off('routeChangeError', () => setLoading(false));
         };
-    });
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return loading;
 };
@@ -224,48 +239,43 @@ export interface IPaginationFilter {
 export interface IPaginationStates {
     page: number;
     size: number;
-    reload: boolean;
-    filters?: IPaginationFilter;
+    refresh: boolean;
+    total: number;
 }
 
-export const usePagination = ({ page, size, ...filters }: IPaginationProps) => {
+export const usePagination = ({ page, size, total, refresh }: IPaginationProps) => {
     const [pagination, setPagination] = useState<IPaginationStates>(() => ({
         page: qsParseNumber(page, DEFAULT_PAGE),
         size: qsParseNumber(size, DEFAULT_SIZE),
-        reload: false,
-        filters: {
-            ...(filters ?? undefined),
-        },
+        refresh: qsParseBoolean(refresh, DEFAULT_REFRESH),
+        total: qsParseNumber(total, DEFAULT_TOTAL),
     }));
+
+    const onRefreshPagination = () => {
+        setPagination((prev) => ({
+            ...prev,
+            page: DEFAULT_PAGE,
+            size: DEFAULT_SIZE,
+            refresh: DEFAULT_REFRESH,
+            total: DEFAULT_TOTAL,
+        }));
+    };
 
     const backToFirstPage = () => {
         setPagination((prev) => ({
             ...prev,
             page: DEFAULT_PAGE,
+            refresh: true,
         }));
     };
 
-    const reloadPage = () => {
-        setPagination((prev) => ({
-            ...prev,
-            reload: !prev.reload,
-        }));
-    };
-
-    const onRefresh = (filters: IPaginationFilter) => {
-        setPagination((prev) => ({
-            ...prev,
-            page: DEFAULT_PAGE,
-            filters: filters,
-            reload: !prev.reload,
-        }));
-    };
-
-    const onChange = (page: number, size?: number) => {
+    const onChange = (page: number, size?: number, total?: number) => {
         setPagination((prev) => ({
             ...prev,
             page,
             size: size ?? prev.size,
+            refresh: false,
+            total: total ?? prev.total,
         }));
     };
 
@@ -276,22 +286,23 @@ export const usePagination = ({ page, size, ...filters }: IPaginationProps) => {
         return null;
     };
 
-    const onChangeNextPage = () => {
+    const onChangeNextPage = (total?: number) => {
         setPagination((prev) => ({
             ...prev,
             page: prev.page + 1,
+            total: total ?? prev.total,
+            refresh: false,
         }));
     };
 
     return {
         pagination,
         setPagination,
-        backToFirstPage,
-        reloadPage,
-        onChange,
-        onRefresh,
         getNextPage,
+        onChange,
         onChangeNextPage,
+        backToFirstPage,
+        onRefreshPagination,
     };
 };
 
@@ -309,9 +320,15 @@ export const useModalHandle = () => {
         }
     };
 
-    const closeModal = (name: string) => {
+    const closeModal = async (name: string, willCallback: boolean = true) => {
         if (name) {
-            setData({
+            if (willCallback) {
+                const callback = await data.callback?.[name];
+                if (callback instanceof Function) {
+                    await callback();
+                }
+            }
+            await setData({
                 ...data,
                 openedModals: data?.openedModals?.filter((item) => item !== name),
             });
@@ -333,25 +350,25 @@ export const useModalHandle = () => {
 
 export const useNotify = () => {
     const [customNoti] = useState(() => ({
-        notifySuccess: (content = 'Thành công!', key?: number | string) => {
+        success: (content = 'Success', key?: number | string) => {
             message.success({ content, key, duration: 2 });
         },
-        notifyError: (content = 'Thất bại!', key?: number | string) => {
+        error: (content = 'Fail', key?: number | string) => {
             message.error({ content, key, duration: 3 });
         },
-        notifyWarning: (content: string | React.ReactNode, key?: number | string) => {
+        warning: (content: string | React.ReactNode, key?: number | string) => {
             message.warning({ content, key, duration: 2 });
         },
-        notifyInfo: (content: string | React.ReactNode, key?: number | string) => {
+        info: (content: string | React.ReactNode, key?: number | string) => {
             message.info({ content, key, duration: 2 });
         },
-        notifyLoading: (content: string | React.ReactNode = 'Đang xử lý..', key?: number | string) => {
+        loading: (content: string | React.ReactNode = 'Loading...', key?: number | string) => {
             message.loading({ content, key, duration: 60 });
         },
-        notifyDestroy: () => {
+        destroy: () => {
             message.destroy();
         },
-        notifyBoxInfo: (title: string | React.ReactNode, content: string | React.ReactNode, key: string, options = {}) => {
+        boxInfo: (title: string | React.ReactNode, content: string | React.ReactNode, key: string, options = {}) => {
             notification.info({
                 message: title,
                 key,
@@ -364,7 +381,139 @@ export const useNotify = () => {
     return customNoti;
 };
 
+export const useConfirmModal = () => {
+    const tC = useTranslations('Common');
+
+    const [customConfirmModal] = useState(() => ({
+        error: (props?: ModalFuncProps) => {
+            Modal.error({ centered: true, title: tC('title'), okButtonProps: { type: 'default' }, ...props });
+        },
+        info: (props?: ModalFuncProps) => {
+            Modal.info({ centered: true, title: tC('title'), okButtonProps: { type: 'default' }, ...props });
+        },
+        success: (props?: ModalFuncProps) => {
+            Modal.success({ centered: true, title: tC('title'), content: tC('notify.save_success'), okButtonProps: { type: 'default' }, ...props });
+        },
+        confirm: (props?: ModalFuncProps) => {
+            Modal.confirm({ centered: true, title: tC('title'), okButtonProps: { type: 'default' }, ...props });
+        },
+        waring: (props?: ModalFuncProps) => {
+            Modal.warning({ centered: true, title: tC('title'), okButtonProps: { type: 'default' }, ...props });
+        },
+    }));
+
+    return customConfirmModal;
+};
+
 export const useDetectLocaleFormURL = (url: string, defaultLocale: string): string => {
-    const locale = Object.values(localeArr)?.find((item) => url.startsWith(item.key));
+    const locale = Object.values(locales)?.find((item) => url.startsWith(item.key));
     return locale?.key ?? defaultLocale;
+};
+
+export const useParamsHandle = () => {
+    const router = useRouter();
+
+    const onRefreshParams = () => {
+        router.push({
+            query: undefined,
+        });
+    };
+
+    const onPushParams = (newQuery: any) => {
+        const lastQuery = router.query;
+        const query = qsStringify({
+            ...lastQuery,
+            ...newQuery,
+        });
+
+        router.push({
+            query,
+        });
+    };
+
+    return {
+        onRefreshParams,
+        onPushParams,
+    };
+};
+
+export const useMutateData = () => {
+    const mutateDataAdd = (data: any, setState: Dispatch<SetStateAction<IPageState<any>>>) => {
+        setState((prev) => {
+            const newItems = [data?.data, ...(prev.data?.items || [])];
+            const newTotal = (prev.data?.total || 0) + 1;
+            return {
+                ...prev,
+                data: { ...prev.data, items: newItems, total: newTotal },
+            };
+        });
+    };
+
+    const mutateDataUpdate = (data: any, setState: Dispatch<SetStateAction<IPageState<any>>>, key = 'id') => {
+        setState((prev) => {
+            const newItem = data?.data;
+            const id = newItem?.[key];
+            const newItems = prev.data?.items?.map((item) => (item?.[key] === id ? newItem : item)) || [];
+            return {
+                ...prev,
+                data: { items: newItems, total: prev.data?.total || 0 },
+            };
+        });
+    };
+
+    const mutateDataDelete = (totalEffect: number, setState: Dispatch<SetStateAction<IPageState<any>>>, key = 'id') => {
+        setState((prev) => {
+            const newItems = prev.data?.items?.filter((item) => item?.[key] !== prev.id) || [];
+
+            const newTotal = (prev.data?.total || 0) - totalEffect;
+            return {
+                ...prev,
+                id: 0,
+                data: { items: newItems, total: newTotal },
+            };
+        });
+    };
+
+    return { mutateDataAdd, mutateDataUpdate, mutateDataDelete };
+};
+
+export const useConvertDate = () => {
+    const locale_ = useLocale();
+
+    const convertDateValue = (value: string, locale: string | undefined = locale_) => {
+        return dayjs(value, { format: DATE_FORMAT_LONG, utc: false, locale });
+    };
+    return { convertDateValue };
+};
+
+export interface KBShortcutEvent {
+    save?: () => void;
+    new?: () => void;
+}
+
+export const useEffectKeyboardShortcut = (events: KBShortcutEvent) => {
+    useEffect(() => {
+        const handleKeyPress = (event: any) => {
+            let charCode = String.fromCharCode(event.which).toLowerCase();
+            if ((event.ctrlKey || event.metaKey) && charCode === 's') {
+                if (events.save) {
+                    event.preventDefault();
+                    events.save();
+                }
+            }
+
+            if ((event.ctrlKey || event.metaKey) && event.shiftKey) {
+                if (events.new) {
+                    event.preventDefault();
+                    events.new();
+                }
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyPress);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyPress);
+        };
+    }, [events]);
 };

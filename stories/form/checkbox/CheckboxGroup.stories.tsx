@@ -1,4 +1,4 @@
-import CustomCheckboxGroup from '@/components/form/CustomCheckBoxGroup';
+import CheckBoxGroupControl from '@/components/control/checkbox/CheckboxGroupControl';
 import { CommonFormProps } from '@/interfaces';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { action } from '@storybook/addon-actions';
@@ -8,9 +8,9 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 export default {
-    title: 'Form/Checkbox/CheckboxGroup',
-    component: CustomCheckboxGroup,
-} as ComponentMeta<typeof CustomCheckboxGroup>;
+    title: 'Form/checkbox/CheckBox/checkbox/CheckBoxGroup',
+    component: CheckBoxGroupControl,
+} as ComponentMeta<typeof CheckBoxGroupControl>;
 
 const CusCheckboxGroup: Story<CommonFormProps<RadioGroupProps>> = (args: CommonFormProps<RadioGroupProps>) => {
     const { name, label, ...rest } = args;
@@ -27,7 +27,7 @@ const CusCheckboxGroup: Story<CommonFormProps<RadioGroupProps>> = (args: CommonF
     return (
         <FormProvider {...methods}>
             <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <CustomCheckboxGroup name={name} label={label} {...rest} />
+                <CheckBoxGroupControl name={name} label={label} {...rest} />
                 <Button htmlType="submit">Submit</Button>
             </Form>
         </FormProvider>
@@ -65,7 +65,7 @@ import { CommonFormProps } from '@/interfaces/form';
 
 const { Text } = Typography;
 
-function CustomCheckBoxGroup(props: CommonFormProps<RadioGroupProps>) {
+function CheckBoxGroupControl(props: CommonFormProps<RadioGroupProps>) {
     const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined } = props;
 
     const {
@@ -103,7 +103,7 @@ function CustomCheckBoxGroup(props: CommonFormProps<RadioGroupProps>) {
     );
 }
 
-export default CustomCheckBoxGroup;
+export default CheckBoxGroupControl;
 `,
             language: 'yml',
             type: 'auto',

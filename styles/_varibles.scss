@@ -1,0 +1,32 @@
+//base
+$border-radius-base: 3px;
+$border-radius-sm: 2px;
+$shadow-color: rgba(0, 0, 0, 0.05);
+$shadow-1-down: 4px 4px 40px $shadow-color;
+$border-color-split: #f4f4f4;
+$border-color-base: #e5e5e5;
+$font-size-base: 13px;
+$text-color: #666;
+$hover-color: #f9f9fc;
+
+//background color
+$bg-color-primary: #f8f8f8;
+//color
+$color-white: #ffffff;
+$color-white--dark: #d5d4f8;
+$color-black: #000000;
+$color-grey: #808080;
+$color-primary: #1890ff;
+
+//breakpoints
+$breakpoints: (
+    xs-start: 0px,
+    xs-end: 575px,
+    sm-start: 576px,
+    sm-end: 767px,
+    md-start: 768px,
+    md-end: 991px,
+    lg-start: 992px,
+    lg-end: 1199px,
+    xl-start: 1200px,
+);

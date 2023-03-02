@@ -1,6 +1,6 @@
 import { Col, Row, Typography } from 'antd';
 import React from 'react';
-import CustomInput from '@/components/form/CustomInput';
+import InputControl from '@/components/control/input/InputControl';
 const { Title } = Typography;
 
 function Common() {
@@ -9,10 +9,10 @@ function Common() {
             <Title level={2}>Common</Title>
             <Row gutter={[24, 0]}>
                 <Col md={12} sm={24} xs={24}>
-                    <CustomInput name="title" label="Title" />
+                    <InputControl name="title" label="Title" />
                 </Col>
                 <Col md={12} sm={24} xs={24}>
-                    <CustomInput name="key" label="Key" wrapperProps={{ tooltip: 'camelCase' }} />
+                    <InputControl name="key" label="Key" wrapperProps={{ tooltip: 'camelCase' }} />
                 </Col>
             </Row>
         </>

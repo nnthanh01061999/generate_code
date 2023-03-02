@@ -1,8 +1,8 @@
 import { Button, Card, Col, Row, Space, Typography } from 'antd';
 import React from 'react';
 import { interfaceOptions, TypeOptions } from '@/data';
-import CustomInput from '@/components/form/CustomInput';
-import CustomRadio from '@/components/form/CustomRadio';
+import InputControl from '@/components/control/input/InputControl';
+import RadioControl from '@/components/control/radio/RadioControl';
 const { Title } = Typography;
 
 interface Props {
@@ -31,13 +31,13 @@ function FormSearchCreateCard(props: Props) {
             >
                 <Row gutter={[24, 0]} align={'top'}>
                     <Col sm={24} xs={24} md={8}>
-                        <CustomInput name={`${name}[${index}].key`} label="Key" />
+                        <InputControl name={`${name}[${index}].key`} label="Key" />
                     </Col>
                     <Col sm={24} xs={24} md={8}>
-                        <CustomInput name={`${name}[${index}].title`} label="Title" />
+                        <InputControl name={`${name}[${index}].title`} label="Title" />
                     </Col>
                     <Col sm={24} xs={24} md={8}>
-                        <CustomRadio
+                        <RadioControl
                             name={`${name}[${index}].type`}
                             label="Type"
                             childProps={{
@@ -46,7 +46,7 @@ function FormSearchCreateCard(props: Props) {
                         />
                     </Col>
                     <Col sm={24} xs={24} md={24}>
-                        <CustomRadio
+                        <RadioControl
                             name={`${name}[${index}].interface`}
                             label="Interface"
                             childProps={{

@@ -11,15 +11,16 @@ interface Props {
     name?: string;
     config: { key: string }[];
     data: any;
+    tsx?: boolean;
 }
 
 function Result(props: Props) {
-    const { name, config, data } = props;
+    const { name, config, data, tsx = false } = props;
 
     const t = useTranslations('Generate');
 
     const onDownload = (key: string) => {
-        saveToFile(`${name || ''}${startCase(key).trim().split(' ').join('')}.ts`, data?.[key]);
+        saveToFile(`${name || ''}${startCase(key).trim().split(' ').join('')}.${tsx ? 'tsx' : 'ts'}`, data?.[key]);
     };
 
     return (
@@ -46,7 +47,7 @@ function Result(props: Props) {
                                 </Space>
                             }
                         >
-                            <TextArea id={item.key} value={data?.[item.key]} style={{ height: 150 }} />
+                            <TextArea id={item.key} value={data?.[item.key]} style={{ height: 300 }} />
                         </Form.Item>
                     </Col>
                 ))}

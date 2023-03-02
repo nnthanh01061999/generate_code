@@ -1,6 +1,6 @@
 import FooterGenerate from '@/components/footer/FooterGenerate';
-import CustomCheckBox from '@/components/form/CustomCheckBox';
-import CustomInput from '@/components/form/CustomInput';
+import CheckBoxControl from '@/components/control/checkbox/CheckboxControl';
+import InputControl from '@/components/control/input/InputControl';
 import Result from '@/components/site/generate/Result';
 import ActionList from '@/components/site/reducer/ActionList';
 import StateList from '@/components/site/reducer/StateList';
@@ -110,8 +110,8 @@ function Generate() {
                 <Col md={12} sm={24} xs={24}>
                     <Form layout="vertical">
                         <FormProvider {...formMethod}>
-                            <CustomInput name="key" label="Key" />
-                            <CustomCheckBox label="Cache" labelCheckBox="Yes" name="withClientState" />
+                            <InputControl name="key" label="Key" />
+                            <CheckBoxControl label="Cache" labelCheckBox="Yes" name="withClientState" />
                             <StateList name="state" />
                             <ActionList name="actions" />
                         </FormProvider>

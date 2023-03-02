@@ -1,4 +1,4 @@
-import CustomInputNumber from '@/components/form/CustomInputNumber';
+import InputNumberControl from '@/components/control/input/InputNumberControl';
 import { CommonFormProps } from '@/interfaces';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { action } from '@storybook/addon-actions';
@@ -8,9 +8,9 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 export default {
-    title: 'Form/Input/InputNumber',
-    component: CustomInputNumber,
-} as ComponentMeta<typeof CustomInputNumber>;
+    title: 'Form/input/Input/input/InputNumber',
+    component: InputNumberControl,
+} as ComponentMeta<typeof InputNumberControl>;
 
 const CusInputNumber: Story<CommonFormProps<InputNumberProps>> = (args: CommonFormProps<InputNumberProps>) => {
     const { name, label, ...rest } = args;
@@ -27,7 +27,7 @@ const CusInputNumber: Story<CommonFormProps<InputNumberProps>> = (args: CommonFo
     return (
         <FormProvider {...methods}>
             <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <CustomInputNumber name={name} label={label} wrapperProps={{ required: true }} {...rest} />
+                <InputNumberControl name={name} label={label} wrapperProps={{ required: true }} {...rest} />
                 <Button htmlType="submit">Submit</Button>
             </Form>
         </FormProvider>
@@ -53,7 +53,7 @@ import { CommonFormProps } from '@/interfaces/form';
 
 const { Text } = Typography;
 
-function CustomInputNumber(props: CommonFormProps<InputNumberProps>) {
+function InputNumberControl(props: CommonFormProps<InputNumberProps>) {
     const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
 
     const {
@@ -100,7 +100,7 @@ function CustomInputNumber(props: CommonFormProps<InputNumberProps>) {
     );
 }
 
-export default CustomInputNumber;
+export default InputNumberControl;
 `,
             language: 'yml',
             type: 'auto',

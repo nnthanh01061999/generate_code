@@ -1,4 +1,4 @@
-import CustomInput from '@/components/form/CustomInput';
+import InputControl from '@/components/control/input/InputControl';
 import { Button, Card, Col, Row, Space, Typography } from 'antd';
 import React from 'react';
 import ActionPayloadList from './ActionPayloadList';
@@ -31,7 +31,7 @@ function ActionItem(props: IActionItemProps) {
             >
                 <Row gutter={[24, 0]} align={'top'}>
                     <Col sm={24} xs={24} md={24}>
-                        <CustomInput name={`${name}[${index}].key`} label="Key" />
+                        <InputControl name={`${name}[${index}].key`} label="Key" />
                     </Col>
                     <Col sm={24} xs={24} md={24}>
                         <ActionPayloadList name={`${name}[${index}].payload`} />

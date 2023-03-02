@@ -1,4 +1,4 @@
-import CustomInputPassword from '@/components/form/CustomInputPassword';
+import InputPasswordControl from '@/components/control/input/InputPasswordControl';
 import { CommonFormProps } from '@/interfaces';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { action } from '@storybook/addon-actions';
@@ -8,9 +8,9 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 export default {
-    title: 'Form/Input/InputPassword',
-    component: CustomInputPassword,
-} as ComponentMeta<typeof CustomInputPassword>;
+    title: 'Form/input/Input/input/InputPassword',
+    component: InputPasswordControl,
+} as ComponentMeta<typeof InputPasswordControl>;
 
 const CusInputPassword: Story<CommonFormProps<InputProps>> = (args: CommonFormProps<InputProps>) => {
     const { name, label, ...rest } = args;
@@ -27,7 +27,7 @@ const CusInputPassword: Story<CommonFormProps<InputProps>> = (args: CommonFormPr
     return (
         <FormProvider {...methods}>
             <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <CustomInputPassword name={name} label={label} wrapperProps={{ required: true }} {...rest} />
+                <InputPasswordControl name={name} label={label} wrapperProps={{ required: true }} {...rest} />
                 <Button htmlType="submit">Submit</Button>
             </Form>
         </FormProvider>
@@ -53,7 +53,7 @@ import { CommonFormProps } from '@/interfaces/form';
 
 const { Text } = Typography;
 
-function CustomCustomInputPassword(props: CommonFormProps<InputProps>) {
+function CustomInputPasswordControl(props: CommonFormProps<InputProps>) {
     const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
 
     const {
@@ -100,7 +100,7 @@ function CustomCustomInputPassword(props: CommonFormProps<InputProps>) {
     );
 }
 
-export default CustomCustomInputPassword;
+export default CustomInputPasswordControl;
 `,
             language: 'yml',
             type: 'auto',

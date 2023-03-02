@@ -3,9 +3,9 @@ import { startCase } from 'lodash';
 import React from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { tableHeaderOptions } from '@/data';
-import CustomCheckBox from '@/components/form/CustomCheckBox';
-import CustomInput from '@/components/form/CustomInput';
-import CustomRadio from '@/components/form/CustomRadio';
+import CheckBoxControl from '@/components/control/checkbox/CheckboxControl';
+import InputControl from '@/components/control/input/InputControl';
+import RadioControl from '@/components/control/radio/RadioControl';
 import TableColumnCard from './TableColumnCard';
 const { Title } = Typography;
 
@@ -43,13 +43,13 @@ function TableColumn(props: Props) {
             </Space>
             <Row gutter={[24, 24]}>
                 <Col md={8} xs={12} sm={12}>
-                    <CustomRadio label="Header Type" name="tableHeaderType" childProps={{ options: tableHeaderOptions }} />
+                    <RadioControl label="Header Type" name="tableHeaderType" childProps={{ options: tableHeaderOptions }} />
                 </Col>
                 <Col md={8} xs={12} sm={12}>
-                    <CustomCheckBox label="Row Index" name="rowIndex" labelCheckBox="yes/no" />
+                    <CheckBoxControl label="Row Index" name="rowIndex" labelCheckBox="yes/no" />
                 </Col>
                 <Col md={8} xs={24} sm={24}>
-                    <CustomInput label="Row Interface" name="rowInterface" />
+                    <InputControl label="Row Interface" name="rowInterface" />
                 </Col>
 
                 {fields?.map((field, index) => (

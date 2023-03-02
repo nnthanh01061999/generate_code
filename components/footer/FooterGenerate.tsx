@@ -17,7 +17,8 @@ function FooterGenerate(props: Props) {
             style={{
                 position: 'fixed',
                 bottom: 0,
-                zIndex: 1,
+                zIndex: 10,
+                left: 0,
                 width: '100%',
                 display: 'flex',
                 justifyContent: 'center',

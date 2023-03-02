@@ -1,7 +1,7 @@
 import FooterGenerate from '@/components/footer/FooterGenerate';
-import CustomCheckBoxGroup from '@/components/form/CustomCheckBoxGroup';
-import CustomInput from '@/components/form/CustomInput';
-import CustomInputTextArea from '@/components/form/CustomInputTextArea';
+import CheckBoxGroupControl from '@/components/control/checkbox/CheckboxGroupControl';
+import InputControl from '@/components/control/input/InputControl';
+import InputTextAreaControl from '@/components/control/input/InputTextAreaControl';
 import Result from '@/components/site/generate/Result';
 import ColumnList from '@/components/site/table/ColumnList';
 import { generateTable } from '@/function/table';
@@ -14,6 +14,7 @@ import Head from 'next/head';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
+import ColumnForm from '@/components/site/table/ColumnForm';
 const { Title } = Typography;
 
 function Generate() {
@@ -69,22 +70,22 @@ function Generate() {
             </Head>
 
             <Title level={1}>{t('title')}</Title>
-            <Row gutter={[12, 12]}>
+            <Row gutter={[24, 24]}>
                 <Col md={12} sm={24} xs={24}>
                     <Form layout="vertical">
                         <FormProvider {...formMethod}>
-                            <CustomInputTextArea name="json" label="Json" />
-                            <CustomInput name="key" label="Key" />
-                            <Button onClick={handleSubmit(onGetKeyFormJson, (error) => console.log(error))}> Get Key</Button>
-                            <CustomCheckBoxGroup name="actions" label="actions" childProps={{ options: ['delete', 'update', 'view'] }} />
-                            <CustomInput name="rowKey" label="rowKey" />
-                            <CustomInput name="interface" label="interface" />
-                            <ColumnList name="columns" />
+                            <InputControl name="key" label="Key" />
+                            <InputTextAreaControl name="json" label="Json" />
+                            <Button onClick={handleSubmit(onGetKeyFormJson, (error) => console.log(error))}> Get Keys</Button>
+                            <CheckBoxGroupControl name="actions" label="actions" childProps={{ options: ['delete', 'update', 'view'] }} />
+                            <InputControl name="rowKey" label="rowKey" />
+                            <InputControl name="interface" label="interface" />
+                            <ColumnForm name="columns" />
                         </FormProvider>
                     </Form>
                 </Col>
                 <Col md={12} sm={24} xs={24}>
-                    <Result name={watch('key')} config={resultArr} data={result} />
+                    <Result name={watch('key')} config={resultArr} data={result} tsx />
                 </Col>
             </Row>
 

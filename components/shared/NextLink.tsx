@@ -4,7 +4,7 @@ import { PropsWithChildren, HTMLAttributes, AnchorHTMLAttributes } from 'react';
 import Link, { LinkProps } from 'next/link';
 
 // application
-import { ILinkProps } from '@/interfaces/link';
+import { ILinkProps } from '@/interfaces';
 
 export type LinkType = string | ILinkProps;
 

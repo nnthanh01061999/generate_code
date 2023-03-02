@@ -1,4 +1,3 @@
-import { localeArr } from '@/data';
 import { notification } from 'antd';
 
 export const copyTextToClipboard = (id: string) => {
@@ -14,9 +13,10 @@ export const copyTextToClipboard = (id: string) => {
     });
 };
 
-export const formatUrlRemoveLocale = (url: string) => {
-    const values = url?.split('?')[0]?.split('/');
-    const value = values[1];
-    const other = values?.splice(2);
-    return localeArr?.[value as keyof typeof localeArr] ? '/' + other?.join('/') : url;
+export const formatUrlRemoveLocale = (url: string = '', locale?: string) => {
+    return typeof url === 'string' && url?.startsWith(`/${locale}`) ? '/' + url.split('/')?.slice(2).join('/') : url;
+};
+
+export const getBeURL = (path: string) => {
+    return process.env.NEXT_PUBLIC_BE_DOMAIN + path;
 };

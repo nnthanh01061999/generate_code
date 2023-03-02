@@ -1,6 +1,6 @@
-import CustomInput from '@/components/form/CustomInput';
-import CustomInputNumber from '@/components/form/CustomInputNumber';
-import CustomRadio from '@/components/form/CustomRadio';
+import InputControl from '@/components/control/input/InputControl';
+import InputNumberControl from '@/components/control/input/InputNumberControl';
+import RadioControl from '@/components/control/radio/RadioControl';
 import { Button, Card, Col, Row, Space, Typography } from 'antd';
 import React from 'react';
 
@@ -18,7 +18,7 @@ export interface IColumnItemProps {
 function ColumnItem(props: IColumnItemProps) {
     const { index, name, last, first, onRemove, onSwap } = props;
     return (
-        <Col md={12} sm={12} xs={24}>
+        <Col md={12} sm={24} xs={24}>
             <Card
                 title={
                     <Row justify={'space-between'}>
@@ -37,13 +37,13 @@ function ColumnItem(props: IColumnItemProps) {
             >
                 <Row gutter={[24, 0]} align={'top'}>
                     <Col sm={12} xs={24} md={12}>
-                        <CustomInput name={`${name}[${index}].key`} label="Key" />
+                        <InputControl name={`${name}[${index}].key`} label="Key" />
                     </Col>
                     <Col sm={12} xs={24} md={12}>
-                        <CustomInputNumber name={`${name}[${index}].width`} label="Width" />
+                        <InputNumberControl name={`${name}[${index}].width`} label="Width" />
                     </Col>
                     <Col sm={12} xs={24} md={12}>
-                        <CustomRadio name={`${name}[${index}].type`} label="type" childProps={{ options: ['string', 'number', 'boolean', 'date'] }} />
+                        <RadioControl name={`${name}[${index}].type`} label="type" childProps={{ options: ['string', 'number', 'boolean', 'date'] }} />
                     </Col>
                 </Row>
             </Card>

@@ -1,4 +1,4 @@
-import CustomAsyncSelect, { ICustomAsyncSelectProps } from '@/components/form/CustomAsyncSelect';
+import AsyncSelectControl, { IAsyncSelectControlProps } from '@/components/control/select/AsyncSelectControl';
 import { queryClient } from '@/pages/_app';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { action } from '@storybook/addon-actions';
@@ -10,10 +10,10 @@ import * as yup from 'yup';
 
 export default {
     title: 'Form/Select/AsyncSelect',
-    component: CustomAsyncSelect,
-} as ComponentMeta<typeof CustomAsyncSelect>;
+    component: AsyncSelectControl,
+} as ComponentMeta<typeof AsyncSelectControl>;
 
-const CusAsyncSelect: Story<ICustomAsyncSelectProps> = (args: ICustomAsyncSelectProps) => {
+const CusAsyncSelect: Story<IAsyncSelectControlProps> = (args: IAsyncSelectControlProps) => {
     const { name, label, ...rest } = args;
 
     const schema = yup.object().shape({
@@ -29,7 +29,7 @@ const CusAsyncSelect: Story<ICustomAsyncSelectProps> = (args: ICustomAsyncSelect
         <QueryClientProvider client={queryClient}>
             <FormProvider {...methods}>
                 <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                    <CustomAsyncSelect name={name} label={label} {...rest} />
+                    <AsyncSelectControl name={name} label={label} {...rest} />
                     <Button htmlType="submit">Submit</Button>
                 </Form>
             </FormProvider>
@@ -74,12 +74,12 @@ import { Controller, useFormContext } from 'react-hook-form';
 import AsyncSelect, { IAsyncSelectProps } from '../shared/AsyncSelect';
 const { Text } = Typography;
 
-export interface ICustomAsyncSelectProps extends CommonFormProps<IAsyncSelectProps> {
+export interface IAsyncSelectControlProps extends CommonFormProps<IAsyncSelectProps> {
     onChangeCallBack?: (value: any, options?: any) => void;
     childProps: IAsyncSelectProps;
 }
 
-function CustomAsyncSelect(props: ICustomAsyncSelectProps) {
+function AsyncSelectControl(props: IAsyncSelectControlProps) {
     const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
     const {
         control,
@@ -116,7 +116,7 @@ function CustomAsyncSelect(props: ICustomAsyncSelectProps) {
     );
 }
 
-export default CustomAsyncSelect;
+export default AsyncSelectControl;
 `,
             language: 'yml',
             type: 'auto',

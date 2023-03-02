@@ -1,4 +1,4 @@
-import CustomRadio from '@/components/form/CustomRadio';
+import RadioControl from '@/components/control/radio/RadioControl';
 import { CommonFormProps } from '@/interfaces';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { action } from '@storybook/addon-actions';
@@ -8,9 +8,9 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 export default {
-    title: 'Form/Radio',
-    component: CustomRadio,
-} as ComponentMeta<typeof CustomRadio>;
+    title: 'Form/radio/Radio',
+    component: RadioControl,
+} as ComponentMeta<typeof RadioControl>;
 
 const CusRadio: Story<CommonFormProps<RadioGroupProps>> = (args: CommonFormProps<RadioGroupProps>) => {
     const { name, label, ...rest } = args;
@@ -27,7 +27,7 @@ const CusRadio: Story<CommonFormProps<RadioGroupProps>> = (args: CommonFormProps
     return (
         <FormProvider {...methods}>
             <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <CustomRadio name={name} label={label} {...rest} />
+                <RadioControl name={name} label={label} {...rest} />
                 <Button htmlType="submit">Submit</Button>
             </Form>
         </FormProvider>
@@ -65,7 +65,7 @@ import { CommonFormProps } from '@/interfaces/form';
 
 const { Text } = Typography;
 
-function CustomRadio(props: CommonFormProps<RadioGroupProps>) {
+function RadioControl(props: CommonFormProps<RadioGroupProps>) {
     const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined } = props;
 
     const {
@@ -103,7 +103,7 @@ function CustomRadio(props: CommonFormProps<RadioGroupProps>) {
     );
 }
 
-export default CustomRadio;
+export default RadioControl;
 `,
             language: 'yml',
             type: 'auto',
