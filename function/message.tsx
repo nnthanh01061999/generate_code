@@ -23,9 +23,6 @@ export const generateMessages = (id: string, data: TMessageFormValues, setResult
         }
     },
     "form": {
-        "parent_id": {
-            "title": "Parent"
-        },
         {${fields
             ?.map(
                 (field) => `\n\t"${field.key}": {
