@@ -29,4 +29,9 @@ export const SiteData = [
         description: 'form-desc',
         href: '/form',
     },
+    {
+        title: 'message',
+        description: 'message-desc',
+        href: '/message',
+    },
 ];

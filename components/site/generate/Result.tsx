@@ -11,16 +11,16 @@ interface Props {
     name?: string;
     config: { key: string }[];
     data: any;
-    tsx?: boolean;
+    fileType?: string;
 }
 
 function Result(props: Props) {
-    const { name, config, data, tsx = false } = props;
+    const { name, config, data, fileType = 'ts' } = props;
 
     const t = useTranslations('Generate');
 
     const onDownload = (key: string) => {
-        saveToFile(`${name || ''}${startCase(key).trim().split(' ').join('')}.${tsx ? 'tsx' : 'ts'}`, data?.[key]);
+        saveToFile(`${name || ''}${startCase(key).trim().split(' ').join('')}.${fileType}`, data?.[key]);
     };
 
     return (

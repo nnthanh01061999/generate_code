@@ -1,11 +1,7 @@
-import { TReducerFormValues, TTableFormValues } from '@/interfaces';
-import { upperCase, startCase } from 'lodash';
+import { TTableFormValues } from '@/interfaces';
+import { startCase } from 'lodash';
 
-export const formatKeySnake = (key: string, suffix: string): string => upperCase(key) + '_' + upperCase(suffix).trim().split(' ').join('_');
-
-export const formatKeyTitleCase = (key: string, suffix: string): string => startCase(key) + startCase(suffix).trim().split(' ').join('');
-
-export const generateTable = (data: TTableFormValues, setResult: (key: string, result: string) => void) => {
+export const generateTable = (id: string, data: TTableFormValues, setResult: (key: string, result: string) => void) => {
     const key = data.key;
     const interface_ = data.interface;
     const actions = data.actions;
@@ -140,5 +136,5 @@ function Table(props: I${startCase(key)}TableProps) {
 export default Table;
 `;
 
-    setResult('tables', result);
+    setResult(id, result);
 };

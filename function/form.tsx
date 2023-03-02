@@ -1,12 +1,8 @@
 import { FORM_OBJ } from '@/data';
 import { TFormFormFormValues, TFormFormValues } from '@/interfaces';
-import { startCase, upperCase } from 'lodash';
+import { startCase } from 'lodash';
 
-export const formatKeySnake = (key: string, suffix: string): string => upperCase(key) + '_' + upperCase(suffix).trim().split(' ').join('_');
-
-export const formatKeyTitleCase = (key: string, suffix: string): string => startCase(key) + startCase(suffix).trim().split(' ').join('');
-
-export const generateForm = (data: TFormFormValues, setResult: (key: string, result: string) => void) => {
+export const generateForm = (id: string, data: TFormFormValues, setResult: (key: string, result: string) => void) => {
     const key = startCase(data.key);
 
     const interface_ = data.interface;
@@ -125,5 +121,5 @@ ${schema ? "\n\tconst tCF = useTranslations('Common.form.validate');" : ''}
 export default FormModal;
 `;
 
-    setResult('form', result);
+    setResult(id, result);
 };

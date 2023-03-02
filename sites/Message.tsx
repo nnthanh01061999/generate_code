@@ -1,11 +1,11 @@
-import FooterGenerate from '@/components/footer/FooterGenerate';
-import CheckBoxGroupControl from '@/components/control/checkbox/CheckboxGroupControl';
 import InputControl from '@/components/control/input/InputControl';
 import InputTextAreaControl from '@/components/control/input/InputTextAreaControl';
+import FooterGenerate from '@/components/footer/FooterGenerate';
 import Result from '@/components/site/generate/Result';
-import ColumnList from '@/components/site/table/ColumnList';
-import { generateTable } from '@/function/table';
-import { TTableFormValues } from '@/interfaces';
+import FieldGrid from '@/components/site/message/FieldGrid';
+import { generateMessages } from '@/function/message';
+import { TMessageFormValues } from '@/interfaces';
+import { formatToCapitalizeCase } from '@/utils';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Col, Form, Row, Typography } from 'antd';
 import { snakeCase } from 'lodash';
@@ -14,7 +14,7 @@ import Head from 'next/head';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import ColumnForm from '@/components/site/table/ColumnForm';
+
 const { Title } = Typography;
 
 function Generate() {
@@ -24,10 +24,9 @@ function Generate() {
         key: yup.string().required('required'),
     });
 
-    const formMethod = useForm<TTableFormValues>({
+    const formMethod = useForm<TMessageFormValues>({
         defaultValues: {
             key: '',
-            rowKey: 'id',
         },
         resolver: yupResolver(schema),
     });
@@ -39,26 +38,26 @@ function Generate() {
         setResult((prev: any) => ({ ...prev, [key]: resultString }));
     };
 
-    const onGetKeyFormJson = (values: TTableFormValues) => {
+    const onGetKeyFormJson = (values: TMessageFormValues) => {
         const dataJson = JSON.parse(values.json);
         let uniqueKeys = Object.keys(Object.assign({}, ...dataJson));
         const columns = uniqueKeys.map((item) => {
             return {
                 key: snakeCase(item),
-                type: 'string',
+                name: formatToCapitalizeCase(item),
             };
         });
-        setValue('columns', columns);
+        setValue('fields', columns);
     };
 
-    const onGenerate = (values: TTableFormValues) => {
-        generateTable('tables', values, setResultValue);
+    const onGenerate = (values: TMessageFormValues) => {
+        generateMessages('message', values, setResultValue);
     };
 
     const resultArr = React.useMemo(() => {
         return [
             {
-                key: 'tables',
+                key: 'message',
             },
         ];
     }, []);
@@ -77,15 +76,12 @@ function Generate() {
                             <InputControl name="key" label="Key" />
                             <InputTextAreaControl name="json" label="Json" />
                             <Button onClick={handleSubmit(onGetKeyFormJson, (error) => console.log(error))}> Get Keys</Button>
-                            <CheckBoxGroupControl name="actions" label="actions" childProps={{ options: ['delete', 'update', 'view'] }} />
-                            <InputControl name="rowKey" label="rowKey" />
-                            <InputControl name="interface" label="interface" />
-                            <ColumnForm name="columns" />
+                            <FieldGrid name="fields" />
                         </FormProvider>
                     </Form>
                 </Col>
                 <Col md={12} sm={24} xs={24}>
-                    <Result name={watch('key')} config={resultArr} data={result} fileType="tsx" />
+                    <Result name={watch('key')} config={resultArr} data={result} fileType="json" />
                 </Col>
             </Row>
 

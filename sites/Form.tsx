@@ -55,7 +55,7 @@ function Generate() {
     };
 
     const onGenerate = (values: TFormFormValues) => {
-        generateForm(values, setResultValue);
+        generateForm('form', values, setResultValue);
     };
 
     const resultArr = React.useMemo(() => {
@@ -87,7 +87,7 @@ function Generate() {
                     </Form>
                 </Col>
                 <Col md={12} sm={24} xs={24}>
-                    <Result name={watch('key')} config={resultArr} data={result} />
+                    <Result name={watch('key')} config={resultArr} data={result} fileType="tsx" />
                 </Col>
             </Row>
 

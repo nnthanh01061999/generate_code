@@ -72,11 +72,11 @@ function Generate() {
     };
 
     const onGenerate = (values: TReducerFormValues) => {
-        generateActionType(values, setResultValue);
-        generateAction(values, setResultValue);
-        generateType(values, setResultValue);
-        generateHook(values, setResultValue);
-        generateReducer(values, setResultValue);
+        generateActionType('action-types', values, setResultValue);
+        generateAction('actions', values, setResultValue);
+        generateType('types', values, setResultValue);
+        generateHook('hook', values, setResultValue);
+        generateReducer('reducer', values, setResultValue);
     };
 
     const resultArr = React.useMemo(() => {

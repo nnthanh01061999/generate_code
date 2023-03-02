@@ -157,7 +157,9 @@
             "table": "Table",
             "table-desc": "Table Generate",
             "form": "Form",
-            "form-desc": "Form Generate"
+            "form-desc": "Form Generate",
+            "message": "Message",
+            "message-desc": "Message Generate"
         },
         "link": "Link"
     },

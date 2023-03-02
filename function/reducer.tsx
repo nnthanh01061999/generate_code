@@ -1,11 +1,8 @@
 import { TReducerFormValues } from '@/interfaces';
+import { formatKeySnake, formatKeyTitleCase } from '@/utils';
 import { startCase, upperCase } from 'lodash';
 
-export const formatKeySnake = (key: string, suffix: string): string => upperCase(key) + '_' + upperCase(suffix).trim().split(' ').join('_');
-
-export const formatKeyTitleCase = (key: string, suffix: string): string => startCase(key) + startCase(suffix).trim().split(' ').join('');
-
-export const generateActionType = (data: TReducerFormValues, setResult: (key: string, result: string) => void) => {
+export const generateActionType = (id: string, data: TReducerFormValues, setResult: (key: string, result: string) => void) => {
     let result = '';
     const key = data.key;
     const actions = data.actions;
@@ -14,10 +11,10 @@ export const generateActionType = (data: TReducerFormValues, setResult: (key: st
         return prev + `export const ${val} = '${val}';\n`;
     }, '');
 
-    setResult('action-types', result);
+    setResult(id, result);
 };
 
-export const generateAction = (data: TReducerFormValues, setResult: (key: string, result: string) => void) => {
+export const generateAction = (id: string, data: TReducerFormValues, setResult: (key: string, result: string) => void) => {
     let result = '';
     const key = data.key;
     const actions = data.actions;
@@ -39,10 +36,10 @@ export const generateAction = (data: TReducerFormValues, setResult: (key: string
         );
     }, '');
 
-    setResult('actions', import_ + result);
+    setResult(id, import_ + result);
 };
 
-export const generateType = (data: TReducerFormValues, setResult: (key: string, result: string) => void) => {
+export const generateType = (id: string, data: TReducerFormValues, setResult: (key: string, result: string) => void) => {
     const key = data.key;
     const state = data.state;
     const actions = data.actions;
@@ -67,10 +64,10 @@ export const generateType = (data: TReducerFormValues, setResult: (key: string, 
 
     const types = `export type ${startCase(key)}Actions = ` + actions?.reduce((prev, cur, index) => prev + (index > 0 ? ' | ' : '') + formatKeyTitleCase(key, cur.key) + 'Action', '');
 
-    setResult('types', import_ + state_ + payloads + actions_ + types);
+    setResult(id, import_ + state_ + payloads + actions_ + types);
 };
 
-export const generateHook = (data: TReducerFormValues, setResult: (key: string, result: string) => void) => {
+export const generateHook = (id: string, data: TReducerFormValues, setResult: (key: string, result: string) => void) => {
     const key = data.key;
     const actions = data.actions;
 
@@ -86,10 +83,10 @@ export const generateHook = (data: TReducerFormValues, setResult: (key: string, 
         return prev + `export const use${formatKeyTitleCase(key, cur.key)} = () => useAppAction(${cur.key});\n\n`;
     }, '');
 
-    setResult('hook', import_ + basicHook + payloads);
+    setResult(id, import_ + basicHook + payloads);
 };
 
-export const generateReducer = (data: TReducerFormValues, setResult: (key: string, result: string) => void) => {
+export const generateReducer = (id: string, data: TReducerFormValues, setResult: (key: string, result: string) => void) => {
     const key = data.key;
     const actions = data.actions;
 
@@ -119,5 +116,5 @@ export const generateReducer = (data: TReducerFormValues, setResult: (key: strin
     }
 }\n\n${data.withClientState ? `const ${key}Reducer = withClientState(${key}BaseReducer, ${upperCase(key)}_NAMESPACE);\n` : ''}\nexport default ${key}${data.withClientState ? 'Base' : ''}Reducer;`;
 
-    setResult('reducer', import_ + stateInit + reducer);
+    setResult(id, import_ + stateInit + reducer);
 };
