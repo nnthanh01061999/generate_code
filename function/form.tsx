@@ -27,7 +27,9 @@ export const generateForm = (id: string, data: TFormFormValues, setResult: (key:
     const getRenderByType = (data: TFormFormFormValues) => {
         const { type, key, required } = data;
         const componentName = FORM_OBJ?.[type as keyof typeof FORM_OBJ]?.componentName;
-        return `<${componentName} name="${key}" label={tF('${key}.title')} ${required ? 'wrapperProps={{ required: true }}' : ''}/>`;
+        return `<${componentName} name="${key}" label={tF('${key}.title')}  childProps={{${
+            type === 'switch' ? " checkedChildren: tC('enabled.checked'), unCheckedChildren: tC('enabled.unchecked'), " : ''
+        }disabled }} ${required ? 'wrapperProps={{ required: true }}' : ''}/>`;
     };
 
     const getDefaultValueByType = (type: string) => {
@@ -64,6 +66,9 @@ export interface I${key}FormModalProps extends withModalHanlderProps {
 
 function FormModal(props: I${key}FormModalProps) {
     const { data, action, loading, onSuccess, onClose } = props;
+
+     const disabled = useMemo(() => !!(action === 'view'), [action]);
+
 ${schema ? "\n\tconst tCF = useTranslations('Common.form.validate');" : ''}
     const tM = useTranslations('${key}');
     const tF = useTranslations('${key}.form');

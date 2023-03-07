@@ -1,5 +1,5 @@
 import { TTableFormValues } from '@/interfaces';
-import { startCase } from 'lodash';
+import { startCase, upperCase } from 'lodash';
 
 export const generateTable = (id: string, data: TTableFormValues, setResult: (key: string, result: string) => void) => {
     const key = data.key;
@@ -46,13 +46,15 @@ export const generateTable = (id: string, data: TTableFormValues, setResult: (ke
     const result = `${boolean ? `import BooleanIcon from '@/components/shared/BooleanIcon';` : ''}${number ? `\nimport NumberFormat from '@/components/shared/NumberFormat';` : ''}${
         date ? `\nimport TimeFormat from '@/components/shared/TimeFormat';` : ''
     }
-import CustomTable, { ICustomTableProps } from '@/components/shared/CustomTable';${actions.length ? `\nimport DropOption from '@/components/shared/DropOption';` : ''}${
-        actions.length ? `\nimport { ${delete_ ? 'DROPDOWN_DELETE, ' : ''}${view ? 'DROPDOWN_VIEW, ' : ''}${update ? 'DROPDOWN_UPDATE, ' : ''} } from '@/data';` : ''
+import CustomTable, { ICustomTableProps } from '@/components/shared/CustomTable';
+import TableOperation from '@/components/shared/TableOperation';${actions.length ? `\nimport DropOption from '@/components/shared/DropOption';` : ''}${
+        actions.length
+            ? `\nimport { ${delete_ ? 'DROPDOWN_DELETE, ' : ''}${view ? 'DROPDOWN_VIEW, ' : ''}${update ? 'DROPDOWN_UPDATE, ' : ''},protectPaths, ${upperCase(key)}_PATH} from '@/data';`
+            : ''
     }
-import { ${interface_} } from '@/interfaces';${delete_ ? `\nimport { Modal } from 'antd';` : ''}
+import { ${interface_} } from '@/interfaces';
 import { ColumnType } from 'antd/es/table';
 import { useTranslations } from 'next-intl';
-import React from 'react';${delete_ ? `\n\nconst { confirm } = Modal;` : ''}
 
 export interface I${startCase(key)}TableProps extends ICustomTableProps {
     actionLoading: boolean;${update ? `\n    onEdit: (id: number) => void;` : ''}${delete_ ? `\n    onDelete: (id: number) => void;` : ''}${view ? `\n    onView: (id: number) => void;` : ''}
@@ -60,6 +62,7 @@ export interface I${startCase(key)}TableProps extends ICustomTableProps {
 
 function Table(props: I${startCase(key)}TableProps) {
     const { ${update ? `onEdit, ` : ''}${delete_ ? `onDelete, ` : ''}${view ? `onView, ` : ''} actionLoading, ...tableProps } = props;
+    const currentMenu = protectPaths?.[${upperCase(key)}_PATH];
     const tT = useTranslations('Common.table');
     const t = useTranslations('${startCase(key)}.table.columns');
 
@@ -82,8 +85,8 @@ function Table(props: I${startCase(key)}TableProps) {
             width: 90,
             render: (_, record) => {
                 return (
-                    <DropOption
-                        dropdownProps={{ disabled: actionLoading }}
+                   <TableOperation
+                        disabled={actionLoading}
                         buttonColor={true}
                         menuOptions={[
                             ${
@@ -94,11 +97,12 @@ function Table(props: I${startCase(key)}TableProps) {
                             },`
                                     : ''
                             }
-                            ${update ? `{ id: DROPDOWN_UPDATE, onClick: () => onEdit(record.id)},` : ''}
+                            ${update ? `{ id: DROPDOWN_UPDATE, bit_index: currentMenu.action?.[DROPDOWN_UPDATE], onClick: () => onEdit(record.id)},` : ''}
                             ${
                                 delete_
                                     ? `{
                                 id: DROPDOWN_DELETE,
+                                 bit_index: currentMenu.action?.[DROPDOWN_DELETE],
                                 type: 'danger',
                                 onClick: () =>
                                     confirm({
