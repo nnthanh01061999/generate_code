@@ -1,7 +1,7 @@
 import { DATE_FORMAT_HMDMY, DATE_FORMAT_UTC_ISO } from '@/data';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { cloneDeep, isNaN, startCase, upperCase } from 'lodash';
+import { cloneDeep, isNaN, snakeCase, startCase, upperCase } from 'lodash';
 dayjs.extend(utc);
 
 export const stringFormat = (input: string, ...replacer: any[]) => {
@@ -144,9 +144,9 @@ export function getValueBooleanSelect(value: string) {
     return undefined;
 }
 
-export const formatKeySnake = (key: string, suffix: string): string => upperCase(key) + '_' + upperCase(suffix).trim().split(' ').join('_');
+export const formatKeySnake = (key: string, suffix: string): string => snakeCase(key).toUpperCase() + '_' + upperCase(suffix).trim().split(' ').join('_');
 
-export const formatKeyTitleCase = (key: string, suffix: string): string => startCase(key) + startCase(suffix).trim().split(' ').join('');
+export const formatKeyTitleCase = (key: string, suffix: string): string => startCase(key).split(' ').join('') + startCase(suffix).trim().split(' ').join('');
 
 export const formatToCapitalizeCase = (key: string): string =>
     key

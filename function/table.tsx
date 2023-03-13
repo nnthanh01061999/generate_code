@@ -1,8 +1,9 @@
 import { TTableFormValues } from '@/interfaces';
-import { startCase, upperCase } from 'lodash';
+import { snakeCase, startCase, upperCase } from 'lodash';
 
 export const generateTable = (id: string, data: TTableFormValues, setResult: (key: string, result: string) => void) => {
     const key = data.key;
+    const keyStartTitle = startCase(key)?.split(' ')?.join('');
     const interface_ = data.interface;
     const actions = data.actions;
     const columns = data.columns;
@@ -47,24 +48,25 @@ export const generateTable = (id: string, data: TTableFormValues, setResult: (ke
         date ? `\nimport TimeFormat from '@/components/shared/TimeFormat';` : ''
     }
 import CustomTable, { ICustomTableProps } from '@/components/shared/CustomTable';
-import TableOperation from '@/components/shared/TableOperation';${actions.length ? `\nimport DropOption from '@/components/shared/DropOption';` : ''}${
+${actions.length ? `import TableOperation from '@/components/shared/TableOperation';` : ''}${
         actions.length
-            ? `\nimport { ${delete_ ? 'DROPDOWN_DELETE, ' : ''}${view ? 'DROPDOWN_VIEW, ' : ''}${update ? 'DROPDOWN_UPDATE, ' : ''},protectPaths, ${upperCase(key)}_PATH} from '@/data';`
+            ? `\nimport { ${delete_ ? 'DROPDOWN_DELETE, ' : ''}${view ? 'DROPDOWN_VIEW, ' : ''}${update ? 'DROPDOWN_UPDATE, ' : ''}protectPaths, ${snakeCase(key).toUpperCase()}_PATH} from '@/data';`
             : ''
     }
-import { ${interface_} } from '@/interfaces';
+import { ${interface_} } from '@/interfaces';${delete_ ? `\nimport { useConfirmModal } from '@/utils';` : ''}
 import { ColumnType } from 'antd/es/table';
 import { useTranslations } from 'next-intl';
 
-export interface I${startCase(key)}TableProps extends ICustomTableProps {
+export interface I${keyStartTitle}TableProps extends ICustomTableProps {
     actionLoading: boolean;${update ? `\n    onEdit: (id: number) => void;` : ''}${delete_ ? `\n    onDelete: (id: number) => void;` : ''}${view ? `\n    onView: (id: number) => void;` : ''}
 }
 
-function Table(props: I${startCase(key)}TableProps) {
+function Table(props: I${keyStartTitle}TableProps) {
     const { ${update ? `onEdit, ` : ''}${delete_ ? `onDelete, ` : ''}${view ? `onView, ` : ''} actionLoading, ...tableProps } = props;
-    const currentMenu = protectPaths?.[${upperCase(key)}_PATH];
+    const currentMenu = protectPaths?.[${snakeCase(key).toUpperCase()}_PATH];
     const tT = useTranslations('Common.table');
-    const t = useTranslations('${startCase(key)}.table.columns');
+    const t = useTranslations('${keyStartTitle}.table.columns');
+${delete_ ? `\nconst confirmModal = useConfirmModal();` : ''}
 
     const columns: ColumnType<${interface_}>[] = [
         ${columns
@@ -105,7 +107,7 @@ function Table(props: I${startCase(key)}TableProps) {
                                  bit_index: currentMenu.action?.[DROPDOWN_DELETE],
                                 type: 'danger',
                                 onClick: () =>
-                                    confirm({
+                                    confirmModal.confirm({
                                         title: tT('columns.operation.delete-confirm'),
                                         onOk() {
                                             onDelete(record.id);

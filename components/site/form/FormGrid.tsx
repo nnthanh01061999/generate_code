@@ -2,6 +2,7 @@ import CheckBoxControl from '@/components/control/checkbox/CheckboxControl';
 import InputControl from '@/components/control/input/InputControl';
 import InputNumberControl from '@/components/control/input/InputNumberControl';
 import RadioControl from '@/components/control/radio/RadioControl';
+import SelectControl from '@/components/control/select/SelectControl';
 import TableFormControl from '@/components/control/table/TableFormControl';
 import NumberFormat from '@/components/shared/NumberFormat';
 import { FORM_TYPES } from '@/data';
@@ -32,20 +33,11 @@ function FormGrid(props: IFormGridProps) {
     const columns: ColumnType<TTableFormColumnValues>[] = [
         {
             responsive: ['sm'],
-            align: 'center',
-            title: 'ID',
-            dataIndex: 'id',
-            key: 'id',
-            width: 80,
-            render: (_, __, index) => <NumberFormat value={index + 1} />,
-        },
-        {
-            responsive: ['sm'],
             align: 'left',
             title: 'key',
             dataIndex: 'key',
             key: 'key',
-            width: 200,
+            fixed: 'left',
             render: (_, __, index) => <InputControl name={`${name}[${index}].key`} toggleError />,
         },
         {
@@ -54,16 +46,15 @@ function FormGrid(props: IFormGridProps) {
             title: 'Type',
             dataIndex: 'type',
             key: 'type',
-            width: 500,
-            render: (_, __, index) => <RadioControl name={`${name}[${index}].type`} childProps={{ options: FORM_TYPES }} />,
+            width: 160,
+            render: (_, __, index) => <SelectControl name={`${name}[${index}].type`} childProps={{ options: FORM_TYPES }} />,
         },
         {
             responsive: ['sm'],
             align: 'left',
-            title: 'defaultValue',
+            title: 'default',
             dataIndex: 'defaultValue',
             key: 'defaultValue',
-            width: 100,
             render: (_, __, index) => <CheckBoxControl name={`${name}[${index}].defaultValue`} />,
         },
         {
@@ -72,7 +63,6 @@ function FormGrid(props: IFormGridProps) {
             title: 'required',
             dataIndex: 'required',
             key: 'required',
-            width: 100,
             render: (_, __, index) => <CheckBoxControl name={`${name}[${index}].required`} />,
         },
         {
@@ -81,7 +71,6 @@ function FormGrid(props: IFormGridProps) {
             title: 'xs',
             dataIndex: 'xs',
             key: 'xs',
-            width: 100,
             render: (_, __, index) => <InputNumberControl name={`${name}[${index}].xs`} toggleError />,
         },
         {
@@ -90,7 +79,6 @@ function FormGrid(props: IFormGridProps) {
             title: 'sm',
             dataIndex: 'sm',
             key: 'sm',
-            width: 100,
             render: (_, __, index) => <InputNumberControl name={`${name}[${index}].sm`} toggleError />,
         },
         {
@@ -99,7 +87,6 @@ function FormGrid(props: IFormGridProps) {
             title: 'md',
             dataIndex: ' d',
             key: ' d',
-            width: 100,
             render: (_, __, index) => <InputNumberControl name={`${name}[${index}].md`} toggleError />,
         },
     ];
@@ -112,7 +99,7 @@ function FormGrid(props: IFormGridProps) {
             columns={columns}
             tableProps={{
                 className: 'main-table main-table--vertical-top',
-                scroll: { x: isMobile ? '100%' : 2000, y: 480 },
+                scroll: { x: isMobile ? '100%' : 1000, y: 480 },
                 pagination: false,
                 bordered: true,
             }}

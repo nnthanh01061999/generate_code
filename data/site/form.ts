@@ -1,4 +1,61 @@
-export const FORM_TYPES = ['input', 'input-number', 'text-area', 'date', 'range', 'time', 'week', 'month', 'year', 'select', 'async-select', 'switch', 'radio', 'checkbox'];
+export const FORM_TYPES = [
+    {
+        value: 'input',
+        label: 'input',
+    },
+    {
+        value: 'input-number',
+        label: 'input-number',
+    },
+    {
+        value: 'text-area',
+        label: 'text-area',
+    },
+    {
+        value: 'date',
+        label: 'date',
+    },
+    {
+        value: 'range',
+        label: 'range',
+    },
+    {
+        value: 'time',
+        label: 'time',
+    },
+    {
+        value: 'week',
+        label: 'week',
+    },
+    {
+        value: 'month',
+        label: 'month',
+    },
+    {
+        value: 'year',
+        label: 'year',
+    },
+    {
+        value: 'select',
+        label: 'select',
+    },
+    {
+        value: 'async-select',
+        label: 'async-select',
+    },
+    {
+        value: 'switch',
+        label: 'switch',
+    },
+    {
+        value: 'radio',
+        label: 'radio',
+    },
+    {
+        value: 'checkbox',
+        label: 'checkbox',
+    },
+];
 
 export const FORM_OBJ = {
     input: {

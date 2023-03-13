@@ -3,7 +3,7 @@ import { TFormFormFormValues, TFormFormValues } from '@/interfaces';
 import { startCase } from 'lodash';
 
 export const generateForm = (id: string, data: TFormFormValues, setResult: (key: string, result: string) => void) => {
-    const key = startCase(data.key);
+    const key = startCase(data.key)?.split(' ')?.join('');
 
     const interface_ = data.interface;
     const schema = data.schema;
@@ -61,14 +61,17 @@ export interface I${key}FormModalProps extends withModalHanlderProps {
     action: TAction;
     data?: ${interface_ ? interface_ : `I${key}`};
     loading: boolean;
+    onCreateWhenView: () => void;
+    onEditWhenView: () => void;
     onSuccess: (data: T${key}FormValues) => void;
 }
 
 function FormModal(props: I${key}FormModalProps) {
-    const { data, action, loading, onSuccess, onClose } = props;
+    const { data, action, loading, onCreateWhenView, onEditWhenView, onSuccess, onClose } = props;
 
      const disabled = useMemo(() => !!(action === 'view'), [action]);
 
+    const tC = useTranslations('Common.form')
 ${schema ? "\n\tconst tCF = useTranslations('Common.form.validate');" : ''}
     const tM = useTranslations('${key}');
     const tF = useTranslations('${key}.form');
@@ -83,28 +86,43 @@ ${schema ? "\n\tconst tCF = useTranslations('Common.form.validate');" : ''}
            : ''
    }
     const method = useForm<T${key}FormValues>({
-        defaultValues: {${forms.map((item) => `\n\t\t${item.key}: ${item.defaultValue ? item.defaultValue : getDefaultValueByType(item.type)}`)?.join('')}
+        defaultValues: {${forms.map((item) => `\n\t\t${item.key}: ${item.defaultValue ? item.defaultValue : getDefaultValueByType(item.type)},`)?.join('')}
         },${schema ? `\n\tresolver: yupResolver(schema),` : ''}
     });
 
     const { setValue, handleSubmit } = method;
 
     useEffectKeyboardShortcut({
-        save: () => handleSubmit(onCreate)(),
+        save: () => handleSubmit(onSubmit)(),
     });
 
-    const onCreate = (data: T${key}FormValues) => {
+    const onSubmit = (data: T${key}FormValues) => {
         onSuccess(data);
     };
 
     useEffect(() => {
-        if (data) {${forms?.map((item) => `\n\t\tsetValue('${item.key}', data.${item.key});`)?.join('')}
+        if (data) {${forms
+            ?.filter((item) => !item.required)
+            ?.map((item) => `\n\t\tsetValue('${item.key}', data.${item.key});`)
+            ?.join('')}
+            if (action === 'update' || action === 'view') {
+               ${forms
+                   ?.filter((item) => item.required)
+                   ?.map((item) => `\n\t\tsetValue('${item.key}', data.${item.key});`)
+                   ?.join('')}
+            }
+             else if (action === 'create') {
+               ${forms
+                   ?.filter((item) => item.required)
+                   ?.map((item) => `\n\t\tsetValue('${item.key}', '');`)
+                   ?.join('')}
+            }
         }
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
 
     return (
-        <MainFormModal action={action} loading={loading} title={tM('label')} onOk={handleSubmit(onCreate)} onClose={onClose}>
+        <MainFormModal action={action} loading={loading} title={tM('label')} onEditWhenView={onEditWhenView} onCreateWhenView={onCreateWhenView} onOk={handleSubmit(onSubmit)} onClose={onClose}>
             <FormProvider {...method}>
                 <Spin spinning={loading}>
                     <Form className="main-form" layout="vertical">

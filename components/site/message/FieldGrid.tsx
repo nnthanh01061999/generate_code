@@ -24,19 +24,11 @@ function FieldGrid(props: IFieldGridProps) {
     const columns: ColumnType<TTableFormColumnValues>[] = [
         {
             responsive: ['sm'],
-            align: 'center',
-            title: 'ID',
-            dataIndex: 'id',
-            key: 'id',
-            width: 80,
-            render: (_, __, index) => <NumberFormat value={index + 1} />,
-        },
-        {
-            responsive: ['sm'],
             align: 'left',
             title: 'key',
             dataIndex: 'key',
             key: 'key',
+            fixed: 'left',
             render: (_, __, index) => <InputControl name={`${name}[${index}].key`} toggleError />,
         },
         {
