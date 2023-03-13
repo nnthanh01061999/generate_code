@@ -20,6 +20,6 @@
             "~/*": ["./public/*"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "mongo/lib/dbConnect.js"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "mongo/lib/dbConnect.js", "function/schemaToYup/yupCreator.js"],
     "exclude": ["node_modules"]
 }

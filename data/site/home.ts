@@ -34,4 +34,9 @@ export const SiteData = [
         description: 'message-desc',
         href: '/message',
     },
+    {
+        title: 'schema-to-yup',
+        description: 'schema-to-yup-desc',
+        href: '/schema-to-yup',
+    },
 ];

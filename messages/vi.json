@@ -159,7 +159,9 @@
             "form": "Form",
             "form-desc": "Form Generate",
             "message": "Message",
-            "message-desc": "Message Generate"
+            "message-desc": "Message Generate",
+            "schema-to-yup": "schema-to-yup",
+            "schema-to-yup-desc": "schema-to-yup Generate"
         },
         "link": "Link"
     },

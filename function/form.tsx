@@ -126,7 +126,7 @@ ${schema ? "\n\tconst tCF = useTranslations('Common.form.validate');" : ''}
             <FormProvider {...method}>
                 <Spin spinning={loading}>
                     <Form className="main-form" layout="vertical">
-                        <Row gutter={[24, 0]}>${forms
+                        <Row gutter={[12, 0]}>${forms
                             .map(
                                 (item) => `\n\t\t\t\t\t\t\t<Col xs={${item.xs}} md={${item.md}}>
                                 ${getRenderByType(item)}

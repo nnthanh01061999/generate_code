@@ -1,0 +1,9 @@
+step 1: select table schema to XML file
+
+step 2: convert schema attributes to xml element  
+    http://xsltfiddle.liberty-development.net/jyH9rLX
+
+step 3: convert xml element to json
+    https://codebeautify.org/xmltojson
+    
+step 4: use yupCreator for create yup from schema
