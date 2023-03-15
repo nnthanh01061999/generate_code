@@ -38,6 +38,7 @@ function FormGrid(props: IFormGridProps) {
             dataIndex: 'key',
             key: 'key',
             fixed: 'left',
+            width: 300,
             render: (_, __, index) => <InputControl name={`${name}[${index}].key`} toggleError />,
         },
         {

@@ -36,7 +36,7 @@ function ActionForm(props: IActionFormProps) {
             title: 'key',
             dataIndex: 'key',
             key: 'key',
-            width: 150,
+            width: 300,
             fixed: 'left',
             render: (_, __, index) => <InputControl name={`${name}[${index}].key`} toggleError />,
         },

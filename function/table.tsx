@@ -1,5 +1,5 @@
 import { TTableFormValues } from '@/interfaces';
-import { snakeCase, startCase, upperCase } from 'lodash';
+import { snakeCase, startCase } from 'lodash';
 
 export const generateTable = (id: string, data: TTableFormValues, setResult: (key: string, result: string) => void) => {
     const key = data.key;
@@ -128,10 +128,6 @@ ${delete_ ? `\nconst confirmModal = useConfirmModal();` : ''}
     return (
         <CustomTable
             {...tableProps}
-            pagination={{
-                ...tableProps.pagination,
-                showTotal: (total) => tT('pagination.show-total', { total }),
-            }}
             bordered
             columns={columns}
             rowKey={(record) => record.${data.rowKey}}
