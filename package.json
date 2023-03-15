@@ -15,10 +15,10 @@
     "dependencies": {
         "@hookform/error-message": "^2.0.1",
         "@hookform/resolvers": "^2.9.7",
-        "@reduxjs/toolkit": "^1.8.2",
-        "@vercel/analytics": "^0.1.7",
         "@mdi/js": "^7.1.96",
         "@mdi/react": "^1.6.1",
+        "@reduxjs/toolkit": "^1.8.2",
+        "@vercel/analytics": "^0.1.7",
         "antd": "^5.1.2",
         "axios": "^1.2.4",
         "cookies-next": "^2.1.1",

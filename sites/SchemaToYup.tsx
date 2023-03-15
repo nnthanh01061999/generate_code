@@ -2,7 +2,7 @@ import InputTextAreaControl from '@/components/control/input/InputTextAreaContro
 import FooterGenerate from '@/components/footer/FooterGenerate';
 import Result from '@/components/site/generate/Result';
 import FieldGrid from '@/components/site/schema-to-yup/FieldGrid';
-import { generateYupSchema } from '@/function/schemaToYup/yupGenerateFormJson.js';
+import { convertAttributesToElements, generateYupSchema, xml2json } from '@/function/schemaToYup/yupGenerateFormJson.js';
 import { copyTextToClipboard } from '@/utils';
 import { Button, Col, Form, Input, Popover, Row, Space, Typography } from 'antd';
 import { useTranslations } from 'next-intl';
@@ -40,7 +40,7 @@ WHERE tc.TABLE_NAME = INFORMATION_SCHEMA.COLUMNS.TABLE_NAME AND cu.COLUMN_NAME =
 )
 
 FROM INFORMATION_SCHEMA.TABLES
-WHERE TABLE_SCHEMA='dbo'
+WHERE TABLE_SCHEMA='dbo' AND TABLE_NAME ='example'
 ORDER BY TABLE_NAME ASC  
 For XML PATH ('Table'),Root('Tables')`;
 
@@ -57,14 +57,32 @@ function Generate() {
     };
 
     const onGetKeyFormJson = (values: any) => {
-        const value = generateYupSchema(JSON.parse(values.json));
-        const fields = Object.entries(value)?.map(([key, val]) => {
-            return {
-                key,
-                val,
-            };
-        });
-        setValue('fields', fields);
+        if (values.json) {
+            const value = generateYupSchema(JSON.parse(values.json));
+            const fields = Object.entries(value)?.map(([key, val]) => {
+                return {
+                    key,
+                    val,
+                };
+            });
+            setValue('fields', fields);
+        }
+    };
+
+    const onConvertXMl = (values: any) => {
+        if (values.xml) {
+            const xmlString = convertAttributesToElements(values.xml);
+            const xmlDoc = new DOMParser().parseFromString(xmlString, 'text/xml');
+            const jsonObj = xml2json(xmlDoc);
+            const value = generateYupSchema(jsonObj);
+            const fields = Object.entries(value)?.map(([key, val]) => {
+                return {
+                    key,
+                    val,
+                };
+            });
+            setValue('fields', fields);
+        }
     };
 
     const onGenerate = (values: any) => {
@@ -91,7 +109,6 @@ function Generate() {
             <Title level={1}>{t('title')}</Title>
             <Title level={3}>Generate Yup Schema from SQL Schema</Title>
             <Text>
-                <Text strong>Step 1:</Text> Select table schema to XML file
                 <Popover
                     content={
                         <Form.Item
@@ -116,29 +133,18 @@ function Generate() {
                         </Form.Item>
                     }
                 >
-                    <span style={{ color: 'lightblue', textDecoration: 'underline' }}>here</span>
+                    <span style={{ color: 'lightblue', textDecoration: 'underline' }}>Query here</span>
                 </Popover>
-                <br />
-                <Text strong>Step 2:</Text> Convert schema attributes to xml element
-                <br />
-                <a target={'_blank'} href="http://xsltfiddle.liberty-development.net/jyH9rLX">
-                    http://xsltfiddle.liberty-development.net/jyH9rLX
-                </a>
-                <br />
-                <Text strong>Step 3:</Text> Convert xml element to json.
-                <br />
-                <a target={'_blank'} href=" https://codebeautify.org/xmltojson">
-                    https://codebeautify.org/xmltojson
-                </a>
-                <br />
-                <Text strong>Step 4:</Text> Use this form for generate to yup schema.
             </Text>
             <Row gutter={[24, 24]}>
                 <Col md={12} sm={24} xs={24}>
                     <Form layout="vertical">
                         <FormProvider {...formMethod}>
-                            <InputTextAreaControl name="json" label="Json" childProps={{ style: { height: '200px' } }} />
+                            <InputTextAreaControl name="xml" label="xml" childProps={{ style: { height: '100px' } }} />
+                            <InputTextAreaControl name="json" label="Json" childProps={{ style: { height: '100px' } }} />
+                            <Button onClick={handleSubmit(onConvertXMl, (error) => console.log(error))}> Get xml</Button>
                             <Button onClick={handleSubmit(onGetKeyFormJson, (error) => console.log(error))}> Get Keys</Button>
+
                             <FieldGrid name="fields" />
                         </FormProvider>
                     </Form>
