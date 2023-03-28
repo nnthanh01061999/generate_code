@@ -161,7 +161,9 @@
             "message": "Message",
             "message-desc": "Message Generate",
             "schema-to-yup": "schema-to-yup",
-            "schema-to-yup-desc": "schema-to-yup Generate"
+            "schema-to-yup-desc": "schema-to-yup Generate",
+            "crawl-image": "crawl-image",
+            "crawl-image-desc": "crawl-image"
         },
         "link": "Link"
     },
@@ -172,5 +174,11 @@
             "name": "Name",
             "species": "spicies"
         }
+    },
+    "CrawlImage": {
+        "title": "Crawl image",
+        "crawl": "Crawl",
+        "selected-all": "Selected All",
+        "download-all": "Download All"
     }
 }
