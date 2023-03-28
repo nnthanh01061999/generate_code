@@ -1,6 +1,6 @@
 import { checkImage, extractHostname, scrollToBottom } from '@/utils';
+import Chromium from 'chrome-aws-lambda';
 import { NextApiRequest, NextApiResponse } from 'next';
-import puppeteer from 'puppeteer';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { query, method } = req;
@@ -16,11 +16,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 let imgs = undefined;
 
                 if (url) {
-                    const browser = await puppeteer.launch({
+                    // const browser = await puppeteer.launch({
+                    //     headless: true,
+                    //     args: ['--no-sandbox', '--disable-setuid-sandbox'],
+                    //     ignoreHTTPSErrors: true,
+                    //     ignoreDefaultArgs: ['--disable-extensions'],
+                    // });
+                    const browser = await Chromium.puppeteer.launch({
+                        args: Chromium.args,
+                        defaultViewport: Chromium.defaultViewport,
+                        executablePath: await Chromium.executablePath,
                         headless: true,
-                        args: ['--no-sandbox', '--disable-setuid-sandbox'],
                         ignoreHTTPSErrors: true,
-                        ignoreDefaultArgs: ['--disable-extensions'],
                     });
                     try {
                         const page = await browser.newPage();
