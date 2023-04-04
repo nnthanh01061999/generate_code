@@ -1,3 +1,4 @@
+import { APP_PREFIX } from '@/data';
 import rootReducer from '@/store/root/rootReducer';
 import { RootState } from '@/store/root/rootTypes';
 import version from '@/store/version';
@@ -6,12 +7,25 @@ import { createWrapper, MakeStore } from 'next-redux-wrapper';
 import { createStore, Store } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
+export const STATE = 'state';
+
 export const save = (state: any) => {
     try {
-        const clientState = Object.keys(state)
+        const clientState: any = Object.keys(state)
             ?.filter((key) => key === 'version' || state?.[key]?.stateFrom === 'client')
             ?.reduce((prev, cur) => ({ ...prev, [cur]: state?.[cur] }), {});
-        setCookie('state', JSON.stringify(clientState), { maxAge: 1000 * 60 * 60 * 24 * 15 });
+
+        const cookieState = Object.keys(clientState)
+            ?.filter((key) => key === 'version' || clientState?.[key]?.cacheType !== 'storage')
+            ?.reduce((prev, cur) => ({ ...prev, [cur]: clientState?.[cur] }), {});
+
+        setCookie(STATE, JSON.stringify(cookieState));
+
+        const storageState = Object.keys(clientState)
+            ?.filter((key) => key === 'version' || clientState?.[key]?.cacheType === 'storage')
+            ?.reduce((prev, cur) => ({ ...prev, [cur]: clientState?.[cur] }), {});
+
+        localStorage.setItem(`${APP_PREFIX}${STATE}`, JSON.stringify(storageState));
     } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error);
@@ -23,29 +37,41 @@ export const load = (): RootState | undefined => {
         return undefined;
     }
 
-    let state;
+    let storageState: any;
+    let cookieState: any;
 
     try {
-        state = getCookie('state');
+        cookieState = getCookie(STATE);
 
-        if (typeof state === 'string') {
-            state = JSON.parse(state);
+        if (typeof cookieState === 'string') {
+            cookieState = JSON.parse(cookieState);
         }
 
-        if (state && state.version !== version) {
-            state = undefined;
+        if (cookieState && cookieState.version !== version) {
+            cookieState = undefined;
+        }
+
+        storageState = localStorage.getItem(`${APP_PREFIX}${STATE}`);
+
+        if (typeof storageState === 'string') {
+            storageState = JSON.parse(storageState);
+        }
+
+        if (storageState && storageState.version !== version) {
+            storageState = undefined;
         }
     } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error);
     }
-
-    return state || undefined;
+    return { ...cookieState, ...storageState } || undefined;
 };
+
+export let store: ReturnType<typeof makeStore>;
 
 // create a makeStore function
 const makeStore: MakeStore<Store<RootState>> = () => {
-    const store = createStore(rootReducer, composeWithDevTools());
+    store = createStore(rootReducer, composeWithDevTools());
 
     return store;
 };

@@ -6,8 +6,6 @@ import { CommonFormProps } from '@/interfaces';
 
 const { TimePicker } = DatePicker;
 
-const { Text } = Typography;
-
 function TimePickerControl(props: CommonFormProps<TimePickerProps>) {
     const { name, label, showError = true, toggleError = false, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
 
@@ -39,7 +37,7 @@ function TimePickerControl(props: CommonFormProps<TimePickerProps>) {
     }, [errors, name]);
 
     const errorElement = React.useMemo(() => {
-        return showError && errors ? <Text type="danger">{<ErrorMessage errors={errors} name={name} />}</Text> : null;
+        return showError && errors ? <ErrorMessage errors={errors} name={name} /> : null;
     }, [showError, errors, name]);
 
     return (

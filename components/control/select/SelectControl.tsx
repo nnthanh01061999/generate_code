@@ -1,11 +1,9 @@
+import { CommonFormProps } from '@/interfaces';
 import { ErrorMessage } from '@hookform/error-message';
-import { Form, Select, SelectProps, Typography } from 'antd';
+import { Form, Select, SelectProps } from 'antd';
 import { get } from 'lodash';
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { CommonFormProps } from '@/interfaces';
-
-const { Text } = Typography;
 
 export interface ISelectControlProps extends CommonFormProps<SelectProps> {
     onChangeCallBack?: (value: any, options?: any) => void;
@@ -42,7 +40,7 @@ function SelectControl(props: ISelectControlProps) {
     }, [errors, name]);
 
     const errorElement = React.useMemo(() => {
-        return showError && errors ? <Text type="danger">{<ErrorMessage errors={errors} name={name} />}</Text> : null;
+        return showError && errors ? <ErrorMessage errors={errors} name={name} /> : null;
     }, [showError, errors, name]);
 
     return (

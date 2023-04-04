@@ -1,10 +1,8 @@
+import { CommonFormProps } from '@/interfaces';
 import { ErrorMessage } from '@hookform/error-message';
-import { Form, InputNumber, InputNumberProps, Typography } from 'antd';
+import { Form, InputNumber, InputNumberProps } from 'antd';
 import React from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
-import { CommonFormProps } from '@/interfaces';
-
-const { Text } = Typography;
 
 function InputNumberControl(props: CommonFormProps<InputNumberProps>) {
     const { name, label, showError = true, toggleError = false, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
@@ -37,7 +35,7 @@ function InputNumberControl(props: CommonFormProps<InputNumberProps>) {
     }, [errors, name]);
 
     const errorElement = React.useMemo(() => {
-        return showError && errors ? <Text type="danger">{<ErrorMessage errors={errors} name={name} />}</Text> : null;
+        return showError && errors ? <ErrorMessage errors={errors} name={name} /> : null;
     }, [showError, errors, name]);
 
     return (
@@ -53,7 +51,17 @@ function InputNumberControl(props: CommonFormProps<InputNumberProps>) {
                     help={errorElement}
                     validateStatus={isHaveError ? 'error' : undefined}
                 >
-                    <InputNumber style={{ width: '100%' }} {...childProps} ref={ref} id={name} value={value} onChange={handleOnChange(onChange)} onBlur={handleOnBlur(onBlur)} />
+                    <InputNumber
+                        className="input-number"
+                        style={{ width: '100%' }}
+                        formatter={(value) => `${value}`.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')}
+                        {...childProps}
+                        ref={ref}
+                        id={name}
+                        value={value}
+                        onChange={handleOnChange(onChange)}
+                        onBlur={handleOnBlur(onBlur)}
+                    />
                 </Form.Item>
             )}
         />

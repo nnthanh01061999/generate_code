@@ -1,10 +1,8 @@
+import { CommonFormProps } from '@/interfaces';
 import { ErrorMessage } from '@hookform/error-message';
-import { Form, Input, InputProps, Typography } from 'antd';
+import { Form, Input, InputProps } from 'antd';
 import React from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
-import { CommonFormProps } from '@/interfaces';
-
-const { Text } = Typography;
 
 function ControlPasswordControl(props: CommonFormProps<InputProps>) {
     const { name, label, showError = true, toggleError = false, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
@@ -37,7 +35,7 @@ function ControlPasswordControl(props: CommonFormProps<InputProps>) {
     }, [errors, name]);
 
     const errorElement = React.useMemo(() => {
-        return showError && errors ? <Text type="danger">{<ErrorMessage errors={errors} name={name} />}</Text> : null;
+        return showError && errors ? <ErrorMessage errors={errors} name={name} /> : null;
     }, [showError, errors, name]);
 
     return (

@@ -1,11 +1,9 @@
 import { CommonFormProps } from '@/interfaces';
 import { ErrorMessage } from '@hookform/error-message';
-import { Form, Typography } from 'antd';
+import { Form } from 'antd';
 import { get } from 'lodash';
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-
-const { Text } = Typography;
 
 function ColorPickerControl(props: CommonFormProps<any>) {
     const { name, label, showError = true, toggleError = false, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
@@ -38,7 +36,7 @@ function ColorPickerControl(props: CommonFormProps<any>) {
     }, [errors, name]);
 
     const errorElement = React.useMemo(() => {
-        return showError && errors ? <Text type="danger">{<ErrorMessage errors={errors} name={name} />}</Text> : null;
+        return showError && errors ? <ErrorMessage errors={errors} name={name} /> : null;
     }, [showError, errors, name]);
 
     return (

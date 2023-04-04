@@ -1,11 +1,9 @@
 import { CommonFormProps } from '@/interfaces';
 import { ErrorMessage } from '@hookform/error-message';
-import { Form, Tree, TreeProps, Typography } from 'antd';
+import { Form, Tree, TreeProps } from 'antd';
 import { get } from 'lodash';
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-
-const { Text } = Typography;
 
 function TreeControl(props: CommonFormProps<TreeProps>) {
     const { name, label, showError = true, toggleError = false, childProps, wrapperProps, onChangeCallBack = undefined } = props;
@@ -29,7 +27,7 @@ function TreeControl(props: CommonFormProps<TreeProps>) {
     }, [errors, name]);
 
     const errorElement = React.useMemo(() => {
-        return showError && isHaveError ? <Text type="danger">{<ErrorMessage errors={errors} name={name} />}</Text> : undefined;
+        return showError && isHaveError ? <ErrorMessage errors={errors} name={name} /> : undefined;
     }, [showError, errors, name, isHaveError]);
 
     return (

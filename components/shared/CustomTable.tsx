@@ -5,9 +5,10 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 export interface ICustomTableProps extends TableProps<any> {
     autoResize?: boolean;
     tableRef?: React.RefObject<HTMLDivElement>;
+    width?: number | string;
 }
 
-const CustomTable: React.FC<ICustomTableProps> = ({ tableRef = null, autoResize = false, pagination = false, ...tableProps }) => {
+const CustomTable: React.FC<ICustomTableProps> = ({ tableRef = null, autoResize = false, width = '100%', style = {}, pagination = false, ...tableProps }) => {
     const [height, setHeight] = useState<number | undefined>(undefined);
 
     const ref = useRef<HTMLDivElement>(null);
@@ -25,7 +26,7 @@ const CustomTable: React.FC<ICustomTableProps> = ({ tableRef = null, autoResize 
     const onCalcHeightDebounce = useCallback(debounce(updateHeight, 500), [updateHeight]);
 
     const xHeight = useMemo(() => {
-        return tableProps.scroll?.x ? tableProps.scroll?.x : 1400;
+        return tableProps.scroll?.x ? tableProps.scroll?.x : '100%';
     }, [tableProps.scroll?.x]);
 
     const yWidth = useMemo(() => {
@@ -34,16 +35,24 @@ const CustomTable: React.FC<ICustomTableProps> = ({ tableRef = null, autoResize 
 
     useEffect(() => {
         updateHeight();
-        window.addEventListener('resize', onCalcHeightDebounce);
+        window.addEventListener('scroll', onCalcHeightDebounce);
         return () => {
-            window.removeEventListener('resize', onCalcHeightDebounce);
+            window.removeEventListener('scroll', onCalcHeightDebounce);
         };
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
         <div ref={ref} className="main-table-wrapper">
-            <Table ref={tableRef} {...tableProps} scroll={{ x: xHeight, y: yWidth }} pagination={pagination} />
+            <Table
+                ref={tableRef}
+                {...tableProps}
+                className={`main-table ${tableProps.className ? tableProps.className : ''}`}
+                style={{ ...style, maxWidth: width }}
+                bordered
+                scroll={{ x: xHeight, y: yWidth }}
+                pagination={pagination}
+            />
         </div>
     );
 };

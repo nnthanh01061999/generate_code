@@ -1,10 +1,8 @@
+import { CommonFormProps } from '@/interfaces';
 import { ErrorMessage } from '@hookform/error-message';
-import { Form, Switch, SwitchProps, Typography } from 'antd';
+import { Form, Switch, SwitchProps } from 'antd';
 import React from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
-import { CommonFormProps } from '@/interfaces';
-
-const { Text } = Typography;
 
 function SwitchControl(props: CommonFormProps<SwitchProps>) {
     const { name, label, showError = true, toggleError = false, childProps, wrapperProps, onChangeCallBack = undefined } = props;
@@ -28,7 +26,7 @@ function SwitchControl(props: CommonFormProps<SwitchProps>) {
     }, [errors, name]);
 
     const errorElement = React.useMemo(() => {
-        return showError && errors ? <Text type="danger">{<ErrorMessage errors={errors} name={name} />}</Text> : null;
+        return showError && errors ? <ErrorMessage errors={errors} name={name} /> : null;
     }, [showError, errors, name]);
 
     return (

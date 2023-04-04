@@ -3,8 +3,9 @@ import dbConnect from '@/mongo/lib/dbConnect';
 import Home from '@/sites/Home';
 import type { GetStaticPropsContext } from 'next';
 
-const Page = () => {
-    return <Home isConnected messages />;
+const Page = (props: any) => {
+    const { messages } = props;
+    return <Home isConnected messages={messages} />;
 };
 
 Page.Layout = MainLayout;
@@ -22,12 +23,24 @@ export async function getServerSideProps({ locale }: GetStaticPropsContext) {
         // db.find({}) or any of the MongoDB Node Driver commands
 
         return {
-            props: { isConnected: true, messages: (await import(`@/messages/${locale}.json`)).default },
+            props: {
+                isConnected: true,
+                messages: {
+                    Common: (await import(`@/messages/${locale}/Common.json`)).default,
+                    Home: (await import(`@/messages/${locale}/site/Home.json`)).default,
+                },
+            },
         };
     } catch (e) {
         console.error(e);
         return {
-            props: { isConnected: false, messages: (await import(`@/messages/${locale}.json`)).default },
+            props: {
+                isConnected: false,
+                messages: {
+                    Common: (await import(`@/messages/${locale}/Common.json`)).default,
+                    Home: (await import(`@/messages/${locale}/site/Home.json`)).default,
+                },
+            },
         };
     }
 }

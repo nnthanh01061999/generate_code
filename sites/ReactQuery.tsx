@@ -200,7 +200,7 @@ function ReactQuery() {
             <Title level={1}>{t('title')}</Title>
             <Row gutter={[12, 12]}>
                 <Col md={8} sm={12} xs={24}>
-                    <Title>{tC('form')}</Title>
+                    <Title>{tC('form_')}</Title>
                     <Spin spinning={isLoadingCreate || isLoadingUpdate}>
                         <Form layout="vertical" onFinish={handleSubmit(onSuccess)}>
                             <FormProvider {...formMethod}>

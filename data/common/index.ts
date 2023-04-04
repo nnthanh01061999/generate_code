@@ -1,7 +1,6 @@
 export * from '@/data/common/date';
 export * from '@/data/common/locale';
 export * from '@/data/common/pagination';
-export * from '@/data/common/paths';
 export * from '@/data/common/device-width';
 export * from '@/data/common/header';
 export * from '@/data/common/config';
@@ -9,3 +8,4 @@ export * from '@/data/common/dropdown';
 export * from '@/data/common/be-error-code';
 export * from '@/data/common/color';
 export * from '@/data/common/boolean';
+export * from '@/data/common/regex';

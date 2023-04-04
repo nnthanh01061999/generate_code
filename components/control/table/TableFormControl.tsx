@@ -1,11 +1,13 @@
 import CustomTable, { ICustomTableProps } from '@/components/shared/CustomTable';
+import NumberFormat from '@/components/shared/NumberFormat';
+import { IColumnType, ITableForwardRef } from '@/interfaces';
 import { useEffectKeyboardShortcut } from '@/utils';
 import { ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { ErrorMessage } from '@hookform/error-message';
 import { Button, Row, Space, Typography } from 'antd';
-import { ColumnType } from 'antd/es/table';
 import { useTranslations } from 'next-intl';
-import React, { Fragment, useEffect, useRef } from 'react';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import React, { forwardRef, Fragment, Key, useEffect, useImperativeHandle, useRef } from 'react';
+import { FieldValues, useFieldArray, UseFieldArrayReturn, useFormContext } from 'react-hook-form';
 
 const { Text } = Typography;
 
@@ -18,28 +20,39 @@ export interface CustomMyKeyDownEvent extends globalThis.KeyboardEvent {
 }
 
 export interface ITableFormControlProps {
+    disabled?: boolean;
     name: string;
     label?: React.ReactNode;
     defaultValue: any;
-    columns: ColumnType<any>[];
+    columns: IColumnType<any>[];
     keys?: ITableFormControlKeyEvent[];
     tableProps: ICustomTableProps;
+    addable?: boolean;
+    swappable?: boolean;
+    indexable?: boolean;
+    deletable?: boolean;
+    onChangeSelection?: (method: UseFieldArrayReturn<FieldValues, string, 'id'>, selectedRowKeys: Key[], seletecRows: any[]) => void;
 }
 
-function TableFormControl(props: ITableFormControlProps) {
-    const { name, label, defaultValue = {}, keys = defaultKeys, columns, tableProps } = props;
+function TableFormControl<T>(props: ITableFormControlProps, ref: ITableForwardRef<T>) {
+    const { disabled, name, label, defaultValue = {}, keys = defaultKeys, columns, tableProps, addable = true, swappable = true, indexable = true, deletable = true, onChangeSelection } = props;
 
-    const ref = useRef<HTMLDivElement>(null);
+    const tableRef = useRef<HTMLDivElement>(null);
 
     const tC = useTranslations('Common');
     const tT = useTranslations('Common.table');
 
-    const { control } = useFormContext();
+    const {
+        control,
+        formState: { errors },
+    } = useFormContext();
 
-    const { fields, remove, append, swap } = useFieldArray({
+    const methodArray = useFieldArray({
         control,
         name,
     });
+
+    const { fields, remove, append, swap } = methodArray;
 
     const onAdd = () => {
         append(defaultValue);
@@ -59,25 +72,34 @@ function TableFormControl(props: ITableFormControlProps) {
 
     const { setFocus } = useFormContext();
 
-    const columnsWithOperation: ColumnType<any>[] = [
-        ...columns,
-        {
-            responsive: ['sm'],
-            title: tT('columns.operation.label'),
-            key: 'operation',
-            fixed: 'right',
-            width: 140,
-            render: (_, __, index) => {
-                return (
-                    <Space>
-                        <Button icon={<ArrowUpOutlined />} type="link" onClick={() => onUp(index)} disabled={index === 0} />
-                        <Button icon={<ArrowDownOutlined />} type="link" onClick={() => onDown(index)} disabled={index === (fields || [])?.length - 1} />
-                        <Button icon={<DeleteOutlined />} type="link" onClick={() => onRemove(index)} />
-                    </Space>
-                );
-            },
+    const indexColumn: IColumnType<any> = {
+        fixed: 'left',
+        responsive: ['sm'],
+        title: tT('columns.index'),
+        dataIndex: 'id',
+        key: 'id',
+        width: 80,
+        render: (_, __, index) => <NumberFormat value={index + 1} />,
+    };
+
+    const operateColumn: IColumnType<any> = {
+        responsive: ['sm'],
+        title: tT('columns.operation.label'),
+        key: 'operation',
+        fixed: 'right',
+        width: swappable ? 140 : 80,
+        render: (_, __, index) => {
+            return (
+                <Space>
+                    {swappable ? <Button size="middle" icon={<ArrowUpOutlined />} type="link" onClick={() => onUp(index)} disabled={index === 0 || disabled} /> : null}
+                    {swappable ? <Button size="middle" icon={<ArrowDownOutlined />} type="link" onClick={() => onDown(index)} disabled={index === (fields || [])?.length - 1 || disabled} /> : null}
+                    {deletable ? <Button size="middle" icon={<DeleteOutlined />} type="link" onClick={() => onRemove(index)} disabled={disabled} /> : null}
+                </Space>
+            );
         },
-    ];
+    };
+
+    const columnsWithOperation: IColumnType<any>[] = [...(indexable ? [indexColumn] : []), ...columns, ...(deletable || swappable ? [operateColumn] : [])];
 
     const getNewTarget = (key: string, id: string, index: number) => {
         if (key === 'ArrowDown') {
@@ -89,10 +111,19 @@ function TableFormControl(props: ITableFormControlProps) {
         return '';
     };
 
+    useImperativeHandle(
+        ref,
+        () => ({
+            getMethod: () => methodArray,
+        }),
+
+        [methodArray],
+    );
+
     useEffectKeyboardShortcut({ new: onAdd });
 
     useEffect(() => {
-        const ref_ = ref;
+        const ref_ = tableRef;
         const handleKeyPress = (event: globalThis.KeyboardEvent) => {
             const a = event as CustomMyKeyDownEvent;
             if (a && keys.includes(event.key)) {
@@ -120,20 +151,44 @@ function TableFormControl(props: ITableFormControlProps) {
 
     return (
         <Fragment>
-            <Row align="middle" justify="space-between">
+            <Row gutter={[12, 12]} align="middle" justify="space-between" style={label || addable ? { marginBottom: 8 } : {}}>
                 <Text strong className="margin-right">
                     {label}
+                    {` `}
+                    <Text type="danger">
+                        <ErrorMessage errors={errors} name={name} />
+                    </Text>
                 </Text>
-                <Button icon={<PlusOutlined />} onClick={onAdd}>
-                    {tC('form.add')}
-                </Button>
+                {addable ? (
+                    <Button disabled={disabled} size="middle" icon={<PlusOutlined />} onClick={onAdd}>
+                        {tC('form.add')}
+                    </Button>
+                ) : null}
             </Row>
-            <br />
             <Row gutter={[24, 12]}>
-                <CustomTable tableRef={ref} dataSource={fields} {...tableProps} columns={columnsWithOperation} rowKey={(record) => record.id} />
+                <CustomTable
+                    tableRef={tableRef}
+                    dataSource={fields}
+                    {...tableProps}
+                    rowSelection={
+                        tableProps?.rowSelection
+                            ? {
+                                  selectedRowKeys: fields?.filter((item: any) => item?.__selected)?.map((item) => item.id as Key),
+                                  onChange: (selectedRowKeys: Key[], selectedRows: T[]) => {
+                                      if (onChangeSelection instanceof Function) {
+                                          onChangeSelection(methodArray, selectedRowKeys, selectedRows);
+                                      }
+                                  },
+                                  ...tableProps?.rowSelection,
+                              }
+                            : undefined
+                    }
+                    columns={columnsWithOperation}
+                    rowKey={(record) => record.id}
+                />
             </Row>
         </Fragment>
     );
 }
 
-export default TableFormControl;
+export default forwardRef(TableFormControl);

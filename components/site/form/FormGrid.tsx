@@ -38,7 +38,7 @@ function FormGrid(props: IFormGridProps) {
             dataIndex: 'key',
             key: 'key',
             fixed: 'left',
-            width: 300,
+            width: 240,
             render: (_, __, index) => <InputControl name={`${name}[${index}].key`} toggleError />,
         },
         {
@@ -56,6 +56,7 @@ function FormGrid(props: IFormGridProps) {
             title: 'default',
             dataIndex: 'defaultValue',
             key: 'defaultValue',
+            width: 160,
             render: (_, __, index) => <CheckBoxControl name={`${name}[${index}].defaultValue`} />,
         },
         {
@@ -64,6 +65,7 @@ function FormGrid(props: IFormGridProps) {
             title: 'required',
             dataIndex: 'required',
             key: 'required',
+            width: 160,
             render: (_, __, index) => <CheckBoxControl name={`${name}[${index}].required`} />,
         },
         {
@@ -72,6 +74,7 @@ function FormGrid(props: IFormGridProps) {
             title: 'xs',
             dataIndex: 'xs',
             key: 'xs',
+            width: 160,
             render: (_, __, index) => <InputNumberControl name={`${name}[${index}].xs`} toggleError />,
         },
         {
@@ -80,14 +83,16 @@ function FormGrid(props: IFormGridProps) {
             title: 'sm',
             dataIndex: 'sm',
             key: 'sm',
+            width: 160,
             render: (_, __, index) => <InputNumberControl name={`${name}[${index}].sm`} toggleError />,
         },
         {
             responsive: ['sm'],
             align: 'left',
             title: 'md',
-            dataIndex: ' d',
-            key: ' d',
+            dataIndex: 'md',
+            key: 'md',
+            width: 160,
             render: (_, __, index) => <InputNumberControl name={`${name}[${index}].md`} toggleError />,
         },
     ];

@@ -30,9 +30,7 @@ export const isBoolean = (value: any) => {
 };
 
 export const getBoolean = (value: any) => {
-    if (value === 'true') return true;
-    if (value === 'false') return false;
-    return false;
+    return value === 'true' || value === 1 || value === '1';
 };
 
 export const getNumber = (value: any) => {
@@ -144,6 +142,41 @@ export function getValueBooleanSelect(value: string) {
     return undefined;
 }
 
+export function findAllBranches<T>(node: T, nodes: T[], id: keyof T, parent_id: keyof T, branch: any[] = []): any[][] {
+    branch.push(node?.[id]); // add current node to branch path
+    const children = nodes.filter((n) => n?.[parent_id] === node?.[id]); // find children of current node
+    if (children.length === 0) {
+        return [branch]; // if node has no children, return the current branch
+    }
+    const branches: number[][] = [];
+    for (const child of children) {
+        const childBranches = findAllBranches(child, nodes, id, parent_id, [...branch]); // recursively find child branches
+        branches.push(...childBranches); // add child branches to result
+    }
+    return branches;
+}
+
+interface Node {
+    menu_id: number;
+    parent_menu_id: number;
+    value: string;
+}
+
+export const getFileExtension = (filename: string) => {
+    return filename.split('.').pop() ?? '';
+};
+
+export function formatBytes(bytes: number, decimals = 2) {
+    if (!+bytes) return '0 Bytes';
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+}
 export const formatKeySnake = (key: string, suffix: string): string => snakeCase(key).toUpperCase() + '_' + upperCase(suffix).trim().split(' ').join('_');
 
 export const formatKeyTitleCase = (key: string, suffix: string): string => startCase(key).split(' ').join('') + startCase(suffix).trim().split(' ').join('');

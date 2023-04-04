@@ -20,7 +20,7 @@ export const qsParseBoolean = (param: TParam, defaultValue: boolean | undefined 
     return isBoolean(param) ? getBoolean(param) : defaultValue;
 };
 
-export const qsParseObject = (valueParam: TParam, labelParam: TParam, defaultValue: any = undefined, numberic = false): IOption<number | string> | undefined => {
+export const qsParseObject = (valueParam: TParam, labelParam: TParam, defaultValue: any = undefined, numberic = false): IOption<number> | undefined => {
     if (numberic) {
         return valueParam && isNumberic(valueParam) && labelParam
             ? {

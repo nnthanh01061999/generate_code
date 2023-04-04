@@ -18,6 +18,7 @@ import { useStore } from 'react-redux';
 import { useDeviceChangeMobile } from '@/store/reducer/device/deviceHook';
 import 'antd/dist/reset.css';
 import '@/styles/index.scss';
+import { applyStorageState } from '@/store/cache';
 
 export type CusAppProps = AppProps & {
     Component: NextComponentType<NextPageContext, any> & {
@@ -63,6 +64,7 @@ function MyApp({ Component, pageProps }: CusAppProps) {
         const state = load();
         if (state) {
             applyClientState(state);
+            applyStorageState(state);
         }
 
         if (process.browser) {

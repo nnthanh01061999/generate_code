@@ -4,8 +4,6 @@ import React, { ReactNode } from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
 import { CommonFormProps } from '@/interfaces';
 
-const { Text } = Typography;
-
 export interface CheckBoxControlProps extends CommonFormProps<RadioProps> {
     labelCheckBox?: ReactNode;
 }
@@ -32,7 +30,7 @@ function CheckBoxControl(props: CheckBoxControlProps) {
     }, [errors, name]);
 
     const errorElement = React.useMemo(() => {
-        return showError && errors ? <Text type="danger">{<ErrorMessage errors={errors} name={name} />}</Text> : null;
+        return showError && errors ? <ErrorMessage errors={errors} name={name} /> : null;
     }, [showError, errors, name]);
 
     return (

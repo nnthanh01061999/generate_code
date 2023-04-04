@@ -10,3 +10,8 @@ export * from '@/interfaces/common/dropdown';
 export * from '@/interfaces/common/params';
 export * from '@/interfaces/common/modify';
 export * from '@/interfaces/common/tree';
+export * from '@/interfaces/common/filter';
+export * from '@/interfaces/common/model';
+export * from '@/interfaces/common/export';
+export * from '@/interfaces/common/table';
+export * from '@/interfaces/common/file';

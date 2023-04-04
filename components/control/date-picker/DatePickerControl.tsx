@@ -4,8 +4,6 @@ import React from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
 import { CommonFormProps } from '@/interfaces';
 
-const { Text } = Typography;
-
 function DatePickerControl(props: CommonFormProps<DatePickerProps>) {
     const { name, label, showError = true, toggleError = false, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
 
@@ -37,7 +35,7 @@ function DatePickerControl(props: CommonFormProps<DatePickerProps>) {
     }, [errors, name]);
 
     const errorElement = React.useMemo(() => {
-        return showError && errors ? <Text type="danger">{<ErrorMessage errors={errors} name={name} />}</Text> : null;
+        return showError && errors ? <ErrorMessage errors={errors} name={name} /> : null;
     }, [showError, errors, name]);
 
     return (
@@ -53,7 +51,18 @@ function DatePickerControl(props: CommonFormProps<DatePickerProps>) {
                     help={errorElement}
                     validateStatus={isHaveError ? 'error' : undefined}
                 >
-                    <DatePicker allowClear {...childProps} format={'DD/MM/YYYY'} ref={ref} id={name} value={value} onChange={handleOnChange(onChange)} onBlur={handleOnBlur(onBlur)} />
+                    <DatePicker
+                        allowClear
+                        style={{ width: '100%' }}
+                        placeholder={''}
+                        {...childProps}
+                        format={'DD/MM/YYYY'}
+                        ref={ref}
+                        id={name}
+                        value={value}
+                        onChange={handleOnChange(onChange)}
+                        onBlur={handleOnBlur(onBlur)}
+                    />
                 </Form.Item>
             )}
         />

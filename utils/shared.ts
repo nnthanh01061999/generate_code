@@ -22,6 +22,14 @@ export const getBeURL = (path: string) => {
     return process.env.NEXT_PUBLIC_BE_DOMAIN + path;
 };
 
+export const getBeSocketURL = (path: string) => {
+    return process.env.NEXT_PUBLIC_BE_SOCKET_DOMAIN + path;
+};
+
+export const getBEDownloadURL = (url: string) => {
+    return url?.replace('[CLIENT_DOWNLOAD_URL]', process.env.NEXT_PUBLIC_CLIENT_DOWNLOAD_URL || '');
+};
+
 export const extractHostname = (url: string) => {
     var hostname;
     //find & remove protocol (http, ftp, etc.) and get hostname

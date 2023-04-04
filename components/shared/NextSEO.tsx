@@ -1,12 +1,13 @@
 import Head from 'next/head';
 
-const DOMAIN = 'https://generate-code-n6ny.vercel.app';
-const DEFAULT_OG_IMAGE = 'https://www.svgrepo.com/show/423844/whale-origami-paper.svg';
+const DOMAIN = typeof window !== 'undefined' && window.location.origin ? window.location.origin : '';
+
+const DEFAULT_OG_IMAGE = 'public\next.svg';
 
 export default function NextSEO({
-    title = "NNThanh's Code Space",
-    description = "NNThanh works on frontend development. He's passionate about design, coding, SaaS, and indie hacking.",
-    siteName = "NNThanh's Code Space",
+    title = 'Midea Media',
+    description = 'Midea Media Web Business Operation',
+    siteName = 'Midea Media Web Business Operation',
     canonical = DOMAIN,
     ogImage = DEFAULT_OG_IMAGE,
     ogType = 'website',

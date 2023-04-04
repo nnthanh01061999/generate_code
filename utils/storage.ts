@@ -1,8 +1,10 @@
-export const getStorage = (key: string) => localStorage.getItem(key);
+import { APP_PREFIX } from '@/data';
 
-export const setStorage = (key: string, value: any) => localStorage.setItem(key, value);
+export const getStorage = (key: string) => localStorage.getItem(`${APP_PREFIX}${key}`);
 
-export const removeStorage = (key: string) => localStorage.removeItem(key);
+export const setStorage = (key: string, value: any) => localStorage.setItem(`${APP_PREFIX}${key}`, value);
+
+export const removeStorage = (key: string) => localStorage.removeItem(`${APP_PREFIX}${key}`);
 
 export const clearAllStorage = () => localStorage.clear();
 

@@ -1,13 +1,22 @@
 import { ModalContext } from '@/context';
-import { DATE_FORMAT_LONG, DEFAULT_PAGE, DEFAULT_REFRESH, DEFAULT_SIZE, DEFAULT_TOTAL, locales } from '@/data';
-import { IPageState, TParam } from '@/interfaces';
-import { qsParseNumber, qsStringify } from '@/utils';
-import { message, Modal, ModalFuncProps, notification } from 'antd';
+import { DATE_FORMAT_LONG, DEFAULT_PAGE, DEFAULT_REFRESH, DEFAULT_SIZE, DEFAULT_TOTAL, locales, TDropdown } from '@/data';
+import { IExportFormValues, IExportParams, IExportPayload, IPageState, TParam } from '@/interfaces';
+import { useAppConfig, useUpdateNotifyConfig } from '@/store/reducer/app-config/appConfigHook';
+import { AppConfigUpdateNotifyConfigKey } from '@/store/reducer/app-config/appConfigTypes';
+import { getFiledExportPayload, getParamsExport, qsParseNumber, qsStringify, saveFile } from '@/utils';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Checkbox, message, Modal, ModalFuncProps, notification, Typography } from 'antd';
+import { AxiosResponse } from 'axios';
 import dayjs from 'dayjs';
+import { snakeCase } from 'lodash';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/router';
-import { DependencyList, Dispatch, EffectCallback, SetStateAction, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { DependencyList, Dispatch, EffectCallback, SetStateAction, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useForm, UseFormProps } from 'react-hook-form';
+import * as yup from 'yup';
 import { qsParseBoolean } from './query-string';
+
+const { Text } = Typography;
 
 export const usePreload = (loading: boolean) => {
     useEffect(() => {
@@ -295,8 +304,16 @@ export const usePagination = ({ page, size, total, refresh }: IPaginationProps) 
         }));
     };
 
+    const onReloadPagination = () => {
+        setPagination((prev) => ({
+            ...prev,
+            refresh: true,
+        }));
+    };
+
     return {
         pagination,
+        onReloadPagination,
         setPagination,
         getNextPage,
         onChange,
@@ -341,10 +358,16 @@ export const useModalHandle = () => {
             openedModals: [],
         });
     };
+
+    const checkModalOpen = (name: string) => {
+        return !!data?.openedModals?.includes(name);
+    };
+
     return {
         openModal,
         closeModal,
         closeAllModal,
+        checkModalOpen,
     };
 };
 
@@ -383,24 +406,80 @@ export const useNotify = () => {
 
 export const useConfirmModal = () => {
     const tC = useTranslations('Common');
+    const appConfig = useAppConfig();
 
-    const [customConfirmModal] = useState(() => ({
-        error: (props?: ModalFuncProps) => {
-            Modal.error({ centered: true, title: tC('title'), okButtonProps: { type: 'default' }, ...props });
-        },
-        info: (props?: ModalFuncProps) => {
-            Modal.info({ centered: true, title: tC('title'), okButtonProps: { type: 'default' }, ...props });
-        },
-        success: (props?: ModalFuncProps) => {
-            Modal.success({ centered: true, title: tC('title'), content: tC('notify.save_success'), okButtonProps: { type: 'default' }, ...props });
-        },
-        confirm: (props?: ModalFuncProps) => {
-            Modal.confirm({ centered: true, title: tC('title'), okButtonProps: { type: 'default' }, ...props });
-        },
-        waring: (props?: ModalFuncProps) => {
-            Modal.warning({ centered: true, title: tC('title'), okButtonProps: { type: 'default' }, ...props });
-        },
-    }));
+    const updateConfigNoti = useUpdateNotifyConfig();
+
+    const notify = useNotify();
+
+    const createNotification = (configKey: AppConfigUpdateNotifyConfigKey, messageKey: string, props?: ModalFuncProps) => {
+        if (appConfig.notify[configKey]) {
+            let hideCallback = false;
+            const onCheck = (e: any) => {
+                hideCallback = e.target.checked;
+            };
+            const content = (
+                <div>
+                    {tC(messageKey)}
+                    <Checkbox className="not-show-again" onChange={onCheck}>
+                        <Text>{tC('notify.not_show_again')}</Text>
+                    </Checkbox>
+                </div>
+            );
+
+            const onOk = () => {
+                if (props?.onOk instanceof Function) {
+                    props.onOk();
+                }
+                if (hideCallback) {
+                    updateConfigNoti({ key: configKey, value: false });
+                }
+            };
+            if (['noti_sucess'].includes(configKey)) {
+                Modal.success({ centered: true, title: tC('title'), okButtonProps: { type: 'default' }, ...props, content: content, onOk });
+            } else if (['confirm_close_modal', 'confirm_save'].includes(configKey)) {
+                Modal.confirm({ centered: true, title: tC('title'), okButtonProps: { type: 'default' }, ...props, content: content, onOk });
+            }
+        } else {
+            if (['noti_sucess']?.includes(configKey)) {
+                notify.success();
+            }
+            if (props?.onOk instanceof Function) {
+                props.onOk();
+            }
+        }
+    };
+
+    const customConfirmModal = useMemo(
+        () => ({
+            error: (props?: ModalFuncProps) => {
+                Modal.error({ centered: true, title: tC('title'), okButtonProps: { type: 'default' }, ...props });
+            },
+            info: (props?: ModalFuncProps) => {
+                Modal.info({ centered: true, title: tC('title'), okButtonProps: { type: 'default' }, ...props });
+            },
+            success: (props?: ModalFuncProps) => {
+                createNotification('noti_sucess', 'notify.save_success', props);
+            },
+
+            confirmClose: (props?: ModalFuncProps) => {
+                createNotification('confirm_close_modal', 'modal.confirm', props);
+            },
+
+            confirmSave: (props?: ModalFuncProps) => {
+                createNotification('confirm_save', 'form.confirm.save', props);
+            },
+            confirm: (props?: ModalFuncProps) => {
+                Modal.confirm({ centered: true, title: tC('title'), okButtonProps: { type: 'default' }, ...props });
+            },
+            waring: (props?: ModalFuncProps) => {
+                Modal.warning({ centered: true, title: tC('title'), okButtonProps: { type: 'default' }, ...props });
+            },
+        }),
+
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+        [appConfig.notify, createNotification],
+    );
 
     return customConfirmModal;
 };
@@ -444,6 +523,7 @@ export const useMutateData = () => {
             const newTotal = (prev.data?.total || 0) + 1;
             return {
                 ...prev,
+                action: 'none',
                 data: { ...prev.data, items: newItems, total: newTotal },
             };
         });
@@ -456,6 +536,7 @@ export const useMutateData = () => {
             const newItems = prev.data?.items?.map((item) => (item?.[key] === id ? newItem : item)) || [];
             return {
                 ...prev,
+                action: 'none',
                 data: { items: newItems, total: prev.data?.total || 0 },
             };
         });
@@ -469,6 +550,7 @@ export const useMutateData = () => {
             return {
                 ...prev,
                 id: 0,
+                action: 'none',
                 data: { items: newItems, total: newTotal },
             };
         });
@@ -491,19 +573,24 @@ export interface KBShortcutEvent {
     new?: () => void;
 }
 
-export const useEffectKeyboardShortcut = (events: KBShortcutEvent) => {
+export interface KBShortcutDisabled {
+    save?: boolean;
+    new?: boolean;
+}
+
+export const useEffectKeyboardShortcut = (events: KBShortcutEvent, disabled?: KBShortcutDisabled) => {
     useEffect(() => {
         const handleKeyPress = (event: any) => {
             let charCode = String.fromCharCode(event.which).toLowerCase();
             if ((event.ctrlKey || event.metaKey) && charCode === 's') {
-                if (events.save) {
+                if (events.save && !!!disabled?.save) {
                     event.preventDefault();
                     events.save();
                 }
             }
 
-            if ((event.ctrlKey || event.metaKey) && event.shiftKey) {
-                if (events.new) {
+            if ((event.ctrlKey || event.metaKey) && event.shiftKey && charCode === 'a') {
+                if (events.new && !!!disabled?.new) {
                     event.preventDefault();
                     events.new();
                 }
@@ -515,5 +602,172 @@ export const useEffectKeyboardShortcut = (events: KBShortcutEvent) => {
         return () => {
             window.removeEventListener('keydown', handleKeyPress);
         };
-    }, [events]);
+    }, [events, disabled]);
 };
+
+export const useExport = () => {
+    const notify = useNotify();
+    const confirmModal = useConfirmModal();
+    const { closeModal } = useModalHandle();
+
+    function exportFile<T, M, C>(
+        sheetName: string,
+        modalName: string,
+        data: IExportFormValues<T, C>,
+        getParamFn: (data: IExportFormValues<T, C>) => M,
+        exportApi: (params: IExportParams<M>, payload: IExportPayload) => Promise<AxiosResponse<any, any>>,
+    ) {
+        const params = getParamsExport(data, getParamFn);
+        const payload = getFiledExportPayload(data, sheetName);
+        notify.loading();
+        exportApi(params, payload)
+            ?.then((rp) => {
+                saveFile(rp);
+                closeModal(modalName);
+            })
+            .catch((error: any) => {
+                confirmModal.error({ content: error?.message });
+            })
+            .finally(() => {
+                notify.destroy();
+            });
+    }
+
+    return {
+        exportFile,
+    };
+};
+
+export function useFormExport<T, M>(props: UseFormProps<any, any>) {
+    const tC = useTranslations('Common');
+    const tE = useTranslations('Common.export.columns');
+
+    const fieldPrefix = useMemo(
+        () => [
+            {
+                title: tE('id'),
+                dataIndex: 'id',
+                key: 'id',
+                __exportable: true,
+                __selected: false,
+            },
+        ],
+        [tE],
+    );
+
+    const fieldSuffix = useMemo(
+        () => [
+            {
+                title: tE('username0'),
+                dataIndex: 'username0',
+                key: 'username0',
+                __exportable: true,
+                __selected: false,
+            },
+            {
+                title: tE('username2'),
+                dataIndex: 'username2',
+                key: 'username2',
+                __exportable: true,
+                __selected: false,
+            },
+            {
+                title: tE('datetime0'),
+                dataIndex: 'datetime0',
+                key: 'datetime0',
+                __exportable: true,
+                __selected: false,
+            },
+            {
+                title: tE('datetime2'),
+                dataIndex: 'datetime2',
+                key: 'datetime2',
+                __exportable: true,
+                __selected: false,
+            },
+        ],
+        [tE],
+    );
+
+    const schemaExport = useMemo(() => {
+        return yup.object({
+            fields: yup.array().test({
+                name: 'has-selected',
+                message: tC('export.validate'),
+                test: (value: any) => {
+                    return value?.some((field: any) => field.__selected === true);
+                },
+            }),
+        });
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [yup]);
+
+    const methodExport = useForm<IExportFormValues<T, M>>({
+        resolver: yupResolver(schemaExport),
+        ...props,
+        defaultValues: {
+            ...props.defaultValues,
+        },
+    });
+
+    return { fieldPrefix, fieldSuffix, methodExport };
+}
+
+interface IBitIndexProps {
+    path: string;
+    action: TDropdown;
+}
+
+export function useFormatErrorMessage(messagePath: string) {
+    const t = useTranslations(messagePath);
+
+    const matchSquareBraket = (data: string) => {
+        const leftBracketIndex2 = data.indexOf('[');
+        const rightBracketIndex2 = data.lastIndexOf(']');
+        const matchNested = data.substring(leftBracketIndex2, rightBracketIndex2 + 1);
+        return matchNested;
+    };
+
+    const regex1 = /\*\*\[.*?\]\*\*/g;
+
+    const formatErrorMessage = (inputString: string) => {
+        try {
+            const matchRegex = inputString.match(regex1);
+
+            let newString: string = inputString;
+
+            if (matchRegex) {
+                const match = matchSquareBraket(matchRegex[0]);
+
+                if (match) {
+                    const oldValue = match;
+
+                    let path: string = oldValue;
+
+                    const subString = oldValue.slice(1, oldValue.length - 1);
+
+                    const matchNested = matchSquareBraket(subString);
+
+                    if (matchNested) {
+                        path = oldValue.replace(matchNested, '');
+                    }
+
+                    const newPath = path
+                        .split('.')
+                        ?.map((item) => snakeCase(item))
+                        .join('.');
+
+                    const newValue = t(`${newPath}.title`);
+
+                    newString = inputString.replace(`**${oldValue}**`, newValue);
+                }
+            }
+
+            return newString;
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    return { formatErrorMessage };
+}

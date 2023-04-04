@@ -18,7 +18,7 @@ export interface IMainResponse<T> {
     data: T;
 }
 
-export type TAction = 'create' | 'update' | 'view';
+export type TAction = 'create' | 'update' | 'view' | 'none' | 'search';
 
 export type IPageState<T> = {
     action: TAction;

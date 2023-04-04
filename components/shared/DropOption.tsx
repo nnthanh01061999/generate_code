@@ -4,6 +4,7 @@ import { usePageProcess } from '@/utils';
 import { BarsOutlined, DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, DropDownProps, Typography } from 'antd';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/router';
 import React, { CSSProperties, useMemo } from 'react';
 
 const { Text } = Typography;
@@ -18,6 +19,8 @@ const DropOption: React.FC<IDropOptionProps> = ({ menuOptions, buttonStyle, drop
     const tC = useTranslations('Common');
     const disabled = dropdownProps ? dropdownProps?.disabled : false;
     const loadingPage = usePageProcess();
+
+    const router = useRouter();
 
     const actionById = useMemo(() => menuOptions.reduce((prev, cur) => ({ ...prev, [cur.id]: cur.onClick }), {}), [menuOptions]);
 
@@ -56,7 +59,7 @@ const DropOption: React.FC<IDropOptionProps> = ({ menuOptions, buttonStyle, drop
 
     return (
         <Dropdown menu={{ items: generateMenus(menuOptionsFormat(menuOptions)), onClick: onClickMenu }} {...dropdownProps} disabled={disabled || loadingPage}>
-            <Button style={{ border: 'none', ...buttonStyle }}>
+            <Button size="middle" style={{ border: 'none', ...buttonStyle }}>
                 <BarsOutlined style={{ marginRight: 2 }} />
                 <DownOutlined />
             </Button>

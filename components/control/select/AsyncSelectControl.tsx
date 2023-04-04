@@ -1,12 +1,10 @@
+import AsyncSelect, { IAsyncSelectProps } from '@/components/shared/AsyncSelect';
 import { CommonFormProps } from '@/interfaces';
-
 import { ErrorMessage } from '@hookform/error-message';
-import { Form, Typography } from 'antd';
+import { Form } from 'antd';
 import { get } from 'lodash';
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import AsyncSelect, { IAsyncSelectProps } from '@/components/shared/AsyncSelect';
-const { Text } = Typography;
 
 export interface IAsyncSelectControlProps extends CommonFormProps<IAsyncSelectProps> {
     onChangeCallBack?: (value: any, options?: any) => void;
@@ -34,7 +32,7 @@ function AsyncSelectControl(props: IAsyncSelectControlProps) {
     }, [errors, name]);
 
     const errorElement = React.useMemo(() => {
-        return showError && errors ? <Text type="danger">{<ErrorMessage errors={errors} name={name} />}</Text> : null;
+        return showError && errors ? <ErrorMessage errors={errors} name={name} /> : null;
     }, [showError, errors, name]);
 
     return (
@@ -50,7 +48,7 @@ function AsyncSelectControl(props: IAsyncSelectControlProps) {
                     help={errorElement}
                     validateStatus={isHaveError ? 'error' : undefined}
                 >
-                    <AsyncSelect allowClear {...childProps} ref={ref} id={name} value={value} onChange={handleOnChange(onChange)} />
+                    <AsyncSelect allowClear {...childProps} config={{ ...childProps.config, name: name }} ref={ref} id={name} value={value} onChange={handleOnChange(onChange)} />
                 </Form.Item>
             )}
         />

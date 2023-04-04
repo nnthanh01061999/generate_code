@@ -2,7 +2,8 @@ import { DROPDOWN_OPTIONS } from '@/data';
 import { IDropdown } from '@/interfaces';
 import { Menu, MenuProps } from 'antd';
 import { useTranslations } from 'next-intl';
-import React, { useMemo } from 'react';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 interface IMenuOptionProps {
     menuOptions: IDropdown[];
@@ -12,7 +13,7 @@ interface IMenuOptionProps {
 const MenuOption: React.FC<IMenuOptionProps> = ({ menuOptions, menuProps }) => {
     const tC = useTranslations('Common');
 
-    const actionById = useMemo(() => menuOptions.reduce((prev, cur) => ({ ...prev, [cur.id]: cur.onClick }), {}), [menuOptions]);
+    const router = useRouter();
 
     const generateMenus = (data: IDropdown[]) => {
         return data.map((item) => ({
@@ -38,13 +39,10 @@ const MenuOption: React.FC<IMenuOptionProps> = ({ menuOptions, menuProps }) => {
 
     const onClickMenu = (e: any) => {
         const key = e.key;
-        const onClick: Function = actionById?.[key as keyof typeof actionById];
-        if (onClick instanceof Function) {
-            onClick();
-        }
+        console.log('🚀 >>> key:', key);
     };
 
-    return <Menu items={generateMenus(menuOptionsFormat(menuOptions))} onClick={onClickMenu} {...menuProps} />;
+    return <Menu className="main-menu-option" items={generateMenus(menuOptionsFormat(menuOptions))} onClick={onClickMenu} {...menuProps} />;
 };
 
 export default MenuOption;

@@ -8,8 +8,6 @@ import { Controller, get, useFormContext } from 'react-hook-form';
 
 const { RangePicker } = DatePicker;
 
-const { Text } = Typography;
-
 function RangePickerControl(props: CommonFormProps<RangePickerProps>) {
     const { name, label, showError = true, toggleError = false, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
     const cloneChildDrop = cloneDeep(childProps) as any;
@@ -43,7 +41,7 @@ function RangePickerControl(props: CommonFormProps<RangePickerProps>) {
     }, [errors, name]);
 
     const errorElement = React.useMemo(() => {
-        return showError && errors ? <Text type="danger">{<ErrorMessage errors={errors} name={name} />}</Text> : null;
+        return showError && errors ? <ErrorMessage errors={errors} name={name} /> : null;
     }, [showError, errors, name]);
 
     return (

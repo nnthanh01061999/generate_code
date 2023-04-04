@@ -1,5 +1,6 @@
 import { ERRROR_CODE_EXPIRED_TOKEN } from '@/data';
 import { AUTH_NAMESPACE } from '@/store/reducer/auth/authReducer';
+import { STATE } from '@/store/store';
 import axios from 'axios';
 import { getCookieJson } from '.';
 
@@ -7,13 +8,13 @@ export const NETWORK_TIMEOUT = 30000;
 export const NETWORK_MESSAGE = 'Timeout. Something went wrong!';
 
 export const getLocalAccessToken = () => {
-    const store = getCookieJson('state');
-    return store?.[AUTH_NAMESPACE]?.accessToken ?? undefined;
+    const store = getCookieJson(STATE);
+    return store?.[AUTH_NAMESPACE]?.accessToken ?? '';
 };
 
 export const getLocalRefreshToken = () => {
-    const store = getCookieJson('state');
-    return store?.[AUTH_NAMESPACE]?.refreshToken ?? undefined;
+    const store = getCookieJson(STATE);
+    return store?.[AUTH_NAMESPACE]?.refreshToken ?? '';
 };
 
 export const networkHandler = axios.create({
@@ -43,11 +44,12 @@ const processQueue = (error: any, token: string | null = null) => {
     failedQueue = [];
 };
 
+let interceptor: number | null = null;
+
 export const axiosSetToken = (token: string) => {
     if (interceptor !== null) {
         networkHandler.interceptors.request.eject(interceptor);
     }
-
     interceptor = networkHandler.interceptors.request.use(
         function (config) {
             config.headers.Authorization = token;
@@ -59,8 +61,6 @@ export const axiosSetToken = (token: string) => {
     );
 };
 
-let interceptor: number | null = null;
-
 export const updateHeadersForLocale = (locale: string) => {
     // Remove any existing locale interceptor
     if (interceptor !== null) {
@@ -68,10 +68,16 @@ export const updateHeadersForLocale = (locale: string) => {
     }
 
     // Add the new locale interceptor
-    interceptor = networkHandler.interceptors.request.use(function (config) {
-        config.headers['Accept-Language'] = locale;
-        return config;
-    });
+    interceptor = networkHandler.interceptors.request.use(
+        function (config) {
+            config.headers['Accept-Language'] = locale;
+            config.headers.Authorization = 'Bearer ' + getLocalAccessToken();
+            return config;
+        },
+        function (error) {
+            return Promise.reject(error);
+        },
+    );
 };
 
 networkHandler.interceptors.response.use(
@@ -94,6 +100,7 @@ networkHandler.interceptors.response.use(
                     //     .then((rs) => {
                     //         const token = rs.data?.data;
                     //         isRefreshing = false;
+                    //         store.dispatch(refreshToken(token));
                     //         axiosSetToken(`Bearer ${token}`);
                     //         processQueue(null, token);
                     //         originalRequest.headers['Authorization'] = 'Bearer ' + token;
@@ -103,6 +110,7 @@ networkHandler.interceptors.response.use(
                     //         isRefreshing = false;
                     //         processQueue(err, null);
                     //         Promise.reject(err);
+                    //         store.dispatch(logout());
                     //     });
                 }
                 return new Promise((resolve, reject) => {
