@@ -15,6 +15,7 @@ import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import ColumnForm from '@/components/site/table/ColumnForm';
+import { detectObjectInterface } from '@/utils';
 const { Title } = Typography;
 
 function Generate() {
@@ -41,11 +42,15 @@ function Generate() {
 
     const onGetKeyFormJson = (values: TTableFormValues) => {
         const dataJson = JSON.parse(values.json);
+
+        const dataType = detectObjectInterface(dataJson);
         let uniqueKeys = Object.keys(Object.assign({}, ...dataJson));
         const columns = uniqueKeys.map((item) => {
             return {
                 key: snakeCase(item),
-                type: 'string',
+                type: dataType?.[item as keyof typeof dataType],
+                width: 160,
+                exportable: true,
             };
         });
         setValue('columns', columns);
@@ -71,11 +76,11 @@ function Generate() {
 
             <Title level={1}>{t('title')}</Title>
             <Row gutter={[24, 24]}>
-                <Col md={12} sm={24} xs={24}>
+                <Col md={24} sm={24} xs={24}>
                     <Form layout="vertical">
                         <FormProvider {...formMethod}>
                             <InputControl name="key" label="Key" />
-                            <InputTextAreaControl name="json" label="Json" />
+                            <InputTextAreaControl childProps={{ rows: 10 }} name="json" label="Json" />
                             <Button onClick={handleSubmit(onGetKeyFormJson, (error) => console.log(error))}> Get Keys</Button>
                             <CheckBoxGroupControl name="actions" label="actions" childProps={{ options: ['delete', 'update', 'view'] }} />
                             <InputControl name="rowKey" label="rowKey" />
@@ -84,7 +89,7 @@ function Generate() {
                         </FormProvider>
                     </Form>
                 </Col>
-                <Col md={12} sm={24} xs={24}>
+                <Col md={24} sm={24} xs={24}>
                     <Result name={watch('key')} config={resultArr} data={result} fileType="tsx" />
                 </Col>
             </Row>

@@ -3,6 +3,7 @@ export type TTableFormColumnValues = {
     align?: string;
     type?: string;
     width?: number;
+    exportable?: boolean;
 };
 
 export type TTableFormValues = {

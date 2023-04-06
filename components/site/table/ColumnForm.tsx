@@ -1,3 +1,4 @@
+import CheckBoxControl from '@/components/control/checkbox/CheckboxControl';
 import InputControl from '@/components/control/input/InputControl';
 import InputNumberControl from '@/components/control/input/InputNumberControl';
 import RadioControl from '@/components/control/radio/RadioControl';
@@ -81,6 +82,15 @@ function ActionForm(props: IActionFormProps) {
                     }}
                 />
             ),
+        },
+        {
+            responsive: ['sm'],
+            align: 'left',
+            title: 'exportable',
+            dataIndex: 'exportable',
+            key: 'exportable',
+            width: 100,
+            render: (_, __, index) => <CheckBoxControl name={`${name}[${index}].width`} toggleError />,
         },
     ];
 
