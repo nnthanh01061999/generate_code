@@ -2,12 +2,14 @@ import CustomTable, { ICustomTableProps } from '@/components/shared/CustomTable'
 import NumberFormat from '@/components/shared/NumberFormat';
 import { IColumnType, ITableForwardRef } from '@/interfaces';
 import { useEffectKeyboardShortcut } from '@/utils';
-import { ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, PlusOutlined, DragOutlined } from '@ant-design/icons';
 import { ErrorMessage } from '@hookform/error-message';
 import { Button, Row, Space, Typography } from 'antd';
 import { useTranslations } from 'next-intl';
 import React, { forwardRef, Fragment, Key, useEffect, useImperativeHandle, useRef } from 'react';
 import { FieldValues, useFieldArray, UseFieldArrayReturn, useFormContext } from 'react-hook-form';
+import ReactDragListView from 'react-drag-listview';
+import { COLOR_BLUE } from '@/data';
 
 const { Text } = Typography;
 
@@ -31,11 +33,26 @@ export interface ITableFormControlProps {
     swappable?: boolean;
     indexable?: boolean;
     deletable?: boolean;
+    dragable?: boolean;
     onChangeSelection?: (method: UseFieldArrayReturn<FieldValues, string, 'id'>, selectedRowKeys: Key[], seletecRows: any[]) => void;
 }
 
 function TableFormControl<T>(props: ITableFormControlProps, ref: ITableForwardRef<T>) {
-    const { disabled, name, label, defaultValue = {}, keys = defaultKeys, columns, tableProps, addable = true, swappable = true, indexable = true, deletable = true, onChangeSelection } = props;
+    const {
+        disabled,
+        name,
+        label,
+        defaultValue = {},
+        keys = defaultKeys,
+        columns,
+        tableProps,
+        addable = true,
+        swappable = true,
+        indexable = true,
+        deletable = true,
+        dragable = true,
+        onChangeSelection,
+    } = props;
 
     const tableRef = useRef<HTMLDivElement>(null);
 
@@ -94,6 +111,11 @@ function TableFormControl<T>(props: ITableFormControlProps, ref: ITableForwardRe
                     {swappable ? <Button size="middle" icon={<ArrowUpOutlined />} type="link" onClick={() => onUp(index)} disabled={index === 0 || disabled} /> : null}
                     {swappable ? <Button size="middle" icon={<ArrowDownOutlined />} type="link" onClick={() => onDown(index)} disabled={index === (fields || [])?.length - 1 || disabled} /> : null}
                     {deletable ? <Button size="middle" icon={<DeleteOutlined />} type="link" onClick={() => onRemove(index)} disabled={disabled} /> : null}
+                    {dragable ? (
+                        <a href="#" style={{ cursor: 'move', color: COLOR_BLUE }}>
+                            <DragOutlined />
+                        </a>
+                    ) : null}
                 </Space>
             );
         },
@@ -109,6 +131,10 @@ function TableFormControl<T>(props: ITableFormControlProps, ref: ITableForwardRe
             return id.replace(/\[(\d+)\]/, `[${index - 1}]`);
         }
         return '';
+    };
+
+    const onDragEnd = (startIndex: number, endIndex: number) => {
+        swap(startIndex - 1, endIndex - 1);
     };
 
     useImperativeHandle(
@@ -166,26 +192,28 @@ function TableFormControl<T>(props: ITableFormControlProps, ref: ITableForwardRe
                 ) : null}
             </Row>
             <Row gutter={[24, 12]}>
-                <CustomTable
-                    tableRef={tableRef}
-                    dataSource={fields}
-                    {...tableProps}
-                    rowSelection={
-                        tableProps?.rowSelection
-                            ? {
-                                  selectedRowKeys: fields?.filter((item: any) => item?.__selected)?.map((item) => item.id as Key),
-                                  onChange: (selectedRowKeys: Key[], selectedRows: T[]) => {
-                                      if (onChangeSelection instanceof Function) {
-                                          onChangeSelection(methodArray, selectedRowKeys, selectedRows);
-                                      }
-                                  },
-                                  ...tableProps?.rowSelection,
-                              }
-                            : undefined
-                    }
-                    columns={columnsWithOperation}
-                    rowKey={(record) => record.id}
-                />
+                <ReactDragListView handleSelector="a" onDragEnd={onDragEnd}>
+                    <CustomTable
+                        tableRef={tableRef}
+                        dataSource={fields}
+                        {...tableProps}
+                        rowSelection={
+                            tableProps?.rowSelection
+                                ? {
+                                      selectedRowKeys: fields?.filter((item: any) => item?.__selected)?.map((item) => item.id as Key),
+                                      onChange: (selectedRowKeys: Key[], selectedRows: T[]) => {
+                                          if (onChangeSelection instanceof Function) {
+                                              onChangeSelection(methodArray, selectedRowKeys, selectedRows);
+                                          }
+                                      },
+                                      ...tableProps?.rowSelection,
+                                  }
+                                : undefined
+                        }
+                        columns={columnsWithOperation}
+                        rowKey={(record) => record.id}
+                    />
+                </ReactDragListView>
             </Row>
         </Fragment>
     );

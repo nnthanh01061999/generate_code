@@ -70,7 +70,7 @@ function Generate() {
 
             <Title level={1}>{t('title')}</Title>
             <Row gutter={[24, 24]}>
-                <Col md={12} sm={24} xs={24}>
+                <Col md={24} sm={24} xs={24}>
                     <Form layout="vertical">
                         <FormProvider {...formMethod}>
                             <InputControl name="key" label="Key" />
@@ -80,7 +80,7 @@ function Generate() {
                         </FormProvider>
                     </Form>
                 </Col>
-                <Col md={12} sm={24} xs={24}>
+                <Col md={24} sm={24} xs={24}>
                     <Result name={watch('key')} config={resultArr} data={result} fileType="json" />
                 </Col>
             </Row>
