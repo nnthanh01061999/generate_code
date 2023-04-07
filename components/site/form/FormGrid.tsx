@@ -32,7 +32,6 @@ function FormGrid(props: IFormGridProps) {
 
     const columns: ColumnType<TTableFormColumnValues>[] = [
         {
-            responsive: ['sm'],
             align: 'left',
             title: 'key',
             dataIndex: 'key',
@@ -42,7 +41,6 @@ function FormGrid(props: IFormGridProps) {
             render: (_, __, index) => <InputControl name={`${name}[${index}].key`} toggleError />,
         },
         {
-            responsive: ['sm'],
             align: 'left',
             title: 'Type',
             dataIndex: 'type',
@@ -51,7 +49,6 @@ function FormGrid(props: IFormGridProps) {
             render: (_, __, index) => <SelectControl name={`${name}[${index}].type`} childProps={{ options: FORM_TYPES }} />,
         },
         {
-            responsive: ['sm'],
             align: 'left',
             title: 'default',
             dataIndex: 'defaultValue',
@@ -60,7 +57,6 @@ function FormGrid(props: IFormGridProps) {
             render: (_, __, index) => <CheckBoxControl name={`${name}[${index}].defaultValue`} />,
         },
         {
-            responsive: ['sm'],
             align: 'left',
             title: 'required',
             dataIndex: 'required',
@@ -69,7 +65,6 @@ function FormGrid(props: IFormGridProps) {
             render: (_, __, index) => <CheckBoxControl name={`${name}[${index}].required`} />,
         },
         {
-            responsive: ['sm'],
             align: 'left',
             title: 'xs',
             dataIndex: 'xs',
@@ -78,7 +73,6 @@ function FormGrid(props: IFormGridProps) {
             render: (_, __, index) => <InputNumberControl name={`${name}[${index}].xs`} toggleError />,
         },
         {
-            responsive: ['sm'],
             align: 'left',
             title: 'sm',
             dataIndex: 'sm',
@@ -87,7 +81,6 @@ function FormGrid(props: IFormGridProps) {
             render: (_, __, index) => <InputNumberControl name={`${name}[${index}].sm`} toggleError />,
         },
         {
-            responsive: ['sm'],
             align: 'left',
             title: 'md',
             dataIndex: 'md',

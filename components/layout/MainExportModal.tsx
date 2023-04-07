@@ -36,7 +36,6 @@ function MainExport<T>(props: IMainExportProps<T>) {
 
     const columns: IColumnType<IColumnType<T>>[] = [
         {
-            responsive: ['sm'],
             align: 'left',
             title: tC('export.columns.name'),
             dataIndex: 'title',

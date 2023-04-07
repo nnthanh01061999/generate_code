@@ -47,7 +47,7 @@ function Result(props: Props) {
                                 </Space>
                             }
                         >
-                            <TextArea id={item.key} value={data?.[item.key]} style={{ height: 300 }} />
+                            <TextArea id={item.key} value={data?.[item.key]} style={{ height: 520 }} />
                         </Form.Item>
                     </Col>
                 ))}

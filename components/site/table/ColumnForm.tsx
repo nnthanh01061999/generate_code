@@ -32,17 +32,14 @@ function ActionForm(props: IActionFormProps) {
 
     const columns: ColumnType<TTableFormColumnValues>[] = [
         {
-            responsive: ['sm'],
             align: 'left',
             title: 'key',
             dataIndex: 'key',
             key: 'key',
             width: 300,
-            fixed: 'left',
             render: (_, __, index) => <InputControl name={`${name}[${index}].key`} toggleError />,
         },
         {
-            responsive: ['sm'],
             align: 'left',
             title: 'Width',
             dataIndex: 'width',
@@ -51,7 +48,6 @@ function ActionForm(props: IActionFormProps) {
             render: (_, __, index) => <InputNumberControl name={`${name}[${index}].width`} toggleError />,
         },
         {
-            responsive: ['sm'],
             align: 'left',
             title: 'Type',
             dataIndex: 'type',
@@ -84,7 +80,6 @@ function ActionForm(props: IActionFormProps) {
             ),
         },
         {
-            responsive: ['sm'],
             align: 'left',
             title: 'exportable',
             dataIndex: 'exportable',

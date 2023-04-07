@@ -136,23 +136,30 @@ function Generate() {
                     <span style={{ color: 'lightblue', textDecoration: 'underline' }}>Query here</span>
                 </Popover>
             </Text>
-            <Row gutter={[24, 24]}>
-                <Col md={12} sm={24} xs={24}>
-                    <Form layout="vertical">
-                        <FormProvider {...formMethod}>
-                            <InputTextAreaControl name="xml" label="xml" childProps={{ style: { height: '100px' } }} />
-                            <InputTextAreaControl name="json" label="Json" childProps={{ style: { height: '100px' } }} />
+            <FormProvider {...formMethod}>
+                <Form layout="vertical">
+                    <Row gutter={[24, 24]}>
+                        <Col md={12} sm={24} xs={24}>
+                            <InputTextAreaControl name="xml" label="xml" childProps={{ rows: 6 }} />
                             <Button onClick={handleSubmit(onConvertXMl, (error) => console.log(error))}> Get xml</Button>
-                            <Button onClick={handleSubmit(onGetKeyFormJson, (error) => console.log(error))}> Get Keys</Button>
+                        </Col>
 
+                        <Col md={12} sm={24} xs={24}>
+                            <InputTextAreaControl name="json" label="Json" childProps={{ rows: 6 }} />
+                            <Button onClick={handleSubmit(onGetKeyFormJson, (error) => console.log(error))}> Get Keys</Button>
+                        </Col>
+                    </Row>
+
+                    <Row gutter={[24, 24]}>
+                        <Col md={16} sm={24} xs={24}>
                             <FieldGrid name="fields" />
-                        </FormProvider>
-                    </Form>
-                </Col>
-                <Col md={12} sm={24} xs={24}>
-                    <Result name={watch('key')} config={resultArr} data={result} fileType="ts" />
-                </Col>
-            </Row>
+                        </Col>
+                        <Col md={8} sm={24} xs={24}>
+                            <Result name={watch('key')} config={resultArr} data={result} fileType="tsx" />
+                        </Col>
+                    </Row>
+                </Form>
+            </FormProvider>
 
             <FooterGenerate callback={handleSubmit(onGenerate, (error) => console.log(error))} />
         </>

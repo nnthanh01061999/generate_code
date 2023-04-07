@@ -19,7 +19,6 @@ function FieldGrid(props: IFieldGridProps) {
 
     const columns: ColumnType<TTableFormColumnValues>[] = [
         {
-            responsive: ['sm'],
             align: 'left',
             title: 'key',
             dataIndex: 'key',
@@ -29,7 +28,6 @@ function FieldGrid(props: IFieldGridProps) {
             render: (_, __, index) => <InputControl name={`${name}[${index}].key`} toggleError />,
         },
         {
-            responsive: ['sm'],
             align: 'left',
             title: 'val',
             dataIndex: 'val',

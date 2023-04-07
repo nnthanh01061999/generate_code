@@ -69,21 +69,32 @@ function Generate() {
             </Head>
 
             <Title level={1}>{t('title')}</Title>
-            <Row gutter={[24, 24]}>
-                <Col md={24} sm={24} xs={24}>
-                    <Form layout="vertical">
-                        <FormProvider {...formMethod}>
-                            <InputControl name="key" label="Key" />
+
+            <FormProvider {...formMethod}>
+                <Form layout="vertical">
+                    <Row gutter={[24, 24]}>
+                        <Col md={16} sm={24} xs={24}>
                             <InputTextAreaControl name="json" label="Json" />
                             <Button onClick={handleSubmit(onGetKeyFormJson, (error) => console.log(error))}> Get Keys</Button>
+                        </Col>
+                        <Col md={8} sm={24} xs={24}>
+                            <Row gutter={[24, 24]}>
+                                <Col md={24} sm={24} xs={24}>
+                                    <InputControl name="key" label="Key" />
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                    <Row gutter={[24, 24]}>
+                        <Col md={16} sm={24} xs={24}>
                             <FieldGrid name="fields" />
-                        </FormProvider>
-                    </Form>
-                </Col>
-                <Col md={24} sm={24} xs={24}>
-                    <Result name={watch('key')} config={resultArr} data={result} fileType="json" />
-                </Col>
-            </Row>
+                        </Col>
+                        <Col md={8} sm={24} xs={24}>
+                            <Result name={watch('key')} config={resultArr} data={result} fileType="json" />
+                        </Col>
+                    </Row>
+                </Form>
+            </FormProvider>
 
             <FooterGenerate callback={handleSubmit(onGenerate, (error) => console.log(error))} />
         </>

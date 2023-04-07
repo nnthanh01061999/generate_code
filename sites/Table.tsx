@@ -75,24 +75,41 @@ function Generate() {
             </Head>
 
             <Title level={1}>{t('title')}</Title>
-            <Row gutter={[24, 24]}>
-                <Col md={24} sm={24} xs={24}>
-                    <Form layout="vertical">
-                        <FormProvider {...formMethod}>
-                            <InputControl name="key" label="Key" />
-                            <InputTextAreaControl childProps={{ rows: 10 }} name="json" label="Json" />
+
+            <FormProvider {...formMethod}>
+                <Form layout="vertical">
+                    <Row gutter={[24, 24]}>
+                        <Col md={8} sm={24} xs={24}>
+                            <InputTextAreaControl childProps={{ rows: 6 }} name="json" label="Json" />
                             <Button onClick={handleSubmit(onGetKeyFormJson, (error) => console.log(error))}> Get Keys</Button>
-                            <CheckBoxGroupControl name="actions" label="actions" childProps={{ options: ['delete', 'update', 'view'] }} />
-                            <InputControl name="rowKey" label="rowKey" />
-                            <InputControl name="interface" label="interface" />
+                        </Col>
+                        <Col md={16} sm={24} xs={24}>
+                            <Row gutter={[24, 24]}>
+                                <Col md={12} sm={24} xs={24}>
+                                    <InputControl name="key" label="Key" />
+                                </Col>
+                                <Col md={12} sm={24} xs={24}>
+                                    <InputControl name="rowKey" label="rowKey" />
+                                </Col>
+                                <Col md={12} sm={24} xs={24}>
+                                    <InputControl name="interface" label="interface" />
+                                </Col>
+                                <Col md={12} sm={24} xs={24}>
+                                    <CheckBoxGroupControl name="actions" label="actions" childProps={{ options: ['delete', 'update', 'view'] }} />
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                    <Row gutter={[24, 24]}>
+                        <Col md={16} sm={24} xs={24}>
                             <ColumnForm name="columns" />
-                        </FormProvider>
-                    </Form>
-                </Col>
-                <Col md={24} sm={24} xs={24}>
-                    <Result name={watch('key')} config={resultArr} data={result} fileType="tsx" />
-                </Col>
-            </Row>
+                        </Col>
+                        <Col md={8} sm={24} xs={24}>
+                            <Result name={watch('key')} config={resultArr} data={result} fileType="tsx" />
+                        </Col>
+                    </Row>
+                </Form>
+            </FormProvider>
 
             <FooterGenerate callback={handleSubmit(onGenerate, (error) => console.log(error))} />
         </>
