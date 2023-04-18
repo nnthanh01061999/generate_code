@@ -1,0 +1,95 @@
+{
+    "title": "Currency - Midea Media",
+    "label": "Currency",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Name, Code "
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Status"
+        }
+    },
+    "table": {
+        "columns": {
+            "code": "Code",
+            "name": "Name",
+            "name2": "Other Name",
+            "realized_lost_account_id": "Realized Lost Account Name",
+            "realized_lost_account_name": "Realized Lost Account Name",
+            "realized_gain_account_id": "Realized Gain Account Name",
+            "realized_gain_account_name": "Realized Gain Account Name",
+            "unrealized_lost_account_id": "Unrealized Lost Account Name",
+            "unrealized_lost_account_name": "Unrealized Lost Account Name",
+            "unrealized_gain_account_id": "Unrealized Gain Account Name",
+            "unrealized_gain_account_name": "Unrealized Gain Account Name",
+            "scale": "Scale",
+            "reading_rule_money": "Reading Rule Money",
+            "reading_rule_currency": "Reading Rule Currency",
+            "reading_rule_and": "Reading Rule And",
+            "reading_rule_decimal": "Reading Rule Decimal",
+            "reading_rule_only": "Reading Rule Only",
+            "reading_rule_money_2": "Reading Rule Money Other",
+            "reading_rule_currency_2": "Reading Rule Currency Other",
+            "reading_rule_and_2": "Reading Rule And Other",
+            "reading_rule_decimal_2": "Reading Rule Decimal Other",
+            "reading_rule_only_2": "Reading Rule Only Other",
+            "note": "Note",
+            "is_using": "Active"
+        }
+    },
+    "form": {
+        "code": {
+            "title": "Code"
+        },
+        "name": {
+            "title": "Name"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "realized_lost_account_id": {
+            "title": "Realized Lost Account"
+        },
+        "realized_lost_account_name": {
+            "title": "Realized Lost Account"
+        },
+        "realized_gain_account_id": {
+            "title": "Realized Gain Account"
+        },
+        "realized_gain_account_name": {
+            "title": "Realized Gain Account"
+        },
+        "unrealized_lost_account_id": {
+            "title": "Unrealized Lost Account"
+        },
+        "unrealized_lost_account_name": {
+            "title": "Unrealized Lost Account"
+        },
+        "unrealized_gain_account_id": {
+            "title": "Unrealized Gain Account"
+        },
+        "unrealized_gain_account_name": {
+            "title": "Unrealized Gain Account"
+        },
+        "scale": {
+            "title": "Scale"
+        },
+        "amount_reading": {
+            "title": "Amount Reading"
+        },
+        "reading_rule": {
+            "title": "Reading Rule"
+        },
+        "reading_rule2": {
+            "title": "Other Rule"
+        },
+        "note": {
+            "title": "Note"
+        },
+        "is_using": {
+            "title": "Status"
+        }
+    }
+}

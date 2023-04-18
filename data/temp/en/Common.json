@@ -1,0 +1,251 @@
+{
+    "title": "MIDEA MEDIA",
+    "header": {
+        "profile-setting": "Profile Setting",
+        "choose-subsection": "Determine Sub-section",
+        "reset-app-config": "Reset Personal Config",
+        "logout": "Sign out"
+    },
+    "sider": {
+        "choose-subsection": "Determine Sub-section"
+    },
+    "bread": {
+        "not-found": "Not found"
+    },
+    "dropdown": {
+        "update": {
+            "label": "Update"
+        },
+        "delete": {
+            "label": "Delete",
+            "confirm": "Are you sure delete this record?"
+        },
+        "boolean": {
+            "all": "All Status",
+            "true": "Active",
+            "false": "Inactive"
+        }
+    },
+    "pagination": {
+        "show-total": "Total: {total}"
+    },
+    "table": {
+        "columns": {
+            "id": "ID",
+            "operation": {
+                "label": " ",
+                "delete-confirm": "Are you sure delete this record?",
+                "delete-file-confirm": "Are you sure delete this file?"
+            },
+            "index": "Index",
+            "code": "Code",
+            "name": "Name",
+            "value": "Value",
+            "file_name": "File Name",
+            "file_size": "File Size",
+            "file_ext": "File Extension"
+        },
+        "pagination": {
+            "show-total": "Total: {total}"
+        },
+        "select": {
+            "total-selected": "Selected {total} items"
+        },
+        "action": {
+            "delete-multiple": {
+                "label": "Are you sure delete these items?",
+                "action": "Delete"
+            }
+        }
+    },
+    "filter": {
+        "label": "Filters",
+        "fields": {
+            "keyword": {
+                "title": "Keyword",
+                "placeholder": "Search Code, Name"
+            }
+        },
+        "action": {
+            "submit": "Search",
+            "refresh": "Clear",
+            "close": "Cancel",
+            "create": "Create",
+            "update": "Edit",
+            "delete": "Delete",
+            "view": "View Detail",
+            "reload": "Reload",
+            "save": "Save",
+            "unchecked": "Unchecked",
+            "none": "",
+            "filter": "Filter",
+            "export": "Export",
+            "upload": "Upload",
+            "download": "Download"
+        }
+    },
+    "form": {
+        "add": "Add",
+        "remove": "Remove",
+        "upload": "Click to Upload",
+        "upload_valid": "This file is not valid. Allow type is {data}",
+        "validate": {
+            "string": {
+                "required": "This field is required",
+                "type_error": "This field must be a string",
+                "min": "This field must be at least {min} characters",
+                "max": "This field cannot exceed {max} characters",
+                "matches": "Invalid format. Ex: {example}"
+            },
+            "number": {
+                "required": "This field is required",
+                "type_error": "This field must be a number",
+                "min": "This field must be at least {min}",
+                "max": "This field cannot exceed {max}",
+                "positive": "This field must be at least 0"
+            },
+            "array": {
+                "required": "This field is required",
+                "type_error": "This field must be an array",
+                "min": "This field must contain at least {min} items",
+                "max": "This field cannot exceed {max} items"
+            },
+            "boolean": {
+                "required": "This field is required",
+                "type_error": "This field must be a boolean"
+            },
+            "date": {
+                "required": "This field is required",
+                "type_error": "This field must be a date"
+            },
+            "email": {
+                "required": "This field is required",
+                "type_error": "Invalid email address"
+            },
+            "url": {
+                "required": "This field is required",
+                "type_error": "Invalid URL"
+            }
+        },
+        "enabled": {
+            "checked": "Yes",
+            "unchecked": "No"
+        },
+        "status_form": {
+            "checked": "Active",
+            "unchecked": "Inactive"
+        },
+        "confirm": {
+            "save": "Are you sure you want to save these changes?"
+        },
+        "tag": {
+            "add": "Add"
+        }
+    },
+    "boolean": {
+        "true": "Yes",
+        "false": "No",
+        "all": "All"
+    },
+    "status_form": {
+        "true": "Active",
+        "false": "Inactive"
+    },
+    "modal": {
+        "create": "Create {data}",
+        "update": "Update {data}",
+        "view": "Detail {data}",
+        "confirm": "Are you sure to close modal?",
+        "none": "",
+        "add": "Add",
+        "look_up": "Look up",
+        "select": "Select"
+    },
+    "notify": {
+        "success": "Success",
+        "affected": "Affected {data} record",
+        "error": "Error",
+        "warning": "Warning",
+        "info": "Info",
+        "confirm": "Confirm",
+        "save_success": "The system saved the data without any errors!!!",
+        "not_show_again": "Not show again"
+    },
+    "export": {
+        "time": {
+            "title": "Created From Date - Created To Date"
+        },
+        "start_date": {
+            "title": "Created From Date"
+        },
+        "end_date": {
+            "title": "Created To Date"
+        },
+        "show_delete": {
+            "title": "Show Deleted Records"
+        },
+        "columns": {
+            "id": "ID",
+            "title": "Export Columns",
+            "index": "Index",
+            "name": "Name",
+            "is_deleted": "Deleted",
+            "datetime0": "Created Date",
+            "datetime2": "Updated Date",
+            "username0": "Created User",
+            "username2": "Updated User"
+        },
+        "validate": "At least one field must be selected"
+    },
+    "profile-setting": {
+        "change_password": "Change Password",
+        "public_profile": "Public Profile",
+        "update_profile": "Update Profile",
+        "profile_picture": "Profile Picture",
+        "old_password": {
+            "title": "Old Password"
+        },
+        "new_password": {
+            "title": "Password"
+        },
+        "confirm_password": {
+            "title": "Confirm Password",
+            "validate": "Passwords must match"
+        },
+        "fullname": {
+            "title": "Full Name"
+        },
+        "email": {
+            "title": "Email"
+        },
+        "phone": {
+            "title": "Phone"
+        },
+        "birthday": {
+            "title": "Birthday"
+        },
+        "gender": {
+            "title": "Gender"
+        },
+        "language": {
+            "title": "Language"
+        },
+        "gender_options": {
+            "male": "Male",
+            "female": "Female",
+            "other": "Other"
+        }
+    },
+    "notification-menu": {
+        "close": "Close",
+        "mark-read": "Mark all as read"
+    },
+    "time": {
+        "seconds-ago": "{value} seconds ago",
+        "minutes-ago": "{value} minutes ago",
+        "hours-ago": "{value} hours ago",
+        "days-ago": "{value} days ago",
+        "months-ago": "{value} months ago",
+        "years-ago": "{value} years ago"
+    }
+}

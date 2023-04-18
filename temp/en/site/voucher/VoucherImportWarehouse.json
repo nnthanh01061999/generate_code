@@ -1,0 +1,141 @@
+{
+    "title": "Voucher Import Warehouse - Midea Media",
+    "label": "Voucher Import Warehouse",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Name, Code "
+        },
+        "is_using": {
+            "title": "Enabling",
+            "placeholder": "Enabling"
+        }
+    },
+    "table": {
+        "columns": {
+            "currency_name": "Currency",
+            "currency_rate": "Currency Rate",
+            "customer_name": "Customer",
+            "posting_date": "Posting Date",
+            "quantity": "Quantity",
+            "approval_indicator_name": "Status",
+            "total_money": "Total Money",
+            "total_money_currency": "Total Money Currency",
+            "transaction_name": "Transaction",
+            "voucher_book_name": "Voucher Book",
+            "voucher_date": "Voucher Date",
+            "voucher_number": "Voucher Number",
+            "is_using": "Active"
+        }
+    },
+    "form": {
+        "tabs": {
+            "detail": "Detail",
+            "attachment": "Attachment",
+            "comment": "Comment"
+        },
+        "currency_id": {
+            "title": "Currency"
+        },
+        "currency_rate": {
+            "title": "Currency Rate"
+        },
+        "customer_id": {
+            "title": "Customer"
+        },
+
+        "files": {
+            "title": "Files",
+            "file_name": {
+                "title": "File Name"
+            },
+            "file_size": {
+                "title": "File Size"
+            },
+            "last_modified": {
+                "title": "Last Modified"
+            }
+        },
+        "note": {
+            "title": "Note"
+        },
+        "posting_date": {
+            "title": "Posting Date"
+        },
+        "quantity": {
+            "title": "Quantity"
+        },
+        "approval_indicator_id": {
+            "title": "Voucher Status"
+        },
+        "total_money": {
+            "title": "Total Money"
+        },
+        "total_money_currency": {
+            "title": "Total Money Currency"
+        },
+        "transaction_id": {
+            "title": "Transaction"
+        },
+        "voucher_book_id": {
+            "title": "Voucher Book"
+        },
+        "voucher_date": {
+            "title": "Voucher Date"
+        },
+        "voucher_number": {
+            "title": "Voucher Number"
+        },
+        "details": {
+            "title": "Details",
+            "client_id": {
+                "title": "Client"
+            },
+            "credit_account_id": {
+                "title": "Credit Account"
+            },
+            "debit_account_id": {
+                "title": "Debit Account"
+            },
+            "item_id": {
+                "title": "Item Code"
+            },
+            "item_name": {
+                "title": "Item Name"
+            },
+            "measure_name": {
+                "title": "Measure"
+            },
+            "line_number": {
+                "title": "Line Number"
+            },
+            "lot_id": {
+                "title": "Lot"
+            },
+            "measure_id": {
+                "title": "Measure"
+            },
+            "note": {
+                "title": "Note"
+            },
+            "position_id": {
+                "title": "Position"
+            },
+            "price": {
+                "title": "Price"
+            },
+            "quantity": {
+                "title": "Quantity"
+            },
+            "total_money": {
+                "title": "Total Money"
+            },
+            "warehouse_id": {
+                "title": "Warehouse"
+            }
+        },
+        "is_using": {
+            "title": "Status"
+        }
+    }
+}

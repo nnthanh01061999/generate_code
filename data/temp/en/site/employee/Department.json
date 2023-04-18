@@ -1,0 +1,60 @@
+{
+    "title": "Department - Midea Media",
+    "label": "Department",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Name, Code "
+        },
+        "is_using": {
+            "title": "Enabling",
+            "placeholder": "Enabling"
+        }
+    },
+    "table": {
+        "columns": {
+            "code": "Code",
+            "cost_department_name": "Cost Department",
+            "f_group_name": "First Group",
+            "name": "Name",
+            "name2": "Other Name",
+            "note": "Note",
+            "parent_name": "Parent ",
+            "s_group_name": "Second Group ",
+            "t_group_name": "Thirst Group",
+            "is_using": "Active"
+        }
+    },
+    "form": {
+        "code": {
+            "title": "Code"
+        },
+        "cost_department_id": {
+            "title": "Cost Department"
+        },
+        "f_group_id": {
+            "title": "First Group"
+        },
+        "name": {
+            "title": "Name"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "note": {
+            "title": "Note"
+        },
+        "parent_id": {
+            "title": "Parent "
+        },
+        "s_group_id": {
+            "title": "Second Group "
+        },
+        "t_group_id": {
+            "title": "Thirst Group"
+        },
+        "is_using": {
+            "title": "Status"
+        }
+    }
+}

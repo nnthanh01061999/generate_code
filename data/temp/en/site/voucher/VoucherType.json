@@ -1,0 +1,40 @@
+{
+    "title": "Voucher Type - Midea Media",
+    "label": "Voucher Type",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Type Name, Type Code "
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Select Status"
+        }
+    },
+    "table": {
+        "columns": {
+            "code": "Code",
+            "name": "Name",
+            "name_2": "Other Name",
+            "is_using": "Active",
+            "note": "Note"
+        }
+    },
+    "form": {
+        "code": {
+            "title": "Code"
+        },
+        "name": {
+            "title": "Name"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "is_using": {
+            "title": "Status"
+        },
+        "note": {
+            "title": "Note"
+        }
+    }
+}

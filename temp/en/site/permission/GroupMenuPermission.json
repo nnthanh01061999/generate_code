@@ -1,0 +1,29 @@
+{
+    "title": "Group Menu Permission - Midea Media",
+    "label": "Group Menu Permission",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Group Code, Group Name"
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Select Status"
+        }
+    },
+    "table": {
+        "columns": {
+            "id": "ID",
+            "code": "Code",
+            "name": "Name",
+            "name2": "Other Name",
+            "is_using": "Active",
+            "operation": {
+                "grant_permission": "Grant Permission"
+            }
+        }
+    },
+    "action": {
+        "update": "Grant Permission"
+    }
+}

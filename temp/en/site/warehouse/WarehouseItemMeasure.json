@@ -1,0 +1,36 @@
+{
+    "title": "Warehouse Item Measure - Midea Media",
+    "label": "Warehouse Item Measure",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Name, Code "
+        },
+        "is_using": {
+            "title": "Enabling",
+            "placeholder": "Enabling"
+        }
+    },
+    "table": {
+        "columns": {
+            "measure_name": "Measure",
+            "item_name": "Item",
+            "rate": "Rate",
+            "is_using": "Active"
+        }
+    },
+    "form": {
+        "measure_id": {
+            "title": "Measure"
+        },
+        "item_id": {
+            "title": "Item"
+        },
+        "rate": {
+            "title": "Rate"
+        },
+        "is_using": {
+            "title": "Status"
+        }
+    }
+}

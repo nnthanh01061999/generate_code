@@ -1,0 +1,155 @@
+{
+    "title": "Customer - Midea Media",
+    "label": "Customer",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Name, Code "
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Status"
+        }
+    },
+    "table": {
+        "columns": {
+            "code": "Code",
+            "name": "Name",
+            "note": "Note",
+            "address": "Address",
+            "partner": "Partner",
+            "is_customer": "Is Customer",
+            "is_supplier": "Is Supplier",
+            "is_employee": "Is Employee",
+            "phone_number": "Phone Number",
+            "fax_number": "Fax Number",
+            "email": "Email",
+            "home_page": "Home Page",
+            "is_using": "Active"
+        }
+    },
+    "form": {
+        "tabs": {
+            "general": "General",
+            "payment": "Payment",
+            "other": "Other"
+        },
+        "code": {
+            "title": "Code"
+        },
+        "name": {
+            "title": "Name"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "note": {
+            "title": "Note"
+        },
+        "address": {
+            "title": "Address"
+        },
+        "tax": {
+            "title": "Tax code"
+        },
+        "partner": {
+            "title": "Partner"
+        },
+        "default_account_id": {
+            "title": "Default Account"
+        },
+        "default_account_name": {
+            "title": "Default Account"
+        },
+        "purchase_account_id": {
+            "title": "Purchase Account"
+        },
+        "purchase_account_name": {
+            "title": "Purchase Account"
+        },
+        "is_customer": {
+            "title": "Is Customer"
+        },
+        "is_supplier": {
+            "title": "Is Supplier"
+        },
+        "is_employee": {
+            "title": "Is Employee"
+        },
+        "f_group_id": {
+            "title": "First Group"
+        },
+        "f_group_name": {
+            "title": "First Group"
+        },
+        "s_group_id": {
+            "title": "Second Group"
+        },
+        "s_group_name": {
+            "title": "Second Group"
+        },
+        "t_group_id": {
+            "title": "Third Group"
+        },
+        "t_group_name": {
+            "title": "Third Group"
+        },
+        "phone_number": {
+            "title": "Phone Number"
+        },
+        "fax_number": {
+            "title": "Fax Number"
+        },
+        "email": {
+            "title": "Email"
+        },
+        "home_page": {
+            "title": "Home Page"
+        },
+        "default_term": {
+            "title": "Default Term"
+        },
+        "sale_employee_id": {
+            "title": "Sale Employee"
+        },
+        "sale_employee_name": {
+            "title": "Sale Employee"
+        },
+        "price_class_id": {
+            "title": "Price Class"
+        },
+        "price_class_name": {
+            "title": "Price Class"
+        },
+        "credit_limit": {
+            "title": "Credit Limit"
+        },
+        "end_date": {
+            "title": "End Date"
+        },
+        "bank_account": {
+            "title": "Bank Account"
+        },
+        "bank_name": {
+            "title": "Bank Name"
+        },
+        "area_id": {
+            "title": "Area"
+        },
+        "area_name": {
+            "title": "Area"
+        },
+        "customer_type_id": {
+            "title": "Customer Type"
+        },
+        "customer_type_name": {
+            "title": "Customer Type"
+        },
+        "check_tax_code": {
+            "title": "Check Tax Code"
+        },
+        "is_using": {
+            "title": "Status"
+        }
+    }
+}

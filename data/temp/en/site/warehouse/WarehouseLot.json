@@ -1,0 +1,58 @@
+{
+    "title": "Warehouse Lot - Midea Media",
+    "label": "Warehouse Lot",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Lot Name, Lot Code "
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Select Status"
+        }
+    },
+    "table": {
+        "columns": {
+            "code": "Code",
+            "name": "Name",
+            "name_2": "Other Name",
+            "is_using": "Active",
+            "note": "Note"
+        }
+    },
+    "form": {
+        "code": {
+            "title": "Code"
+        },
+        "name": {
+            "title": "Name"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "is_using": {
+            "title": "Status"
+        },
+        "note": {
+            "title": "Note"
+        },
+        "expiry_date": {
+            "title": "Expiry Date"
+        },
+        "item_id": {
+            "title": "Item"
+        },
+        "manufacturing_date": {
+            "title": "Manufacturing Date"
+        },
+        "part_number": {
+            "title": "Part Number"
+        },
+        "receipt_date": {
+            "title": "Receipt Date"
+        },
+        "warranty_date": {
+            "title": "Warranty Date"
+        }
+    }
+}

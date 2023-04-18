@@ -1,0 +1,52 @@
+{
+    "title": "Unit - Midea Media",
+    "label": "Unit",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Unit Name, Unit Code "
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Select Status"
+        }
+    },
+    "table": {
+        "columns": {
+            "id": "ID",
+            "code": "Code",
+            "name": "Name",
+            "name2": "Other Name",
+            "address": "Address",
+            "start_date": "Start Date",
+            "end_date": "End Date",
+            "is_using": "Active"
+        }
+    },
+    "form": {
+        "code": {
+            "title": "Code"
+        },
+        "name": {
+            "title": "Name"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "is_using": {
+            "title": "Status"
+        },
+        "address": {
+            "title": "Address"
+        },
+        "time": {
+            "title": "From Date - To Date"
+        },
+        "start_date": {
+            "title": "From Date"
+        },
+        "end_date": {
+            "title": "To Date"
+        }
+    }
+}

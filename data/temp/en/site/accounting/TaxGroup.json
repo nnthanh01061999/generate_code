@@ -1,0 +1,52 @@
+{
+    "title": "Tax Group - Midea Media",
+    "label": "Tax Group",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Name, Code "
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Status"
+        }
+    },
+    "table": {
+        "columns": {
+            "code": "Code",
+            "name": "Name",
+            "name2": "Other Name",
+            "rate": "Rate",
+            "account_id": "Account",
+            "account_name": "Account",
+            "note": "Note",
+            "is_using": "Active"
+        }
+    },
+    "form": {
+        "code": {
+            "title": "Code"
+        },
+        "name": {
+            "title": "Name"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "rate": {
+            "title": "Rate"
+        },
+        "account_id": {
+            "title": "Account"
+        },
+        "account_name": {
+            "title": "Account"
+        },
+        "note": {
+            "title": "Note"
+        },
+        "is_using": {
+            "title": "Status"
+        }
+    }
+}

@@ -1,0 +1,48 @@
+{
+    "title": "Voucher Transaction - Midea Media",
+    "label": "Voucher Transaction",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Transaction Name, Transaction Code "
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Select Status"
+        }
+    },
+    "table": {
+        "columns": {
+            "code": "Code",
+            "name": "Name",
+            "name_2": "Other Name",
+            "is_using": "Active",
+            "note": "Note",
+            "voucher_name": "Voucher",
+            "voucher_type_name": "Voucher Type"
+        }
+    },
+    "form": {
+        "code": {
+            "title": "Code"
+        },
+        "name": {
+            "title": "Name"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "voucher_id": {
+            "title": "Voucher"
+        },
+        "voucher_type_id": {
+            "title": "Voucher Type"
+        },
+        "is_using": {
+            "title": "Status"
+        },
+        "note": {
+            "title": "Note"
+        }
+    }
+}

@@ -1,0 +1,36 @@
+{
+    "title": "Warehouse Item Attribute - Midea Media",
+    "label": "Warehouse Item Attribute",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Name, Code "
+        },
+        "is_using": {
+            "title": "Enabling",
+            "placeholder": "Enabling"
+        }
+    },
+    "table": {
+        "columns": {
+            "attribute_name": "Attribute",
+            "item_name": "Item",
+            "rate": "Rate",
+            "is_using": "Active"
+        }
+    },
+    "form": {
+        "attribute_id": {
+            "title": "Attribute"
+        },
+        "item_id": {
+            "title": "Item"
+        },
+        "rate": {
+            "title": "Rate"
+        },
+        "is_using": {
+            "title": "Status"
+        }
+    }
+}

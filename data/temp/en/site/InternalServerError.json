@@ -1,0 +1,10 @@
+{
+    "title": "Internal Server Error!",
+    "header": "500",
+    "description": {
+        "first": "SOMETHING",
+        "second": "WRONG",
+        "third": "? Hmm, looks like that page has an error."
+    },
+    "goHome": "Go Home"
+}

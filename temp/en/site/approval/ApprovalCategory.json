@@ -1,0 +1,80 @@
+{
+    "title": "Approval Category - Midea Media",
+    "label": "Approval Category",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Name, Code "
+        },
+        "is_using": {
+            "title": "Enabling",
+            "placeholder": "Enabling"
+        },
+        "voucher_id": {
+            "title": "Voucher",
+            "placeholder": "Select Voucher"
+        }
+    },
+    "table": {
+        "columns": {
+            "code": "Code",
+            "name": "Name",
+            "is_account": "By Account",
+            "is_currency": "By Currency",
+            "is_department": "By Department",
+            "is_f_customer_group": "By First Customer Group",
+            "is_quantity": "By Quantity",
+            "is_s_customer_group": "By Second Customer Group",
+            "is_t_customer_group": "By Third Customer Group",
+            "is_unit": "By Unit",
+            "name2": "Other Name",
+            "note": "Note",
+            "voucher_id": "Voucher Id",
+            "is_using": "Active"
+        }
+    },
+    "form": {
+        "code": {
+            "title": "Code"
+        },
+        "name": {
+            "title": "Name"
+        },
+        "is_account": {
+            "title": "By Account"
+        },
+        "is_currency": {
+            "title": "By Currency"
+        },
+        "is_department": {
+            "title": "By Department"
+        },
+        "is_quantity": {
+            "title": "By Quantity"
+        },
+        "is_f_customer_group": {
+            "title": "By First Customer Group"
+        },
+        "is_s_customer_group": {
+            "title": "By Second Customer Group"
+        },
+        "is_t_customer_group": {
+            "title": "By Third Customer Group"
+        },
+        "is_unit": {
+            "title": "By Unit"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "note": {
+            "title": "Note"
+        },
+        "voucher_id": {
+            "title": "Voucher"
+        },
+        "is_using": {
+            "title": "Status"
+        }
+    }
+}

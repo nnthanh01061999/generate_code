@@ -1,0 +1,37 @@
+{
+    "title": "Group User - Midea Media",
+    "label": "Group User",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Group Name, Group Code"
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Select Status"
+        }
+    },
+    "table": {
+        "columns": {
+            "id": "ID",
+            "code": "Code",
+            "name": "Name",
+            "name2": "Other Name",
+            "is_using": "Active"
+        }
+    },
+    "form": {
+        "name": {
+            "title": "Name"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "code": {
+            "title": "Code"
+        },
+        "is_using": {
+            "title": "Status"
+        }
+    }
+}

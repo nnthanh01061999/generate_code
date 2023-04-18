@@ -1,0 +1,62 @@
+{
+    "title": "User - Midea Media",
+    "label": "User",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Full Name, User Name, Email, Phone"
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Select Status"
+        },
+        "client_id": {
+            "title": "Organization",
+            "placeholder": "Select Organization"
+        }
+    },
+    "table": {
+        "columns": {
+            "id": "ID",
+            "client_id": "Client",
+            "unit_id": "Unit",
+            "username": "Username",
+            "gender": "Gender",
+            "birthday": "Birthday",
+            "email": "Email",
+            "fullname": "Full Name",
+            "phone": "Phone",
+            "language": "Language",
+            "is_using": "Active"
+        }
+    },
+    "form": {
+        "username": {
+            "title": "User Name"
+        },
+        "email": {
+            "title": "Email"
+        },
+        "fullname": {
+            "title": "Full Name"
+        },
+        "phone": {
+            "title": "Phone"
+        },
+        "password": {
+            "title": "Password"
+        },
+        "language": {
+            "title": "Language"
+        },
+        "is_using": {
+            "title": "Status"
+        },
+        "birthday": {
+            "title": "Birthday"
+        },
+        "gender": {
+            "title": "Gender"
+        }
+    }
+}

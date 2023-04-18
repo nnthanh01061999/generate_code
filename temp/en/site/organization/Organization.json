@@ -1,0 +1,62 @@
+{
+    "title": "Organization - Midea Media",
+    "label": "Organization",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Organization Code, Organization Name"
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Select Status"
+        }
+    },
+    "table": {
+        "columns": {
+            "id": "ID",
+            "code": "Code",
+            "name": "Name",
+            "name_2": "Orther Name",
+            "individual_phone": "Individual Phone",
+            "company_phone": "Company Phone",
+            "address": "Address",
+            "tax_code": "Tax Code",
+            "owner": "Owner",
+            "email": "Email",
+            "contract_id": "Contract",
+            "is_using": "Active"
+        }
+    },
+    "form": {
+        "code": {
+            "title": "Code"
+        },
+        "name": {
+            "title": "Name"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "individual_phone": {
+            "title": "Individual Phone"
+        },
+        "company_phone": {
+            "title": "Company Phone"
+        },
+        "address": {
+            "title": "Address"
+        },
+        "tax_code": {
+            "title": "Tax Code"
+        },
+        "owner": {
+            "title": "Owner"
+        },
+        "email": {
+            "title": "Email"
+        },
+        "is_using": {
+            "title": "Status"
+        }
+    }
+}

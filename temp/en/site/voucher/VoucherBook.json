@@ -1,0 +1,85 @@
+{
+    "title": "Voucher Book - Midea Media",
+    "label": "Voucher Book",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Name, Code "
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Status"
+        }
+    },
+    "table": {
+        "columns": {
+            "code": "Code",
+            "conflict_type_id": "Conflict Type",
+            "current_number": "Current Number",
+            "end_date": "End Date",
+            "end_number": "End Number",
+            "is_alert_only": "Is Alert Only",
+            "is_using": "Status",
+            "name": "Name",
+            "name2": "Other Name",
+            "note": "Note",
+            "released_date": "Released Date",
+            "start_date": "Start Date",
+            "start_number": "Start Number",
+            "synctax": "Synctax",
+            "voucher_form_id": "Voucher Form"
+        }
+    },
+    "form": {
+        "code": {
+            "title": "Code"
+        },
+        "conflict_type_id": {
+            "title": "Conflict Type"
+        },
+        "current_number": {
+            "title": "Current Number"
+        },
+        "time": {
+            "title": "Start Date - End Date"
+        },
+        "end_number": {
+            "title": "End Number"
+        },
+        "is_alert_only": {
+            "title": "Is Alert Only"
+        },
+        "is_using": {
+            "title": "Active"
+        },
+        "name": {
+            "title": "Name"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "note": {
+            "title": "Note"
+        },
+        "released_date": {
+            "title": "Released Date"
+        },
+
+        "start_number": {
+            "title": "Start Number"
+        },
+        "synctax": {
+            "title": "Synctax"
+        },
+        "voucher_form_id": {
+            "title": "Voucher Form"
+        }
+    },
+    "conflict_type_options": {
+        "1": "Type 1",
+        "2": "Type 2",
+        "3": "Type 3",
+        "4": "Type 4",
+        "5": "Type 5"
+    }
+}

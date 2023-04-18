@@ -1,0 +1,89 @@
+{
+    "title": "Menu - Midea Media",
+    "label": "Menu",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Name, Code "
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Select Status"
+        }
+    },
+    "table": {
+        "columns": {
+            "id": "ID",
+            "parent_id": "Parent ID",
+            "parent_name": "Parent",
+            "code": "Code",
+            "name": "Name",
+            "name2": "Other Name",
+            "action": "Action",
+            "icon": "Icon",
+            "color": "Color",
+            "is_using": "Active",
+            "is_visible": "Visible",
+            "is_client": "Only Client",
+            "is_system": "Only System"
+        }
+    },
+    "form": {
+        "parent_id": {
+            "title": "Parent"
+        },
+        "code": {
+            "title": "Code",
+            "matches": "00.00.00, 00.00.01,..."
+        },
+        "name": {
+            "title": "Name"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "action": {
+            "title": "Action"
+        },
+        "icon": {
+            "title": "Icon",
+            "tooltip": "Available Icon"
+        },
+        "color": {
+            "title": "Color"
+        },
+        "is_using": {
+            "title": "Status"
+        },
+        "is_visible": {
+            "title": "Visibling"
+        },
+        "is_client": {
+            "title": "Client Only"
+        },
+        "is_system": {
+            "title": "System Only"
+        },
+        "priority": {
+            "title": "Priority"
+        },
+        "actions": {
+            "title": "Actions",
+            "index": {
+                "title": "Index"
+            },
+            "name": {
+                "title": "Name"
+            },
+            "name2": {
+                "title": "Other Name"
+            },
+            "bit_index": {
+                "title": "Action ID"
+            },
+            "is_default": {
+                "title": "Default"
+            }
+        }
+    }
+}

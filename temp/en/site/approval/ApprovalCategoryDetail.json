@@ -1,0 +1,88 @@
+{
+    "title": "Approval Category Detail - Midea Media",
+    "label": "Approval Category Detail",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Name, Code "
+        },
+        "is_using": {
+            "title": "Enabling",
+            "placeholder": "Enabling"
+        },
+        "approval_category_id": {
+            "title": "Approval Category",
+            "placeholder": "Approval Category"
+        },
+        "voucher_id": {
+            "title": "Voucher",
+            "placeholder": "Voucher"
+        }
+    },
+    "table": {
+        "columns": {
+            "approval_category_name": "Approval Category",
+            "note": "Note",
+            "unit_name": "Unit",
+            "department_name": "Department",
+            "f_customer_group_name": "First Customer Group",
+            "s_customer_group_name": "Second Customer Group",
+            "t_customer_group_name": "Thirst Customer Group",
+            "account_name": "Account",
+            "currency_min": "Currency Min",
+            "currency_max": "Currency Max",
+            "currency_name": "Currency",
+            "quantity_min": "Quantity Min",
+            "quantity_max": "Quantity Max",
+            "is_using": "Active"
+        }
+    },
+    "form": {
+        "voucher_id": {
+            "title": "Voucher"
+        },
+
+        "department_id": {
+            "title": "Department"
+        },
+        "approval_category_id": {
+            "title": "Approval Category"
+        },
+        "note": {
+            "title": "Note"
+        },
+        "unit_id": {
+            "title": "Unit"
+        },
+        "f_customer_group_id": {
+            "title": "First Customer Grouy"
+        },
+        "s_customer_group_id": {
+            "title": "Second Customer Grouy"
+        },
+        "t_customer_group_id": {
+            "title": "Thirst Customer Grouy"
+        },
+        "account_id": {
+            "title": "Account"
+        },
+        "currency_min": {
+            "title": "Currency Min"
+        },
+        "currency_max": {
+            "title": "Currency Max"
+        },
+        "currency_id": {
+            "title": "Currency"
+        },
+        "quantity_min": {
+            "title": "Quantity Min"
+        },
+        "quantity_max": {
+            "title": "Quantity Max"
+        },
+        "is_using": {
+            "title": "Status"
+        }
+    }
+}

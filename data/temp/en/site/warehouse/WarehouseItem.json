@@ -1,0 +1,255 @@
+{
+    "title": "Warehouse Item - Midea Media",
+    "label": "Warehouse Item",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Name, Code "
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Status"
+        }
+    },
+    "table": {
+        "columns": {
+            "code": "Code",
+            "color": "Color",
+            "item_type_name": "Item Type",
+            "country_of_origin": "Country Of Origin",
+            "export_type": "Export Type",
+            "interval_days": "Interval Days",
+            "lifecycle": "Lifecycle",
+            "lot_name": "Lot",
+            "lot_size": "Lot Size",
+            "lot_type": "Lot Type",
+            "max_stock": "Max Stock",
+            "min_stock": "Min Stock",
+            "name": "Name",
+            "order_policy": "Order Policy",
+            "position_name": "Position",
+            "safety_stock": "Safety Stock",
+            "time_get": "Time Get",
+            "type": "Type",
+            "warranty_period": "Warranty Period",
+            "is_using": "Active"
+        }
+    },
+    "form": {
+        "tabs": {
+            "general": "General",
+            "account": "Account",
+            "lot": "Lot",
+            "planning": "Planning",
+            "color_size": "Color/Size",
+            "atttibute": "Atttibute",
+            "category": "Category",
+            "tag": "Tag",
+            "other": "Other"
+        },
+        "is_using": {
+            "title": "Status"
+        },
+        "agency_account_id": {
+            "title": "Agency Account"
+        },
+        "attributes": {
+            "title": "Attributes",
+            "index": "Index",
+            "code": "Code",
+            "name": "Name",
+            "attribute_value": {
+                "title": "Value"
+            }
+        },
+        "base_cost_account_id": {
+            "title": "Base Cost Account"
+        },
+        "categories": {
+            "title": "Categories",
+            "index": "Index",
+            "code": "Code",
+            "name": "Name"
+        },
+        "code": {
+            "title": "Code"
+        },
+        "color": {
+            "title": "Color"
+        },
+        "item_type_id": {
+            "title": "Item Type"
+        },
+        "commodity": {
+            "title": "Commodity"
+        },
+
+        "commodity_density": {
+            "title": "Density"
+        },
+
+        "commodity_depth": {
+            "title": "Depth"
+        },
+        "commodity_diameter": {
+            "title": "Diameter"
+        },
+
+        "commodity_high": {
+            "title": "High"
+        },
+
+        "commodity_long": {
+            "title": "Long"
+        },
+
+        "commodity_volume": {
+            "title": "Volume"
+        },
+
+        "commodity_weight": {
+            "title": "Weight"
+        },
+        "commodity_width": {
+            "title": "Width"
+        },
+        "country_of_origin": {
+            "title": "Country Of Origin"
+        },
+        "discount_account_id": {
+            "title": "Discount Account Id"
+        },
+        "export_type": {
+            "title": "Export Type"
+        },
+        "import_tax_id": {
+            "title": "Import Tax "
+        },
+        "interval_days": {
+            "title": "Interval Days"
+        },
+        "item_account_id": {
+            "title": "Item Account "
+        },
+        "lifecycle": {
+            "title": "Lifecycle"
+        },
+
+        "lot_size": {
+            "title": "Lot Size"
+        },
+        "lot_type": {
+            "title": "Lot Type"
+        },
+        "max_stock": {
+            "title": "Max Stock"
+        },
+        "min_stock": {
+            "title": "Min Stock"
+        },
+        "name": {
+            "title": "Name"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "note": {
+            "title": "Note"
+        },
+        "order_policy": {
+            "title": "Order Policy"
+        },
+        "position_id": {
+            "title": "Position"
+        },
+        "production_process_id": {
+            "title": "Production Process"
+        },
+        "promote_account_id": {
+            "title": "Promote Account "
+        },
+        "revenue_account_id": {
+            "title": "Revenue Account"
+        },
+        "safety_stock": {
+            "title": "Safety Stock"
+        },
+        "sale_return_account_id": {
+            "title": "Sale Return Account"
+        },
+        "tags": {
+            "title": "Tags",
+            "index": "Index",
+            "code": "Code",
+            "name": "Name",
+            "value": "Value"
+        },
+        "time_get": {
+            "title": "Time Get"
+        },
+        "transportation": {
+            "title": "Transportation"
+        },
+        "transportation_high": {
+            "title": "High"
+        },
+
+        "transportation_long": {
+            "title": "Long"
+        },
+        "transportation_num_package": {
+            "title": "Num Package"
+        },
+
+        "transportation_package": {
+            "title": "Package"
+        },
+
+        "transportation_size_package": {
+            "title": "Size Package"
+        },
+        "transportation_volume": {
+            "title": "Volume"
+        },
+        "transportation_weight": {
+            "title": "Weight"
+        },
+        "transportation_width": {
+            "title": "Width"
+        },
+        "type": {
+            "title": "Type"
+        },
+        "value_add_tax_id": {
+            "title": "Value Add Tax"
+        },
+        "warranty_period": {
+            "title": "Warranty Period"
+        },
+        "measure_id": {
+            "title": "Measure"
+        },
+        "is_convert_measure": {
+            "title": "Allow Change Measure"
+        },
+        "warehouse_id": {
+            "title": "Warehouse"
+        }
+    },
+    "export_type_options": {
+        "expiration": "Expiration",
+        "fifo": "FIFO",
+        "sequential": "Sequential",
+        "lifo": "LIFO"
+    },
+    "lot_type_options": {
+        "received": "Received",
+        "used": "Used"
+    },
+    "order_policy_options": {
+        "none": "None",
+        "discrete": "Discrete",
+        "fixed_order_quantity": "Fixed Order Quantity",
+        "period_order_quantity": "Period Order Quantity"
+    }
+}

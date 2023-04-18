@@ -1,0 +1,84 @@
+{
+    "title": "Chart Of Account - Midea Media",
+    "label": "Chart Of Account",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Name, Code "
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Status"
+        }
+    },
+    "table": {
+        "columns": {
+            "id": "ID",
+            "code": "Code",
+            "name": "Name",
+            "name2": "Other Name",
+            "short_name": "Short Name",
+            "short_name2": "Other Short Name",
+            "parent_id": "Parent",
+            "parent_name": "Parent",
+            "currency_name": "Currency",
+            "is_arp_account": "AR/AP Account",
+            "is_gl_account": "GL Account",
+            "debit_rate_type_id": "Debit Rate Type",
+            "credit_rate_type_id": "Credit Rate Type",
+            "note": "Note",
+            "is_using": "Active"
+        }
+    },
+    "form": {
+        "code": {
+            "title": "Code"
+        },
+        "name": {
+            "title": "Name"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "short_name": {
+            "title": "Short Name"
+        },
+        "short_name2": {
+            "title": "Other Short Name"
+        },
+        "parent_id": {
+            "title": "Parent"
+        },
+        "parent_name": {
+            "title": "Parent"
+        },
+        "currency_id": {
+            "title": "Currency"
+        },
+        "is_arp_account": {
+            "title": "AR/AP Account"
+        },
+        "is_gl_account": {
+            "title": "GL Account"
+        },
+        "debit_rate_type_id": {
+            "title": "Debit Rate Type"
+        },
+        "credit_rate_type_id": {
+            "title": "Credit Rate Type"
+        },
+        "note": {
+            "title": "Note"
+        },
+        "is_using": {
+            "title": "Status"
+        },
+        "debit_options": {
+            "none": "None",
+            "monthly-average": "Monthly Average",
+            "specific": "Specific",
+            "fifo": "FIFO",
+            "moving-average": "Moving Average"
+        }
+    }
+}

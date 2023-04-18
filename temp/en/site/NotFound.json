@@ -1,0 +1,10 @@
+{
+    "title": "Page not found!",
+    "header": "404",
+    "description": {
+        "first": "LOST IN ",
+        "second": "SPACE",
+        "third": "? Hmm, looks like that page doesn't exist."
+    },
+    "goHome": "Go Home"
+}

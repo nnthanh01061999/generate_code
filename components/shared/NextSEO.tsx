@@ -1,7 +1,7 @@
 import Head from 'next/head';
 
-const DOMAIN = 'https://generate-code-n6ny.vercel.app';
-const DEFAULT_OG_IMAGE = 'https://www.svgrepo.com/show/423844/whale-origami-paper.svg';
+const DOMAIN = typeof window !== 'undefined' && window.location.origin ? window.location.origin : '';
+const DEFAULT_OG_IMAGE = 'https://commons.wikimedia.org/wiki/File:Google_%22G%22_Logo.svg#/media/File:Google_%22G%22_Logo.svg';
 
 export default function NextSEO({
     title = "NNThanh's Code Space",

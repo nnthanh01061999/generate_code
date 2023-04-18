@@ -1,0 +1,52 @@
+{
+    "title": "Area - Midea Media",
+    "label": "Area",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Area Name, Area Code "
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Select Status"
+        }
+    },
+    "table": {
+        "columns": {
+            "code": "Code",
+            "name": "Name",
+            "name_2": "Other Name",
+            "kind": "Kind",
+            "is_using": "Active",
+            "note": "Note"
+        }
+    },
+    "form": {
+        "code": {
+            "title": "Code"
+        },
+        "name": {
+            "title": "Name"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "kind": {
+            "title": "Kind"
+        },
+        "parent_id": {
+            "title": "Parent"
+        },
+        "is_using": {
+            "title": "Status"
+        },
+        "note": {
+            "title": "Note"
+        }
+    },
+    "area_options": {
+        "ward": "Ward",
+        "district": "District",
+        "province": "Province"
+    }
+}

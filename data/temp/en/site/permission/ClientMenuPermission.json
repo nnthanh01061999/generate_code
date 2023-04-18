@@ -1,0 +1,35 @@
+{
+    "title": "Client Menu Permission - Midea Media",
+    "label": "Client Menu Permission",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Client Code, Client Name"
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Select Status"
+        }
+    },
+    "table": {
+        "columns": {
+            "id": "ID",
+            "code": "Code",
+            "name": "Name",
+            "name_2": "Orther Name",
+            "individual_phone": "Individual Phone",
+            "company_phone": "Company Phone",
+            "address": "Address",
+            "tax_code": "Tax Code",
+            "owner": "Owner",
+            "email": "Email",
+            "contract_id": "Contract",
+            "operation": {
+                "grant_permission": "Grant Permission"
+            }
+        }
+    },
+    "action": {
+        "update": "Grant Permission"
+    }
+}

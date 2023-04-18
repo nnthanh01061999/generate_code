@@ -1,0 +1,88 @@
+{
+    "title": "Tax Value Added - Midea Media",
+    "label": "Tax Value Added",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Name, Code "
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Status"
+        }
+    },
+    "table": {
+        "columns": {
+            "code": "Code",
+            "name": "Name",
+            "name2": "Other Name",
+            "rate": "Rate",
+            "group_id": "Group",
+            "group_name": "Group",
+            "out_account_id": "Out Account",
+            "out_account_name": "Out Account",
+            "out_deduction_account_id": "Out Deduction Account",
+            "out_deduction_account_name": "Out Deduction Account",
+            "in_account_id": "In Account",
+            "in_account_name": "In Account",
+            "in_deduction_account_id": "In Deduction Account",
+            "in_deduction_account_name": "In Deduction Account",
+            "order_number": "Order Number",
+            "note": "Note",
+            "is_using": "Active"
+        }
+    },
+    "form": {
+        "code": {
+            "title": "Code"
+        },
+        "name": {
+            "title": "Name"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "rate": {
+            "title": "Rate"
+        },
+        "group_id": {
+            "title": "Group Name"
+        },
+        "group_name": {
+            "title": "Group Name"
+        },
+        "out_account_id": {
+            "title": "Out Account Name"
+        },
+        "out_account_name": {
+            "title": "Out Account Name"
+        },
+        "out_deduction_account_id": {
+            "title": "Out Deduction Account Name"
+        },
+        "out_deduction_account_name": {
+            "title": "Out Deduction Account Name"
+        },
+        "in_account_id": {
+            "title": "In Account Name"
+        },
+        "in_account_name": {
+            "title": "In Account Name"
+        },
+        "in_deduction_account_id": {
+            "title": "In Deduction Account Name"
+        },
+        "in_deduction_account_name": {
+            "title": "In Deduction Account Name"
+        },
+        "order_number": {
+            "title": "Order Number"
+        },
+        "note": {
+            "title": "Note"
+        },
+        "is_using": {
+            "title": "Status"
+        }
+    }
+}

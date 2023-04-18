@@ -1,0 +1,44 @@
+{
+    "title": "Warehouse Attribute - Midea Media",
+    "label": "Warehouse Attribute",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Name, Code "
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Select Status"
+        }
+    },
+    "table": {
+        "columns": {
+            "code": "Code",
+            "name": "Name",
+            "attribute_group_name": "Group",
+            "name2": "Other Name",
+            "note": "Note",
+            "is_using": "Active"
+        }
+    },
+    "form": {
+        "code": {
+            "title": "Code"
+        },
+        "name": {
+            "title": "Name"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "note": {
+            "title": "Note"
+        },
+        "attribute_group_id": {
+            "title": "Parent"
+        },
+        "is_using": {
+            "title": "Status"
+        }
+    }
+}

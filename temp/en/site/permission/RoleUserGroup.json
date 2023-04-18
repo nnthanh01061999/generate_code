@@ -1,0 +1,27 @@
+{
+    "title": "Role User Group - Midea Media",
+    "label": "Role User Group",
+    "user": {
+        "filter": {
+            "confirm": "Are you sure you want to update?"
+        },
+        "table": {
+            "columns": {
+                "username": "Username",
+                "fullname": "Full Name"
+            }
+        }
+    },
+    "group": {
+        "filter": {
+            "confirm": "Are you sure you want to update?"
+        },
+        "table": {
+            "columns": {
+                "code": "Code",
+                "name": "Name",
+                "name2": "Other Name"
+            }
+        }
+    }
+}

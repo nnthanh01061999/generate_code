@@ -1,0 +1,46 @@
+{
+    "title": "Approval Indicator - Midea Media",
+    "label": "Approval Indicator",
+    "filter": {
+        "keyword": {
+            "title": "Keyword",
+            "placeholder": "Search Name, Code "
+        },
+        "is_using": {
+            "title": "Status",
+            "placeholder": "Select Status"
+        },
+        "voucher_id": {
+            "title": "Voucher",
+            "placeholder": "Select Voucher"
+        }
+    },
+    "table": {
+        "columns": {
+            "code": "Code",
+            "name": "Name",
+            "voucher_id": "Voucher",
+            "is_using": "Active"
+        }
+    },
+    "form": {
+        "code": {
+            "title": "Code"
+        },
+        "name": {
+            "title": "Name"
+        },
+        "name2": {
+            "title": "Other Name"
+        },
+        "voucher_id": {
+            "title": "Voucher"
+        },
+        "note": {
+            "title": "Note"
+        },
+        "is_using": {
+            "title": "Status"
+        }
+    }
+}
