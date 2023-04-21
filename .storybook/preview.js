@@ -3,6 +3,9 @@ import { ConfigProvider, theme } from 'antd';
 import 'antd/dist/reset.css';
 import { NextIntlProvider } from 'next-intl';
 import { nextIntl } from './nextIntl';
+import { queryClient } from '@/pages/_app';
+import ModalContextProvider from '@/context/ModalContext';
+import { QueryClientProvider } from 'react-query';
 
 export const parameters = {
     actions: { argTypesRegex: '^on[A-Z].*' },
@@ -26,14 +29,18 @@ export const parameters = {
 export const decorators = [
     (Story) => (
         <NextIntlProvider locale={nextIntl.defaultLocale} messages={nextIntl.messages?.[nextIntl.defaultLocale]}>
-            <ConfigProvider
-                theme={{
-                    algorithm: theme.darkAlgorithm,
-                    token: { colorPrimary: 'white' },
-                }}
-            >
-                <Story />
-            </ConfigProvider>
+            <QueryClientProvider client={queryClient}>
+                <ConfigProvider
+                    theme={{
+                        algorithm: theme.darkAlgorithm,
+                        token: { colorPrimary: 'white' },
+                    }}
+                >
+                    <ModalContextProvider>
+                        <Story />
+                    </ModalContextProvider>
+                </ConfigProvider>
+            </QueryClientProvider>
         </NextIntlProvider>
     ),
 ];

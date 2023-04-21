@@ -1,121 +1,46 @@
-import SelectControl, { ISelectControlProps } from '@/components/control/select/SelectControl';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { action } from '@storybook/addon-actions';
-import { ComponentMeta, Story } from '@storybook/react';
-import { Button, Form } from 'antd';
+import { Meta, StoryObj } from '@storybook/react';
 import { FormProvider, useForm } from 'react-hook-form';
-import * as yup from 'yup';
+import { action } from '@storybook/addon-actions';
 
-export default {
-    title: 'Form/Select',
-    component: SelectControl,
-} as ComponentMeta<typeof SelectControl>;
+import Select from '@/components/control/select/SelectControl';
+import { Button, Form } from 'antd';
 
-const CusSelect: Story<ISelectControlProps> = (args: ISelectControlProps) => {
-    const { name, label, ...rest } = args;
-
-    const schema = yup.object().shape({
-        [name]: yup.mixed().required(),
-    });
-
-    const methods = useForm({
-        defaultValues: { [name]: '' },
-        resolver: yupResolver(schema),
-    });
-
-    return (
-        <FormProvider {...methods}>
-            <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <SelectControl name={name} label={label} {...rest} />
-                <Button htmlType="submit">Submit</Button>
-            </Form>
-        </FormProvider>
-    );
+const _Select: Meta<typeof Select> = {
+    title: 'Component/Select/Select',
+    component: Select,
+    tags: ['autodocs'],
 };
 
-export const Select = CusSelect.bind({});
+export default _Select;
+type Story = StoryObj<typeof Select>;
 
-Select.args = {
-    name: 'name',
-    label: 'label',
-    onBlurCallBack: undefined,
-    onChangeCallBack: undefined,
-    wrapperProps: {
-        required: true,
-    },
-    childProps: {
-        options: [{ value: 'example', label: 'example' }],
-    },
-};
+export const Primary: Story = {
+    name: 'Select',
+    decorators: [
+        (Story) => {
+            const methods = useForm({
+                mode: 'onBlur',
+            });
 
-Select.parameters = {
-    docs: {
-        source: {
-            code: `
-import { ErrorMessage } from '@hookform/error-message';
-import { Form, Select, SelectProps, Typography } from 'antd';
-import { get } from 'lodash';
-import React from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
-import { CommonFormProps } from '@/interfaces/form';
-const { Text } = Typography;
-
-export interface ISelectControlProps extends CommonFormProps<SelectProps> {
-    onChangeCallBack?: (value: any, options?: any) => void;
-}
-
-function SelectControl(props: ISelectControlProps) {
-    const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
-
-    const {
-        control,
-        formState: { errors },
-    } = useFormContext();
-
-    const handleOnChange = (onChange: (value: any) => void) => {
-        return (value: any, option: any) => {
-            onChange(value);
-            if (onChangeCallBack instanceof Function) {
-                onChangeCallBack(value, option);
-            }
-        };
-    };
-
-    const handleOnBlur = (onBlur: () => void) => {
-        return () => {
-            onBlur();
-            if (onBlurCallBack instanceof Function) {
-                onBlurCallBack();
-            }
-        };
-    };
-
-    const isHaveError = React.useMemo(() => {
-        return get(errors, name, undefined);
-    }, [errors, name]);
-
-    const errorElement = React.useMemo(() => {
-        return showError && errors ? <Text type="danger">{<ErrorMessage errors={errors} name={name} />}</Text> : null;
-    }, [showError, errors, name]);
-
-    return (
-        <Controller
-            control={control}
-            name={name}
-            render={({ field: { ref, value, onChange, onBlur } }) => (
-                <Form.Item {...wrapperProps} label={label} htmlFor={name} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
-                    <Select {...childProps} ref={ref} id={name} value={value} onChange={handleOnChange(onChange)} onBlur={handleOnBlur(onBlur)} />
-                </Form.Item>
-            )}
-        />
-    );
-}
-
-export default SelectControl;
-`,
-            language: 'yml',
-            type: 'auto',
-            format: true,
+            return (
+                <FormProvider {...methods}>
+                    <Form layout="vertical" onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))}>
+                        <Story />
+                        <Button htmlType="submit">Submit</Button>
+                    </Form>
+                </FormProvider>
+            );
+        },
+    ],
+    args: {
+        name: 'test',
+        label: 'Example',
+        wrapperProps: {
+            required: true,
+        },
+        childProps: {
+            options: [{ value: 'example', label: 'example' }],
         },
     },
+    render: (args) => <Select {...args} />,
 };

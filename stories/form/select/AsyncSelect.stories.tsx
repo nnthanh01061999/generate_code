@@ -1,126 +1,57 @@
-import AsyncSelectControl, { IAsyncSelectControlProps } from '@/components/control/select/AsyncSelectControl';
-import { queryClient } from '@/pages/_app';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { action } from '@storybook/addon-actions';
-import { ComponentMeta, Story } from '@storybook/react';
-import { Button, Form } from 'antd';
+import { Meta, StoryObj } from '@storybook/react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { QueryClientProvider } from 'react-query';
-import * as yup from 'yup';
+import { action } from '@storybook/addon-actions';
 
-export default {
-    title: 'Form/Select/AsyncSelect',
-    component: AsyncSelectControl,
-} as ComponentMeta<typeof AsyncSelectControl>;
+import AsyncSelect from '@/components/control/select/AsyncSelectControl';
+import { Button, Form } from 'antd';
 
-const CusAsyncSelect: Story<IAsyncSelectControlProps> = (args: IAsyncSelectControlProps) => {
-    const { name, label, ...rest } = args;
-
-    const schema = yup.object().shape({
-        [name]: yup.object().required().nullable(),
-    });
-
-    const methods = useForm({
-        defaultValues: { [name]: '' },
-        resolver: yupResolver(schema),
-    });
-
-    return (
-        <QueryClientProvider client={queryClient}>
-            <FormProvider {...methods}>
-                <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                    <AsyncSelectControl name={name} label={label} {...rest} />
-                    <Button htmlType="submit">Submit</Button>
-                </Form>
-            </FormProvider>
-        </QueryClientProvider>
-    );
+const _AsyncSelect: Meta<typeof AsyncSelect> = {
+    title: 'Component/Select/AsyncSelect',
+    component: AsyncSelect,
+    tags: ['autodocs'],
 };
 
-export const AsyncSelect = CusAsyncSelect.bind({});
+export default _AsyncSelect;
+type Story = StoryObj<typeof AsyncSelect>;
 
-AsyncSelect.args = {
-    name: 'name',
-    label: 'label',
-    onBlurCallBack: undefined,
-    onChangeCallBack: undefined,
-    wrapperProps: {
-        required: true,
-    },
-    childProps: {
-        config: {
-            url: 'https://jsonplaceholder.typicode.com/posts',
-            name: 'pet',
-            valueField: 'id',
-            labelField: 'title',
-            responseKey: '',
+export const Primary: Story = {
+    name: 'AsyncSelect',
+    decorators: [
+        (Story) => {
+            const methods = useForm({
+                mode: 'onBlur',
+            });
+
+            return (
+                <FormProvider {...methods}>
+                    <Form layout="vertical" onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))}>
+                        <Story />
+                        <Button htmlType="submit">Submit</Button>
+                    </Form>
+                </FormProvider>
+            );
         },
-        axiosConfig: {
-            timeout: 30000,
+    ],
+    args: {
+        name: 'name',
+        label: 'label',
+        onBlurCallBack: undefined,
+        onChangeCallBack: undefined,
+        wrapperProps: {
+            required: true,
         },
-    },
-};
-
-AsyncSelect.parameters = {
-    docs: {
-        source: {
-            code: `
-import { CommonFormProps } from '@/interfaces/form';
-import { ErrorMessage } from '@hookform/error-message';
-import { Form, Typography } from 'antd';
-import { get } from 'lodash';
-import React from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
-import AsyncSelect, { IAsyncSelectProps } from '../shared/AsyncSelect';
-const { Text } = Typography;
-
-export interface IAsyncSelectControlProps extends CommonFormProps<IAsyncSelectProps> {
-    onChangeCallBack?: (value: any, options?: any) => void;
-    childProps: IAsyncSelectProps;
-}
-
-function AsyncSelectControl(props: IAsyncSelectControlProps) {
-    const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
-    const {
-        control,
-        formState: { errors },
-    } = useFormContext();
-
-    const handleOnChange = (onChange: (value: any) => void) => {
-        return (value: any, option: any) => {
-            onChange(value);
-            if (onChangeCallBack instanceof Function) {
-                onChangeCallBack(value, option);
-            }
-        };
-    };
-
-    const isHaveError = React.useMemo(() => {
-        return get(errors, name, undefined);
-    }, [errors, name]);
-
-    const errorElement = React.useMemo(() => {
-        return showError && errors ? <Text type="danger">{<ErrorMessage errors={errors} name={name} />}</Text> : null;
-    }, [showError, errors, name]);
-
-    return (
-        <Controller
-            control={control}
-            name={name}
-            render={({ field: { ref, value, onChange, onBlur } }) => (
-                <Form.Item {...wrapperProps} label={label} htmlFor={name} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
-                    <AsyncSelect {...childProps} ref={ref} id={name} value={value} onChange={handleOnChange(onChange)} />
-                </Form.Item>
-            )}
-        />
-    );
-}
-
-export default AsyncSelectControl;
-`,
-            language: 'yml',
-            type: 'auto',
-            format: true,
+        childProps: {
+            config: {
+                url: 'https://jsonplaceholder.typicode.com/posts',
+                name: 'pet',
+                valueField: 'id',
+                labelField: 'title',
+                responseKey: '',
+            },
+            axiosConfig: {
+                timeout: 30000,
+            },
         },
     },
+    render: (args) => <AsyncSelect {...args} />,
 };

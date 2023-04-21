@@ -1,114 +1,43 @@
-import InputTextAreaControl from '@/components/control/input/InputTextAreaControl';
-import { CommonFormProps } from '@/interfaces';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { action } from '@storybook/addon-actions';
-import { ComponentMeta, Story } from '@storybook/react';
-import { Button, Form } from 'antd';
-import { TextAreaProps } from 'antd/es/input';
+import { Meta, StoryObj } from '@storybook/react';
 import { FormProvider, useForm } from 'react-hook-form';
-import * as yup from 'yup';
+import { action } from '@storybook/addon-actions';
 
-export default {
-    title: 'Form/input/Input/input/InputTextArea',
-    component: InputTextAreaControl,
-} as ComponentMeta<typeof InputTextAreaControl>;
+import InputTextArea from '@/components/control/input/InputTextAreaControl';
+import { Button, Form } from 'antd';
 
-const CusInputTextArea: Story<CommonFormProps<TextAreaProps>> = (args: CommonFormProps<TextAreaProps>) => {
-    const { name, label, ...rest } = args;
-
-    const schema = yup.object().shape({
-        [name]: yup.string().required(),
-    });
-
-    const methods = useForm({
-        defaultValues: { [name]: '' },
-        resolver: yupResolver(schema),
-    });
-
-    return (
-        <FormProvider {...methods}>
-            <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <InputTextAreaControl name={name} label={label} wrapperProps={{ required: true }} {...rest} />
-                <Button htmlType="submit">Submit</Button>
-            </Form>
-        </FormProvider>
-    );
+const _InputTextArea: Meta<typeof InputTextArea> = {
+    title: 'Component/Input/InputTextArea',
+    component: InputTextArea,
+    tags: ['autodocs'],
 };
 
-export const InputTextArea = CusInputTextArea.bind({});
-InputTextArea.args = {
-    name: 'name',
-    label: 'label',
-    onBlurCallBack: undefined,
-    onChangeCallBack: undefined,
-};
-InputTextArea.parameters = {
-    docs: {
-        source: {
-            code: `
-import { ErrorMessage } from '@hookform/error-message';
-import { Form, Input, Typography } from 'antd';
-import { TextAreaProps } from 'antd/es/input/Input';
-import React from 'react';
-import { Controller, get, useFormContext } from 'react-hook-form';
-import { CommonFormProps } from '@/interfaces/form';
+export default _InputTextArea;
+type Story = StoryObj<typeof InputTextArea>;
 
-const { TextArea } = Input;
+export const Primary: Story = {
+    name: 'InputTextArea',
+    decorators: [
+        (Story) => {
+            const methods = useForm({
+                mode: 'onBlur',
+            });
 
-const { Text } = Typography;
-
-function InputTextAreaControl(props: CommonFormProps<TextAreaProps>) {
-    const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
-
-    const {
-        control,
-        formState: { errors },
-    } = useFormContext();
-
-    const handleOnChange = (onChange: (value: any) => void) => {
-        return (value: any) => {
-            onChange(value);
-            if (onChangeCallBack instanceof Function) {
-                onChangeCallBack(value);
-            }
-        };
-    };
-
-    const handleOnBlur = (onBlur: () => void) => {
-        return () => {
-            onBlur();
-            if (onBlurCallBack instanceof Function) {
-                onBlurCallBack();
-            }
-        };
-    };
-
-    const isHaveError = React.useMemo(() => {
-        return get(errors, name, undefined);
-    }, [errors, name]);
-
-    const errorElement = React.useMemo(() => {
-        return showError && errors ? <Text type="danger">{<ErrorMessage errors={errors} name={name} />}</Text> : null;
-    }, [showError, errors, name]);
-
-    return (
-        <Controller
-            control={control}
-            name={name}
-            render={({ field: { ref, value, onChange, onBlur } }) => (
-                <Form.Item {...wrapperProps} label={label} htmlFor={name} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
-                    <TextArea {...childProps} ref={ref} id={name} value={value} onChange={handleOnChange(onChange)} onBlur={handleOnBlur(onBlur)} />
-                </Form.Item>
-            )}
-        />
-    );
-}
-
-export default InputTextAreaControl;
-`,
-            language: 'yml',
-            type: 'auto',
-            format: true,
+            return (
+                <FormProvider {...methods}>
+                    <Form layout="vertical" onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))}>
+                        <Story />
+                        <Button htmlType="submit">Submit</Button>
+                    </Form>
+                </FormProvider>
+            );
+        },
+    ],
+    args: {
+        name: 'test',
+        label: 'Example',
+        wrapperProps: {
+            required: true,
         },
     },
+    render: (args) => <InputTextArea {...args} />,
 };

@@ -1,12 +1,8 @@
 import Head from 'next/head';
 
 const DOMAIN = typeof window !== 'undefined' && window.location.origin ? window.location.origin : '';
-<<<<<<< HEAD
-const DEFAULT_OG_IMAGE = 'https://commons.wikimedia.org/wiki/File:Google_%22G%22_Logo.svg#/media/File:Google_%22G%22_Logo.svg';
-=======
 
 const DEFAULT_OG_IMAGE = 'public\next.svg';
->>>>>>> c5904bde80f58f16bb41eb12425c3b0e0376ee63
 
 export default function NextSEO({
     title = 'Midea Media',

@@ -1,110 +1,43 @@
-import InputNumberControl from '@/components/control/input/InputNumberControl';
-import { CommonFormProps } from '@/interfaces';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { action } from '@storybook/addon-actions';
-import { ComponentMeta, Story } from '@storybook/react';
-import { Button, Form, InputNumberProps } from 'antd';
+import { Meta, StoryObj } from '@storybook/react';
 import { FormProvider, useForm } from 'react-hook-form';
-import * as yup from 'yup';
+import { action } from '@storybook/addon-actions';
 
-export default {
-    title: 'Form/input/Input/input/InputNumber',
-    component: InputNumberControl,
-} as ComponentMeta<typeof InputNumberControl>;
+import InputNumber from '@/components/control/input/InputNumberControl';
+import { Button, Form } from 'antd';
 
-const CusInputNumber: Story<CommonFormProps<InputNumberProps>> = (args: CommonFormProps<InputNumberProps>) => {
-    const { name, label, ...rest } = args;
-
-    const schema = yup.object().shape({
-        [name]: yup.number().required(),
-    });
-
-    const methods = useForm({
-        defaultValues: { [name]: '' },
-        resolver: yupResolver(schema),
-    });
-
-    return (
-        <FormProvider {...methods}>
-            <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <InputNumberControl name={name} label={label} wrapperProps={{ required: true }} {...rest} />
-                <Button htmlType="submit">Submit</Button>
-            </Form>
-        </FormProvider>
-    );
+const _InputNumber: Meta<typeof InputNumber> = {
+    title: 'Component/Input/InputNumber',
+    component: InputNumber,
+    tags: ['autodocs'],
 };
 
-export const InputNumber = CusInputNumber.bind({});
-InputNumber.args = {
-    name: 'name',
-    label: 'label',
-    onBlurCallBack: undefined,
-    onChangeCallBack: undefined,
-};
-InputNumber.parameters = {
-    docs: {
-        source: {
-            code: `
-import { ErrorMessage } from '@hookform/error-message';
-import { Form, InputNumber, InputNumberProps, Typography } from 'antd';
-import React from 'react';
-import { Controller, get, useFormContext } from 'react-hook-form';
-import { CommonFormProps } from '@/interfaces/form';
+export default _InputNumber;
+type Story = StoryObj<typeof InputNumber>;
 
-const { Text } = Typography;
+export const Primary: Story = {
+    name: 'InputNumber',
+    decorators: [
+        (Story) => {
+            const methods = useForm({
+                mode: 'onBlur',
+            });
 
-function InputNumberControl(props: CommonFormProps<InputNumberProps>) {
-    const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
-
-    const {
-        control,
-        formState: { errors },
-    } = useFormContext();
-
-    const handleOnChange = (onChange: (value: any) => void) => {
-        return (value: any) => {
-            onChange(value);
-            if (onChangeCallBack instanceof Function) {
-                onChangeCallBack(value);
-            }
-        };
-    };
-
-    const handleOnBlur = (onBlur: () => void) => {
-        return () => {
-            onBlur();
-            if (onBlurCallBack instanceof Function) {
-                onBlurCallBack();
-            }
-        };
-    };
-
-    const isHaveError = React.useMemo(() => {
-        return get(errors, name, undefined);
-    }, [errors, name]);
-
-    const errorElement = React.useMemo(() => {
-        return showError && errors ? <Text type="danger">{<ErrorMessage errors={errors} name={name} />}</Text> : null;
-    }, [showError, errors, name]);
-
-    return (
-        <Controller
-            control={control}
-            name={name}
-            render={({ field: { ref, value, onChange, onBlur } }) => (
-                <Form.Item {...wrapperProps} label={label} htmlFor={name} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
-                    <InputNumber style={{ width: '100%' }} {...childProps} ref={ref} id={name} value={value} onChange={handleOnChange(onChange)} onBlur={handleOnBlur(onBlur)} />
-                </Form.Item>
-            )}
-        />
-    );
-}
-
-export default InputNumberControl;
-`,
-            language: 'yml',
-            type: 'auto',
-            format: true,
+            return (
+                <FormProvider {...methods}>
+                    <Form layout="vertical" onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))}>
+                        <Story />
+                        <Button htmlType="submit">Submit</Button>
+                    </Form>
+                </FormProvider>
+            );
+        },
+    ],
+    args: {
+        name: 'test',
+        label: 'Example',
+        wrapperProps: {
+            required: true,
         },
     },
+    render: (args) => <InputNumber {...args} />,
 };

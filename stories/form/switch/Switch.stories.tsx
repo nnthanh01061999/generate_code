@@ -2,20 +2,20 @@ import { Meta, StoryObj } from '@storybook/react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { action } from '@storybook/addon-actions';
 
-import MonthPicker from '@/components/control/date-picker/MonthPickerControl';
+import Switch from '@/components/control/switch/SwitchControl';
 import { Button, Form } from 'antd';
 
-const _MonthPicker: Meta<typeof MonthPicker> = {
-    title: 'Component/Date/MonthPicker',
-    component: MonthPicker,
+const _Switch: Meta<typeof Switch> = {
+    title: 'Component/Switch/Switch',
+    component: Switch,
     tags: ['autodocs'],
 };
 
-export default _MonthPicker;
-type Story = StoryObj<typeof MonthPicker>;
+export default _Switch;
+type Story = StoryObj<typeof Switch>;
 
 export const Primary: Story = {
-    name: 'MonthPicker',
+    name: 'Switch',
     decorators: [
         (Story) => {
             const methods = useForm({
@@ -38,6 +38,7 @@ export const Primary: Story = {
         wrapperProps: {
             required: true,
         },
+        childProps: {},
     },
-    render: (args) => <MonthPicker {...args} />,
+    render: (args) => <Switch {...args} />,
 };

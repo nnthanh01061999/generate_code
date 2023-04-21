@@ -1,115 +1,43 @@
-import WeekPickerControl from '@/components/control/date-picker/WeekPickerControl';
-import { CommonFormProps } from '@/interfaces';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { action } from '@storybook/addon-actions';
-import { ComponentMeta, Story } from '@storybook/react';
-import { Button, DatePickerProps, Form } from 'antd';
+import { Meta, StoryObj } from '@storybook/react';
 import { FormProvider, useForm } from 'react-hook-form';
-import * as yup from 'yup';
+import { action } from '@storybook/addon-actions';
 
-export default {
-    title: 'Form/date-picker/Date/WeekPicker',
-    component: WeekPickerControl,
-} as ComponentMeta<typeof WeekPickerControl>;
+import WeekPicker from '@/components/control/date-picker/WeekPickerControl';
+import { Button, Form } from 'antd';
 
-const CusWeekPicker: Story<CommonFormProps<DatePickerProps>> = (args: CommonFormProps<DatePickerProps>) => {
-    const { name, label, ...rest } = args;
-
-    const schema = yup.object().shape({
-        [name]: yup.date().nullable().required(),
-    });
-
-    const methods = useForm({
-        resolver: yupResolver(schema),
-    });
-
-    return (
-        <FormProvider {...methods}>
-            <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <WeekPickerControl name={name} label={label} {...rest} />
-                <Button htmlType="submit">Submit</Button>
-            </Form>
-        </FormProvider>
-    );
+const _WeekPicker: Meta<typeof WeekPicker> = {
+    title: 'Component/Date/WeekPicker',
+    component: WeekPicker,
+    tags: ['autodocs'],
 };
 
-export const WeekPicker = CusWeekPicker.bind({});
-WeekPicker.args = {
-    name: 'name',
-    label: 'label',
-    onBlurCallBack: undefined,
-    onChangeCallBack: undefined,
-    wrapperProps: {
-        required: true,
-    },
-};
+export default _WeekPicker;
+type Story = StoryObj<typeof WeekPicker>;
 
-WeekPicker.parameters = {
-    docs: {
-        source: {
-            code: `
-import { ErrorMessage } from '@hookform/error-message';
-import { DatePicker, Form, DatePickerProps, Typography } from 'antd';
-import React from 'react';
-import { Controller, get, useFormContext } from 'react-hook-form';
-import { CommonFormProps } from '@/interfaces/form';
+export const Primary: Story = {
+    name: 'WeekPicker',
+    decorators: [
+        (Story) => {
+            const methods = useForm({
+                mode: 'onBlur',
+            });
 
-const { WeekPicker } = DatePicker;
-
-const { Text } = Typography;
-
-function WeekPickerControl(props: CommonFormProps<DatePickerProps>) {
-    const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
-
-    const {
-        control,
-        formState: { errors },
-    } = useFormContext();
-
-    const handleOnChange = (onChange: (value: any) => void) => {
-        return (value: any) => {
-            onChange(value);
-            if (onChangeCallBack instanceof Function) {
-                onChangeCallBack(value);
-            }
-        };
-    };
-
-    const handleOnBlur = (onBlur: () => void) => {
-        return () => {
-            onBlur();
-            if (onBlurCallBack instanceof Function) {
-                onBlurCallBack();
-            }
-        };
-    };
-
-    const isHaveError = React.useMemo(() => {
-        return get(errors, name, undefined);
-    }, [errors, name]);
-
-    const errorElement = React.useMemo(() => {
-        return showError && errors ? <Text type="danger">{<ErrorMessage errors={errors} name={name} />}</Text> : null;
-    }, [showError, errors, name]);
-
-    return (
-        <Controller
-            control={control}
-            name={name}
-            render={({ field: { ref, value, onChange, onBlur } }) => (
-                <Form.Item {...wrapperProps} label={label} htmlFor={name} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
-                    <WeekPicker {...childProps} ref={ref} id={name} value={value} onChange={handleOnChange(onChange)} onBlur={handleOnBlur(onBlur)} />
-                </Form.Item>
-            )}
-        />
-    );
-}
-
-export default WeekPickerControl;            
-`,
-            language: 'yml',
-            type: 'auto',
-            format: true,
+            return (
+                <FormProvider {...methods}>
+                    <Form layout="vertical" onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))}>
+                        <Story />
+                        <Button htmlType="submit">Submit</Button>
+                    </Form>
+                </FormProvider>
+            );
+        },
+    ],
+    args: {
+        name: 'test',
+        label: 'Example',
+        wrapperProps: {
+            required: true,
         },
     },
+    render: (args) => <WeekPicker {...args} />,
 };

@@ -1,115 +1,43 @@
-import TimePickerControl from '@/components/control/date-picker/TimePickerControl';
-import { CommonFormProps } from '@/interfaces';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { action } from '@storybook/addon-actions';
-import { ComponentMeta, Story } from '@storybook/react';
-import { Button, TimePickerProps, Form } from 'antd';
+import { Meta, StoryObj } from '@storybook/react';
 import { FormProvider, useForm } from 'react-hook-form';
-import * as yup from 'yup';
+import { action } from '@storybook/addon-actions';
 
-export default {
-    title: 'Form/date-picker/Date/TimePicker',
-    component: TimePickerControl,
-} as ComponentMeta<typeof TimePickerControl>;
+import TimePicker from '@/components/control/date-picker/TimePickerControl';
+import { Button, Form } from 'antd';
 
-const CusTimePicker: Story<CommonFormProps<TimePickerProps>> = (args: CommonFormProps<TimePickerProps>) => {
-    const { name, label, ...rest } = args;
-
-    const schema = yup.object().shape({
-        [name]: yup.date().nullable().required(),
-    });
-
-    const methods = useForm({
-        resolver: yupResolver(schema),
-    });
-
-    return (
-        <FormProvider {...methods}>
-            <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <TimePickerControl name={name} label={label} {...rest} />
-                <Button htmlType="submit">Submit</Button>
-            </Form>
-        </FormProvider>
-    );
+const _TimePicker: Meta<typeof TimePicker> = {
+    title: 'Component/Date/TimePicker',
+    component: TimePicker,
+    tags: ['autodocs'],
 };
 
-export const TimePicker = CusTimePicker.bind({});
-TimePicker.args = {
-    name: 'name',
-    label: 'label',
-    onBlurCallBack: undefined,
-    onChangeCallBack: undefined,
-    wrapperProps: {
-        required: true,
-    },
-};
+export default _TimePicker;
+type Story = StoryObj<typeof TimePicker>;
 
-TimePicker.parameters = {
-    docs: {
-        source: {
-            code: `
-import { ErrorMessage } from '@hookform/error-message';
-import { DatePicker, Form, TimePickerProps, Typography } from 'antd';
-import React from 'react';
-import { Controller, get, useFormContext } from 'react-hook-form';
-import { CommonFormProps } from '@/interfaces/form';
+export const Primary: Story = {
+    name: 'TimePicker',
+    decorators: [
+        (Story) => {
+            const methods = useForm({
+                mode: 'onBlur',
+            });
 
-const { TimePicker } = DatePicker;
-
-const { Text } = Typography;
-
-function TimePickerControl(props: CommonFormProps<TimePickerProps>) {
-    const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
-
-    const {
-        control,
-        formState: { errors },
-    } = useFormContext();
-
-    const handleOnChange = (onChange: (value: any) => void) => {
-        return (value: any) => {
-            onChange(value);
-            if (onChangeCallBack instanceof Function) {
-                onChangeCallBack(value);
-            }
-        };
-    };
-
-    const handleOnBlur = (onBlur: () => void) => {
-        return () => {
-            onBlur();
-            if (onBlurCallBack instanceof Function) {
-                onBlurCallBack();
-            }
-        };
-    };
-
-    const isHaveError = React.useMemo(() => {
-        return get(errors, name, undefined);
-    }, [errors, name]);
-
-    const errorElement = React.useMemo(() => {
-        return showError && errors ? <Text type="danger">{<ErrorMessage errors={errors} name={name} />}</Text> : null;
-    }, [showError, errors, name]);
-
-    return (
-        <Controller
-            control={control}
-            name={name}
-            render={({ field: { ref, value, onChange, onBlur } }) => (
-                <Form.Item {...wrapperProps} label={label} htmlFor={name} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
-                    <TimePicker {...childProps} ref={ref} id={name} value={value} onChange={handleOnChange(onChange)} onBlur={handleOnBlur(onBlur)} />
-                </Form.Item>
-            )}
-        />
-    );
-}
-
-export default TimePickerControl;            
-`,
-            language: 'yml',
-            type: 'auto',
-            format: true,
+            return (
+                <FormProvider {...methods}>
+                    <Form layout="vertical" onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))}>
+                        <Story />
+                        <Button htmlType="submit">Submit</Button>
+                    </Form>
+                </FormProvider>
+            );
+        },
+    ],
+    args: {
+        name: 'test',
+        label: 'Example',
+        wrapperProps: {
+            required: true,
         },
     },
+    render: (args) => <TimePicker {...args} />,
 };

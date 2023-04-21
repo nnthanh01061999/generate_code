@@ -3,7 +3,7 @@ const locales = ['en', 'vi'];
 const messages = locales.reduce(
     (acc, lang) => ({
         ...acc,
-        [lang]: require(`../messages/${lang.slice(0, 2)}.json`), // whatever the relative path to your messages json is
+        [lang]: require(`../messages/${lang.slice(0, 2)}/Common.json`), // whatever the relative path to your messages json is
     }),
     {},
 );

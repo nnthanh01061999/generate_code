@@ -2,20 +2,20 @@ import { Meta, StoryObj } from '@storybook/react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { action } from '@storybook/addon-actions';
 
-import MonthPicker from '@/components/control/date-picker/MonthPickerControl';
+import ColorPicker from '@/components/control/color-picker/ColorPickerControl';
 import { Button, Form } from 'antd';
 
-const _MonthPicker: Meta<typeof MonthPicker> = {
-    title: 'Component/Date/MonthPicker',
-    component: MonthPicker,
+const _ColorPicker: Meta<typeof ColorPicker> = {
+    title: 'Component/ColorPicker/ColorPicker',
+    component: ColorPicker,
     tags: ['autodocs'],
 };
 
-export default _MonthPicker;
-type Story = StoryObj<typeof MonthPicker>;
+export default _ColorPicker;
+type Story = StoryObj<typeof ColorPicker>;
 
 export const Primary: Story = {
-    name: 'MonthPicker',
+    name: 'ColorPicker',
     decorators: [
         (Story) => {
             const methods = useForm({
@@ -38,6 +38,7 @@ export const Primary: Story = {
         wrapperProps: {
             required: true,
         },
+        childProps: {},
     },
-    render: (args) => <MonthPicker {...args} />,
+    render: (args) => <ColorPicker {...args} />,
 };

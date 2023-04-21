@@ -2,20 +2,20 @@ import { Meta, StoryObj } from '@storybook/react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { action } from '@storybook/addon-actions';
 
-import MonthPicker from '@/components/control/date-picker/MonthPickerControl';
+import Radio from '@/components/control/radio/RadioControl';
 import { Button, Form } from 'antd';
 
-const _MonthPicker: Meta<typeof MonthPicker> = {
-    title: 'Component/Date/MonthPicker',
-    component: MonthPicker,
+const _Radio: Meta<typeof Radio> = {
+    title: 'Component/Radio/Radio',
+    component: Radio,
     tags: ['autodocs'],
 };
 
-export default _MonthPicker;
-type Story = StoryObj<typeof MonthPicker>;
+export default _Radio;
+type Story = StoryObj<typeof Radio>;
 
 export const Primary: Story = {
-    name: 'MonthPicker',
+    name: 'Radio',
     decorators: [
         (Story) => {
             const methods = useForm({
@@ -38,6 +38,7 @@ export const Primary: Story = {
         wrapperProps: {
             required: true,
         },
+        childProps: {},
     },
-    render: (args) => <MonthPicker {...args} />,
+    render: (args) => <Radio {...args} />,
 };
