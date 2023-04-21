@@ -1,12 +1,17 @@
 import Head from 'next/head';
 
 const DOMAIN = typeof window !== 'undefined' && window.location.origin ? window.location.origin : '';
+<<<<<<< HEAD
 const DEFAULT_OG_IMAGE = 'https://commons.wikimedia.org/wiki/File:Google_%22G%22_Logo.svg#/media/File:Google_%22G%22_Logo.svg';
+=======
+
+const DEFAULT_OG_IMAGE = 'public\next.svg';
+>>>>>>> c5904bde80f58f16bb41eb12425c3b0e0376ee63
 
 export default function NextSEO({
-    title = "NNThanh's Code Space",
-    description = "NNThanh works on frontend development. He's passionate about design, coding, SaaS, and indie hacking.",
-    siteName = "NNThanh's Code Space",
+    title = 'Midea Media',
+    description = 'Midea Media Web Business Operation',
+    siteName = 'Midea Media Web Business Operation',
     canonical = DOMAIN,
     ogImage = DEFAULT_OG_IMAGE,
     ogType = 'website',

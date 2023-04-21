@@ -1,0 +1,31 @@
+<mxfile host="65bd71144e">
+    <diagram id="7MyXwlRHuBnpR0kQ2twR" name="Page-1">
+        <mxGraphModel dx="1146" dy="538" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="&lt;h1&gt;Input&lt;/h1&gt;&lt;p&gt;Key&lt;/p&gt;&lt;p&gt;Action: {&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;key: string, &lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;payload: {}&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;} []&lt;/span&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="120" width="210" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="&lt;h1&gt;Ouput&lt;/h1&gt;&lt;p&gt;Reducer&lt;br&gt;Hook&lt;br&gt;Type&lt;br&gt;action&lt;br&gt;actionType&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="110" width="190" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="" style="shape=flexArrow;endArrow=classic;html=1;" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="280" y="150" as="sourcePoint"/>
+                        <mxPoint x="400" y="150" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="5" value="&lt;ul&gt;&lt;li&gt;action&amp;nbsp;&lt;/li&gt;&lt;li&gt;action&lt;/li&gt;&lt;li&gt;children&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=middle;overflow=hidden;" vertex="1" parent="1">
+                    <mxGeometry x="140" y="280" width="100" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="&lt;ul&gt;&lt;li&gt;action&amp;nbsp;&lt;/li&gt;&lt;li&gt;action&lt;/li&gt;&lt;li&gt;children&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=middle;overflow=hidden;" vertex="1" parent="1">
+                    <mxGeometry x="220" y="320" width="100" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="&lt;ul&gt;&lt;li&gt;action&amp;nbsp;&lt;/li&gt;&lt;li&gt;action&lt;/li&gt;&lt;li&gt;children&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=middle;overflow=hidden;" vertex="1" parent="1">
+                    <mxGeometry x="300" y="360" width="100" height="80" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

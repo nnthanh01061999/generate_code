@@ -1,4 +1,4 @@
-import CustomWeekPicker from '@/components/form/CustomWeekPicker';
+import WeekPickerControl from '@/components/control/date-picker/WeekPickerControl';
 import { CommonFormProps } from '@/interfaces';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { action } from '@storybook/addon-actions';
@@ -8,9 +8,9 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 export default {
-    title: 'Form/Date/WeekPicker',
-    component: CustomWeekPicker,
-} as ComponentMeta<typeof CustomWeekPicker>;
+    title: 'Form/date-picker/Date/WeekPicker',
+    component: WeekPickerControl,
+} as ComponentMeta<typeof WeekPickerControl>;
 
 const CusWeekPicker: Story<CommonFormProps<DatePickerProps>> = (args: CommonFormProps<DatePickerProps>) => {
     const { name, label, ...rest } = args;
@@ -26,7 +26,7 @@ const CusWeekPicker: Story<CommonFormProps<DatePickerProps>> = (args: CommonForm
     return (
         <FormProvider {...methods}>
             <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <CustomWeekPicker name={name} label={label} {...rest} />
+                <WeekPickerControl name={name} label={label} {...rest} />
                 <Button htmlType="submit">Submit</Button>
             </Form>
         </FormProvider>
@@ -58,7 +58,7 @@ const { WeekPicker } = DatePicker;
 
 const { Text } = Typography;
 
-function CustomWeekPicker(props: CommonFormProps<DatePickerProps>) {
+function WeekPickerControl(props: CommonFormProps<DatePickerProps>) {
     const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
 
     const {
@@ -105,7 +105,7 @@ function CustomWeekPicker(props: CommonFormProps<DatePickerProps>) {
     );
 }
 
-export default CustomWeekPicker;            
+export default WeekPickerControl;            
 `,
             language: 'yml',
             type: 'auto',

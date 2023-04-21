@@ -1,4 +1,4 @@
-import CustomYearPicker from '@/components/form/CustomYearPicker';
+import YearPickerControl from '@/components/control/date-picker/YearPickerControl';
 import { CommonFormProps } from '@/interfaces';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { action } from '@storybook/addon-actions';
@@ -8,9 +8,9 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 export default {
-    title: 'Form/Date/YearPicker',
-    component: CustomYearPicker,
-} as ComponentMeta<typeof CustomYearPicker>;
+    title: 'Form/date-picker/Date/YearPicker',
+    component: YearPickerControl,
+} as ComponentMeta<typeof YearPickerControl>;
 
 const CusYearPicker: Story<CommonFormProps<DatePickerProps>> = (args: CommonFormProps<DatePickerProps>) => {
     const { name, label, ...rest } = args;
@@ -26,7 +26,7 @@ const CusYearPicker: Story<CommonFormProps<DatePickerProps>> = (args: CommonForm
     return (
         <FormProvider {...methods}>
             <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <CustomYearPicker name={name} label={label} {...rest} />
+                <YearPickerControl name={name} label={label} {...rest} />
                 <Button htmlType="submit">Submit</Button>
             </Form>
         </FormProvider>
@@ -58,7 +58,7 @@ const { YearPicker } = DatePicker;
 
 const { Text } = Typography;
 
-function CustomYearPicker(props: CommonFormProps<DatePickerProps>) {
+function YearPickerControl(props: CommonFormProps<DatePickerProps>) {
     const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
 
     const {
@@ -105,7 +105,7 @@ function CustomYearPicker(props: CommonFormProps<DatePickerProps>) {
     );
 }
 
-export default CustomYearPicker;            s
+export default YearPickerControl;            s
 `,
             language: 'yml',
             type: 'auto',

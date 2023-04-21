@@ -11,7 +11,10 @@ Page.Layout = MainLayout;
 export async function getStaticProps({ locale }: GetStaticPropsContext) {
     return {
         props: {
-            messages: (await import(`@/messages/${locale}.json`)).default,
+            messages: {
+                Common: (await import(`@/messages/${locale}/Common.json`)).default,
+                ReactQuery: (await import(`@/messages/${locale}/site/ReactQuery.json`)).default,
+            },
         },
     };
 }

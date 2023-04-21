@@ -1,0 +1,1 @@
+export const ERRROR_CODE_EXPIRED_TOKEN = '402';

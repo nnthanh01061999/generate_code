@@ -1,4 +1,4 @@
-import CustomMonthPicker from '@/components/form/CustomMonthPicker';
+import MonthPickerControl from '@/components/control/date-picker/MonthPickerControl';
 import { CommonFormProps } from '@/interfaces';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { action } from '@storybook/addon-actions';
@@ -8,9 +8,9 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 export default {
-    title: 'Form/Date/MonthPicker',
-    component: CustomMonthPicker,
-} as ComponentMeta<typeof CustomMonthPicker>;
+    title: 'Form/date-picker/Date/MonthPicker',
+    component: MonthPickerControl,
+} as ComponentMeta<typeof MonthPickerControl>;
 
 const CusMonthPicker: Story<CommonFormProps<DatePickerProps>> = (args: CommonFormProps<DatePickerProps>) => {
     const { name, label, ...rest } = args;
@@ -26,7 +26,7 @@ const CusMonthPicker: Story<CommonFormProps<DatePickerProps>> = (args: CommonFor
     return (
         <FormProvider {...methods}>
             <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <CustomMonthPicker name={name} label={label} {...rest} />
+                <MonthPickerControl name={name} label={label} {...rest} />
                 <Button htmlType="submit">Submit</Button>
             </Form>
         </FormProvider>
@@ -58,7 +58,7 @@ const { MonthPicker } = DatePicker;
 
 const { Text } = Typography;
 
-function CustomMonthPicker(props: CommonFormProps<DatePickerProps>) {
+function MonthPickerControl(props: CommonFormProps<DatePickerProps>) {
     const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
 
     const {
@@ -105,7 +105,7 @@ function CustomMonthPicker(props: CommonFormProps<DatePickerProps>) {
     );
 }
 
-export default CustomMonthPicker;
+export default MonthPickerControl;
 `,
             language: 'yml',
             type: 'auto',

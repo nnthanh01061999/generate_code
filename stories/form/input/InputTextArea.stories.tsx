@@ -1,4 +1,4 @@
-import CustomInputTextArea from '@/components/form/CustomInputTextArea';
+import InputTextAreaControl from '@/components/control/input/InputTextAreaControl';
 import { CommonFormProps } from '@/interfaces';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { action } from '@storybook/addon-actions';
@@ -9,9 +9,9 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 export default {
-    title: 'Form/Input/InputTextArea',
-    component: CustomInputTextArea,
-} as ComponentMeta<typeof CustomInputTextArea>;
+    title: 'Form/input/Input/input/InputTextArea',
+    component: InputTextAreaControl,
+} as ComponentMeta<typeof InputTextAreaControl>;
 
 const CusInputTextArea: Story<CommonFormProps<TextAreaProps>> = (args: CommonFormProps<TextAreaProps>) => {
     const { name, label, ...rest } = args;
@@ -28,7 +28,7 @@ const CusInputTextArea: Story<CommonFormProps<TextAreaProps>> = (args: CommonFor
     return (
         <FormProvider {...methods}>
             <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <CustomInputTextArea name={name} label={label} wrapperProps={{ required: true }} {...rest} />
+                <InputTextAreaControl name={name} label={label} wrapperProps={{ required: true }} {...rest} />
                 <Button htmlType="submit">Submit</Button>
             </Form>
         </FormProvider>
@@ -48,7 +48,7 @@ InputTextArea.parameters = {
             code: `
 import { ErrorMessage } from '@hookform/error-message';
 import { Form, Input, Typography } from 'antd';
-import { TextAreaProps } from 'antd/es/input';
+import { TextAreaProps } from 'antd/es/input/Input';
 import React from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
 import { CommonFormProps } from '@/interfaces/form';
@@ -57,7 +57,7 @@ const { TextArea } = Input;
 
 const { Text } = Typography;
 
-function CustomInputTextArea(props: CommonFormProps<TextAreaProps>) {
+function InputTextAreaControl(props: CommonFormProps<TextAreaProps>) {
     const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
 
     const {
@@ -104,7 +104,7 @@ function CustomInputTextArea(props: CommonFormProps<TextAreaProps>) {
     );
 }
 
-export default CustomInputTextArea;
+export default InputTextAreaControl;
 `,
             language: 'yml',
             type: 'auto',

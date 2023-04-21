@@ -19,7 +19,6 @@ function MainHeader() {
                     <Text>{t('title')}</Text>
                 </Space>
             </NextLink>
-            <LocaleSwitcher />
         </Header>
     );
 }

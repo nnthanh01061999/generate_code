@@ -1,0 +1,24 @@
+{
+    "title": "List",
+    "data": {
+        "swagger-docs": "Swagger Docs",
+        "swagger-docs-desc": "Swagger Docs",
+        "generate": "Generate",
+        "generate-desc": "Generate code",
+        "react-query": "React query",
+        "react-query-desc": "React query example",
+        "reducer": "Redux Reducer",
+        "reducer-desc": "Redux Reducer Generate",
+        "table": "Table",
+        "table-desc": "Table Generate",
+        "form": "Form",
+        "form-desc": "Form Generate",
+        "message": "Message",
+        "message-desc": "Message Generate",
+        "schema-to-yup": "schema-to-yup",
+        "schema-to-yup-desc": "schema-to-yup Generate",
+        "crawl-image": "crawl-image",
+        "crawl-image-desc": "crawl-image"
+    },
+    "link": "Link"
+}

@@ -1,0 +1,8 @@
+{
+    "title": "React query example",
+    "pet": {
+        "age": "Age",
+        "name": "Name",
+        "species": "spicies"
+    }
+}

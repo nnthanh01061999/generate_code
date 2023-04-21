@@ -1,4 +1,4 @@
-import CustomSelect, { ICustomSelectProps } from '@/components/form/CustomSelect';
+import SelectControl, { ISelectControlProps } from '@/components/control/select/SelectControl';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { action } from '@storybook/addon-actions';
 import { ComponentMeta, Story } from '@storybook/react';
@@ -8,10 +8,10 @@ import * as yup from 'yup';
 
 export default {
     title: 'Form/Select',
-    component: CustomSelect,
-} as ComponentMeta<typeof CustomSelect>;
+    component: SelectControl,
+} as ComponentMeta<typeof SelectControl>;
 
-const CusSelect: Story<ICustomSelectProps> = (args: ICustomSelectProps) => {
+const CusSelect: Story<ISelectControlProps> = (args: ISelectControlProps) => {
     const { name, label, ...rest } = args;
 
     const schema = yup.object().shape({
@@ -26,7 +26,7 @@ const CusSelect: Story<ICustomSelectProps> = (args: ICustomSelectProps) => {
     return (
         <FormProvider {...methods}>
             <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <CustomSelect name={name} label={label} {...rest} />
+                <SelectControl name={name} label={label} {...rest} />
                 <Button htmlType="submit">Submit</Button>
             </Form>
         </FormProvider>
@@ -60,11 +60,11 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { CommonFormProps } from '@/interfaces/form';
 const { Text } = Typography;
 
-export interface ICustomSelectProps extends CommonFormProps<SelectProps> {
+export interface ISelectControlProps extends CommonFormProps<SelectProps> {
     onChangeCallBack?: (value: any, options?: any) => void;
 }
 
-function CustomSelect(props: ICustomSelectProps) {
+function SelectControl(props: ISelectControlProps) {
     const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
 
     const {
@@ -111,7 +111,7 @@ function CustomSelect(props: ICustomSelectProps) {
     );
 }
 
-export default CustomSelect;
+export default SelectControl;
 `,
             language: 'yml',
             type: 'auto',

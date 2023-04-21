@@ -1,9 +1,9 @@
-import { DEFAULT_PAGE, DEFAULT_SIZE } from '@/data/pagination';
+import { DEFAULT_PAGE, DEFAULT_SIZE } from '@/data';
 import { IOption } from '@/interfaces';
-import { IPaginationFilter, usePagination } from '@/utils';
+import { networkHandler, usePagination } from '@/utils';
 import useDebounceValue from '@/utils/hooks';
 import { Empty, Select, SelectProps, Spin } from 'antd';
-import axios, { AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 import { get } from 'lodash';
 import React, { forwardRef, useRef, useState } from 'react';
 import { QueryFunctionContext, QueryKey, useInfiniteQuery } from 'react-query';
@@ -12,6 +12,10 @@ export interface IAsyncSelectSearchProps {
     searchThreshold?: number;
     searchKey?: string;
     searchLocal?: boolean;
+}
+
+export interface IAsyncSelectOther {
+    [key: string]: number | string | boolean | undefined | null;
 }
 
 export interface IAsyncSelectConfigProps {
@@ -27,7 +31,7 @@ export interface IAsyncSelectConfigProps {
     size?: number;
     addtionalOptions?: IOption<any>[];
     lastOptions?: IOption<any>[];
-    otherFilters?: IPaginationFilter;
+    otherFilters?: IAsyncSelectOther;
     customLabel?: (label: string) => string;
     callback?: (options: any) => void;
     isCallbackInEveryFetch?: boolean;
@@ -49,16 +53,16 @@ export interface IAsyncSelectState {
     focus: boolean;
     options: IOption<any>[];
     search?: string;
+    refresh: boolean;
 }
 
 const AsyncSelect = forwardRef<any, IAsyncSelectProps>((props, ref) => {
     const { config, axiosConfig, labelInValue, onChange, ...selectProps } = props;
-    const { mode, showSearch = true } = selectProps;
     const {
         name,
         url,
         responseKey,
-        totalKey = 'total',
+        totalKey = 'data.total',
         valueField,
         labelField,
         customLabel,
@@ -71,7 +75,9 @@ const AsyncSelect = forwardRef<any, IAsyncSelectProps>((props, ref) => {
         callback,
         isCallbackInEveryFetch = false,
     } = config;
+
     const { searchThreshold = 0, searchKey, searchLocal } = search || {};
+    const { mode, showSearch = !!search } = selectProps;
 
     const { backToFirstPage, onChangeNextPage, getNextPage } = usePagination({ page: '1', size: size + '' });
 
@@ -79,6 +85,7 @@ const AsyncSelect = forwardRef<any, IAsyncSelectProps>((props, ref) => {
         focus: false,
         options: [],
         search: undefined,
+        refresh: true,
     }));
 
     const firstCall = useRef<any>(null);
@@ -88,22 +95,25 @@ const AsyncSelect = forwardRef<any, IAsyncSelectProps>((props, ref) => {
 
         const nPage = pageParam ? pageParam.page : DEFAULT_PAGE;
         const nSize = pageParam ? pageParam.size : size;
+        const total = pageParam ? pageParam.total : 0;
 
         const queryKey_ = queryKey as any;
         const search = queryKey_ ? queryKey_?.[1]?.search : undefined;
 
-        return axios
+        return networkHandler
             .get(url, {
                 params: {
                     [pageKey]: nPage ? nPage - 1 : null,
                     [sizeKey]: nSize,
+                    total,
+                    refresh: state.refresh,
                     ...otherFilters,
                     ...(searchKey ? { [searchKey]: search || undefined } : undefined),
                 },
                 ...axiosConfig,
             })
             .then((rp) => {
-                return responseKey ? rp.data?.[responseKey] : rp.data;
+                return rp.data;
             });
     };
 
@@ -114,8 +124,8 @@ const AsyncSelect = forwardRef<any, IAsyncSelectProps>((props, ref) => {
         cacheTime: 0,
         retry: false,
         getNextPageParam: (lastPage) => {
-            const nextPage = getNextPage(lastPage?.[totalKey]);
-            return nextPage ? { page: nextPage, size: size } : undefined;
+            const nextPage = getNextPage(get(lastPage, totalKey));
+            return nextPage ? { page: nextPage, size: size, total: lastPage?.[totalKey], refresh: false } : undefined;
         },
         onSuccess: (data) => {
             if (callback instanceof Function) {
@@ -142,7 +152,7 @@ const AsyncSelect = forwardRef<any, IAsyncSelectProps>((props, ref) => {
     };
 
     const onSearch = (value: string) => {
-        setState((prev) => ({ ...prev, search: value }));
+        setState((prev) => ({ ...prev, search: value, refresh: true }));
         backToFirstPage();
     };
 
@@ -157,6 +167,7 @@ const AsyncSelect = forwardRef<any, IAsyncSelectProps>((props, ref) => {
     };
 
     const onLoadMore = () => {
+        setState((prev) => ({ ...prev, refresh: false }));
         fetchNextPage();
         onChangeNextPage();
     };
@@ -172,7 +183,10 @@ const AsyncSelect = forwardRef<any, IAsyncSelectProps>((props, ref) => {
         if (typeof key === 'string') {
             return data?.[key];
         } else if (Array.isArray(key)) {
-            return key.map((item) => get(data, item, '')).join(' - ');
+            return key
+                .map((item) => get(data, item, undefined))
+                ?.filter((item) => !!item)
+                ?.join(' - ');
         }
     };
 
@@ -190,7 +204,7 @@ const AsyncSelect = forwardRef<any, IAsyncSelectProps>((props, ref) => {
             loading={isLoading || isFetchingNextPage}
             searchValue={state.search}
             onPopupScroll={onScroll}
-            onSearch={!!searchLocal ? undefined : onSearch}
+            onSearch={!!(searchLocal || !showSearch) ? undefined : onSearch}
             onFocus={onFocus}
             onChange={handleChange}
         >
@@ -204,7 +218,7 @@ const AsyncSelect = forwardRef<any, IAsyncSelectProps>((props, ref) => {
                 );
             })}
             {data?.pages?.map((page, index) => {
-                const pageData = responseKey ? page?.[responseKey] : page;
+                const pageData = responseKey ? get(page, responseKey, undefined) : page;
                 return (
                     <React.Fragment key={index}>
                         {pageData?.map((item: any) => {

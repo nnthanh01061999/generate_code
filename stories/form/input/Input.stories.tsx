@@ -1,4 +1,4 @@
-import CustomInput from '@/components/form/CustomInput';
+import InputControl from '@/components/control/input/InputControl';
 import { CommonFormProps } from '@/interfaces';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { action } from '@storybook/addon-actions';
@@ -8,9 +8,9 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 export default {
-    title: 'Form/Input',
-    component: CustomInput,
-} as ComponentMeta<typeof CustomInput>;
+    title: 'Form/input/Input',
+    component: InputControl,
+} as ComponentMeta<typeof InputControl>;
 
 const CusInput: Story<CommonFormProps<InputProps>> = (args: CommonFormProps<InputProps>) => {
     const { name, label, ...rest } = args;
@@ -27,7 +27,7 @@ const CusInput: Story<CommonFormProps<InputProps>> = (args: CommonFormProps<Inpu
     return (
         <FormProvider {...methods}>
             <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <CustomInput name={name} label={label} {...rest} />
+                <InputControl name={name} label={label} {...rest} />
                 <Button htmlType="submit">Submit</Button>
             </Form>
         </FormProvider>
@@ -68,7 +68,7 @@ export interface CommonFormProps<T> {
     onBlurCallBack?: () => void;
 }
 
-function CustomInput(props: CommonFormProps<InputProps>) {
+function InputControl(props: CommonFormProps<InputProps>) {
     const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
 
     const {
@@ -115,7 +115,7 @@ function CustomInput(props: CommonFormProps<InputProps>) {
     );
 }
 
-export default CustomInput;
+export default InputControl;
 `,
             language: 'yml',
             type: 'auto',

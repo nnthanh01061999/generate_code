@@ -1,0 +1,29 @@
+SELECT TABLE_NAME AS '@Name', CASE WHEN TABLE_TYPE = 'BASE TABLE' THEN 'Table' ELSE 'View' END AS '@Type',
+(
+    SELECT Column_Name as '@Name',
+            DATA_TYPE as '@DataType',
+            case data_type 
+                when 'nvarchar' 
+                then CHARACTER_MAXIMUM_LENGTH 
+                when 'varchar'  
+                then CHARACTER_MAXIMUM_LENGTH
+                else null 
+            end  as '@Length',
+            IS_NULLABLE AS '@IsNullable',
+            COLUMNPROPERTY(OBJECT_ID(TABLE_NAME), COLUMN_NAME, 'IsIdentity') AS '@IsIdentity',
+
+            (SELECT tc.CONSTRAINT_TYPE FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS tc
+INNER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE cu ON tc.CONSTRAINT_NAME = cu.CONSTRAINT_NAME
+WHERE tc.TABLE_NAME = INFORMATION_SCHEMA.COLUMNS.TABLE_NAME AND cu.COLUMN_NAME = INFORMATION_SCHEMA.COLUMNS.Column_Name) AS '@Constraint'
+
+    FROM INFORMATION_SCHEMA.COLUMNS 
+    where INFORMATION_SCHEMA.COLUMNS.TABLE_NAME = 
+        INFORMATION_SCHEMA.TABLES.TABLE_NAME
+    order by INFORMATION_SCHEMA.COLUMNS.ORDINAL_POSITION
+    For XML PATH ('Column'), type
+)
+
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_SCHEMA='dbo'
+ORDER BY TABLE_NAME ASC  
+For XML PATH ('Table'),Root('Tables')

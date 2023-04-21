@@ -1,4 +1,4 @@
-import CustomSwitch from '@/components/form/CustomSwitch';
+import SwitchControl from '@/components/control/switch/SwitchControl';
 import { CommonFormProps } from '@/interfaces';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { action } from '@storybook/addon-actions';
@@ -9,8 +9,8 @@ import * as yup from 'yup';
 
 export default {
     title: 'Form/Switch',
-    component: CustomSwitch,
-} as ComponentMeta<typeof CustomSwitch>;
+    component: SwitchControl,
+} as ComponentMeta<typeof SwitchControl>;
 
 const CusSwitch: Story<CommonFormProps<SwitchProps>> = (args: CommonFormProps<SwitchProps>) => {
     const { name, label, ...rest } = args;
@@ -27,7 +27,7 @@ const CusSwitch: Story<CommonFormProps<SwitchProps>> = (args: CommonFormProps<Sw
     return (
         <FormProvider {...methods}>
             <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <CustomSwitch name={name} label={label} {...rest} />
+                <SwitchControl name={name} label={label} {...rest} />
                 <Button htmlType="submit">Submit</Button>
             </Form>
         </FormProvider>
@@ -58,7 +58,7 @@ import { CommonFormProps } from '@/interfaces/form';
 
 const { Text } = Typography;
 
-function CustomSwitch(props: CommonFormProps<SwitchProps>) {
+function SwitchControl(props: CommonFormProps<SwitchProps>) {
     const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined } = props;
 
     const {
@@ -96,7 +96,7 @@ function CustomSwitch(props: CommonFormProps<SwitchProps>) {
     );
 }
 
-export default CustomSwitch;
+export default SwitchControl;
 `,
             language: 'yml',
             type: 'auto',

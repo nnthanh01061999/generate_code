@@ -1,4 +1,4 @@
-import CustomCheckbox, { CustomCheckBoxProps } from '@/components/form/CustomCheckBox';
+import CheckBoxControl, { CheckBoxControlProps } from '@/components/control/checkbox/CheckboxControl';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { action } from '@storybook/addon-actions';
 import { ComponentMeta, Story } from '@storybook/react';
@@ -7,11 +7,11 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 export default {
-    title: 'Form/Checkbox/Checkbox',
-    component: CustomCheckbox,
-} as ComponentMeta<typeof CustomCheckbox>;
+    title: 'Form/checkbox/CheckBox/checkbox/CheckBox',
+    component: CheckBoxControl,
+} as ComponentMeta<typeof CheckBoxControl>;
 
-const CusCheckbox: Story<CustomCheckBoxProps> = (args: CustomCheckBoxProps) => {
+const CusCheckbox: Story<CheckBoxControlProps> = (args: CheckBoxControlProps) => {
     const { name, label, ...rest } = args;
 
     const schema = yup.object().shape({
@@ -26,7 +26,7 @@ const CusCheckbox: Story<CustomCheckBoxProps> = (args: CustomCheckBoxProps) => {
     return (
         <FormProvider {...methods}>
             <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <CustomCheckbox name={name} label={label} {...rest} />
+                <CheckBoxControl name={name} label={label} {...rest} />
                 <Button htmlType="submit">Submit</Button>
             </Form>
         </FormProvider>
@@ -58,11 +58,11 @@ import { CommonFormProps } from '@/interfaces/form';
 
 const { Text } = Typography;
 
-export interface CustomCheckBoxProps extends CommonFormProps<RadioProps> {
+export interface CheckBoxControlProps extends CommonFormProps<RadioProps> {
     labelCheckBox?: ReactNode;
 }
 
-function CustomCheckBox(props: CustomCheckBoxProps) {
+function CheckBoxControl(props: CheckBoxControlProps) {
     const { name, label, showError = true, childProps, wrapperProps, labelCheckBox, onChangeCallBack = undefined } = props;
 
     const {
@@ -95,14 +95,14 @@ function CustomCheckBox(props: CustomCheckBoxProps) {
                 <Form.Item {...wrapperProps} label={label} htmlFor={name} help={errorElement} validateStatus={isHaveError ? 'error' : undefined}>
                     <Checkbox {...childProps} ref={ref} id={name} checked={value} onChange={handleOnChange(onChange)}>
                         {labelCheckBox}
-                    </Checkbox>
+                    </checkbox/CheckBox>
                 </Form.Item>
             )}
         />
     );
 }
 
-export default CustomCheckBox;
+export default CheckBoxControl;
 `,
             language: 'yml',
             type: 'auto',

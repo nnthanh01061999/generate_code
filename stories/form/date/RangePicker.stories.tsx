@@ -1,4 +1,4 @@
-import CustomRangePicker from '@/components/form/CustomRangePicker';
+import RangePickerControl from '@/components/control/date-picker/RangePickerControl';
 import { CommonFormProps } from '@/interfaces';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { action } from '@storybook/addon-actions';
@@ -8,9 +8,9 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 export default {
-    title: 'Form/Date/RangePicker',
-    component: CustomRangePicker,
-} as ComponentMeta<typeof CustomRangePicker>;
+    title: 'Form/date-picker/Date/RangePicker',
+    component: RangePickerControl,
+} as ComponentMeta<typeof RangePickerControl>;
 
 const CusRangePicker: Story<CommonFormProps<TimeRangePickerProps>> = (args: CommonFormProps<TimeRangePickerProps>) => {
     const { name, label, ...rest } = args;
@@ -26,7 +26,7 @@ const CusRangePicker: Story<CommonFormProps<TimeRangePickerProps>> = (args: Comm
     return (
         <FormProvider {...methods}>
             <Form onFinish={methods.handleSubmit(action('[React Hooks Form] Submit'))} layout="vertical">
-                <CustomRangePicker name={name} label={label} {...rest} />
+                <RangePickerControl name={name} label={label} {...rest} />
                 <Button htmlType="submit">Submit</Button>
             </Form>
         </FormProvider>
@@ -58,7 +58,7 @@ const { RangePicker } = DatePicker;
 
 const { Text } = Typography;
 
-function CustomRangePicker(props: CommonFormProps<TimeRangePickerProps>) {
+function RangePickerControl(props: CommonFormProps<TimeRangePickerProps>) {
     const { name, label, showError = true, childProps, wrapperProps, onChangeCallBack = undefined, onBlurCallBack = undefined } = props;
 
     const {
@@ -105,7 +105,7 @@ function CustomRangePicker(props: CommonFormProps<TimeRangePickerProps>) {
     );
 }
 
-export default CustomRangePicker;
+export default RangePickerControl;
 `,
             language: 'yml',
             type: 'auto',
