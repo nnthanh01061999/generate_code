@@ -106,10 +106,10 @@ function Generate() {
                         </Col>
                     </Row>
                     <Row gutter={[24, 24]}>
-                        <Col md={16} sm={24} xs={24}>
+                        <Col md={24} sm={24} xs={24}>
                             <FormGrid name="forms" />
                         </Col>
-                        <Col md={8} sm={24} xs={24}>
+                        <Col md={24} sm={24} xs={24}>
                             <Result name={watch('key')} config={resultArr} data={result} fileType="tsx" />
                         </Col>
                     </Row>

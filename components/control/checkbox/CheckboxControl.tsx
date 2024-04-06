@@ -1,8 +1,8 @@
+import { CommonFormProps } from '@/interfaces';
 import { ErrorMessage } from '@hookform/error-message';
-import { Checkbox, Form, RadioProps, Typography } from 'antd';
+import { Checkbox, Form, RadioProps } from 'antd';
 import React, { ReactNode } from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
-import { CommonFormProps } from '@/interfaces';
 
 export interface CheckBoxControlProps extends CommonFormProps<RadioProps> {
     labelCheckBox?: ReactNode;
@@ -18,7 +18,7 @@ function CheckBoxControl(props: CheckBoxControlProps) {
 
     const handleOnChange = (onChange: (value: any) => void) => {
         return (value: any) => {
-            onChange(value);
+            onChange(value.target.checked);
             if (onChangeCallBack instanceof Function) {
                 onChangeCallBack(value);
             }

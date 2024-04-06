@@ -50,7 +50,6 @@ function Generate() {
                 key: snakeCase(item),
                 type: dataType?.[item as keyof typeof dataType],
                 width: 160,
-                exportable: true,
             };
         });
         setValue('columns', columns);
@@ -95,7 +94,7 @@ function Generate() {
                                     <InputControl name="interface" label="interface" />
                                 </Col>
                                 <Col md={12} sm={24} xs={24}>
-                                    <CheckBoxGroupControl name="actions" label="actions" childProps={{ options: ['delete', 'update', 'view'] }} />
+                                    <CheckBoxGroupControl name="actions" label="actions" childProps={{ options: ['delete', 'update'] }} />
                                 </Col>
                             </Row>
                         </Col>

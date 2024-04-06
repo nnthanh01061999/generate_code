@@ -39,109 +39,126 @@ export const generateForm = (id: string, data: TFormFormValues, setResult: (key:
 
     const getImportByType = (type: string) => {
         const component = FORM_OBJ?.[type as keyof typeof FORM_OBJ] || {};
-
         return `import ${component.componentName} from '${component.import}';\n`;
     };
 
-    const result = `${input ? getImportByType('input') : ''}${inputNumber ? getImportByType('input-number') : ''}${textArea ? getImportByType('text-area') : ''}${date ? getImportByType('date') : ''}${
-        range ? getImportByType('range') : ''
-    }${range ? getImportByType('range') : ''}${time ? getImportByType('time') : ''}${week ? getImportByType('week') : ''}${month ? getImportByType('month') : ''}${
-        year ? getImportByType('year') : ''
-    }${select ? getImportByType('select') : ''}${asyncSelect ? getImportByType('async-select') : ''}${switch_ ? getImportByType('switch') : ''}${radio ? getImportByType('radio') : ''}${
-        checkbox ? getImportByType('checkbox') : ''
-    }import MainFormModal from '@/components/layout/MainFormModal';
-import { I${key}, TAction, T${key}FormValues, withModalHanlderProps } from '@/interfaces';
-import { useEffectKeyboardShortcut } from '@/utils';
-${schema ? "import { yupResolver } from '@hookform/resolvers/yup';\n" : ''}import { Col, Form, Row, Spin } from 'antd';
+    const result = `
+${input ? getImportByType('input') : ''}
+${inputNumber ? getImportByType('input-number') : ''}
+${textArea ? getImportByType('text-area') : ''}
+${date ? getImportByType('date') : ''}
+${range ? getImportByType('range') : ''}
+${range ? getImportByType('range') : ''}
+${time ? getImportByType('time') : ''}
+${week ? getImportByType('week') : ''}
+${month ? getImportByType('month') : ''}
+${year ? getImportByType('year') : ''}
+${select ? getImportByType('select') : ''}
+${asyncSelect ? getImportByType('async-select') : ''}
+${switch_ ? getImportByType('switch') : ''}
+${radio ? getImportByType('radio') : ''}${checkbox ? getImportByType('checkbox') : ''}
+import FormWrapper from '@/components/shared/FormWrapper';
+import { I${key}, TAction, T${key}FormValues } from '@/types';
+import { useEffectKeyboardShortcut } from '@/hooks/use-keyboard-shortcut';
+import { useConfirmModal } from '@/hooks/use-confirm';
+${schema ? "import { yupResolver } from '@hookform/resolvers/yup';" : ''}
+import { Col, Row, Spin, Form as AntForm } from 'antd';
 import { useTranslations } from 'next-intl';
 import React, { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-${schema ? "import * as yup from 'yup';\n" : ''}
-export interface I${key}FormModalProps extends withModalHanlderProps {
+${schema ? "import * as yup from 'yup';" : ''}
+
+export interface I${key}FormProps {
     action: TAction;
     data?: ${interface_ ? interface_ : `I${key}`};
     loading: boolean;
-    onCreateWhenView: () => void;
-    onEditWhenView: () => void;
     onSuccess: (data: T${key}FormValues) => void;
 }
 
-function FormModal(props: I${key}FormModalProps) {
-    const { data, action, loading, onCreateWhenView, onEditWhenView, onSuccess, onClose } = props;
+function Form(props: I${key}FormProps) {
+    const { data, action, loading, onSuccess } = props;
 
-     const disabled = useMemo(() => !!(action === 'view'), [action]);
+    const disabled = useMemo(() => !!(action === 'view'), [action]);
+
+    const confirmModal = useConfirmModal();
 
     const tC = useTranslations('Common.form')
-${schema ? "\n\tconst tCF = useTranslations('Common.form.validate');" : ''}
+
+    ${schema ? "const tCF = useTranslations('Common.form.validate');" : ''}
     const tM = useTranslations('${key}');
     const tF = useTranslations('${key}.form');
-   ${
-       schema
-           ? `\n\tconst schema = useMemo(() => {
-            return yup.object({
-                //your schema
-            });
-            //eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [yup]);\n`
-           : ''
-   }
+
+    ${
+        schema
+            ? `const schema: yup.ObjectSchema<T${key}FormValues> = useMemo(() => {
+                return yup.object({
+                    //your schema
+                });
+            }, [tCF]);`
+            : ''
+    }
+
     const method = useForm<T${key}FormValues>({
-        defaultValues: {${forms.map((item) => `\n\t\t${item.key}: ${item.defaultValue ? item.defaultValue : getDefaultValueByType(item.type)},`)?.join('')}
-        },${schema ? `\n\tresolver: yupResolver(schema),` : ''}
+        defaultValues: {${forms.map((item) => `${item.key}: ${item.defaultValue ? item.defaultValue : getDefaultValueByType(item.type)},`)?.join('')}
+        },${schema ? `resolver: yupResolver(schema),` : ''}
     });
 
     const { setValue, handleSubmit } = method;
+
+    const onSubmit = (data: T${key}FormValues) => {
+        confirmModal.confirmSave({
+            onOk() {
+                onSuccess(data);
+            },
+        });
+    };
+
+    useEffect(() => {
+        if(!data) return;
+       ${forms
+           ?.filter((item) => !item.required)
+           ?.map((item) => `setValue('${item.key}', data.${item.key});`)
+           ?.join('')}
+        if (action === 'update' || action === 'view') {
+            ${forms
+                ?.filter((item) => item.required)
+                ?.map((item) => `setValue('${item.key}', data.${item.key});`)
+                ?.join('')}
+        }
+            else if (action === 'create') {
+            ${forms
+                ?.filter((item) => item.required)
+                ?.map((item) => `setValue('${item.key}', '');`)
+                ?.join('')}
+        }
+        
+    }, [data, action, setValue]);
 
     useEffectKeyboardShortcut({
         save: () => handleSubmit(onSubmit)(),
     });
 
-    const onSubmit = (data: T${key}FormValues) => {
-        onSuccess(data);
-    };
-
-    useEffect(() => {
-        if (data) {${forms
-            ?.filter((item) => !item.required)
-            ?.map((item) => `\n\t\tsetValue('${item.key}', data.${item.key});`)
-            ?.join('')}
-            if (action === 'update' || action === 'view') {
-               ${forms
-                   ?.filter((item) => item.required)
-                   ?.map((item) => `\n\t\tsetValue('${item.key}', data.${item.key});`)
-                   ?.join('')}
-            }
-             else if (action === 'create') {
-               ${forms
-                   ?.filter((item) => item.required)
-                   ?.map((item) => `\n\t\tsetValue('${item.key}', '');`)
-                   ?.join('')}
-            }
-        }
-        //eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data]);
-
     return (
-        <MainFormModal action={action} loading={loading} title={tM('label')} onEditWhenView={onEditWhenView} onCreateWhenView={onCreateWhenView} onOk={handleSubmit(onSubmit)} onClose={onClose}>
+        <FormWrapper action={action} loading={loading} title={tM('label')} onSave={handleSubmit(onSubmit)}>
             <FormProvider {...method}>
                 <Spin spinning={loading}>
-                    <Form className="main-form" layout="vertical">
+                    <AntForm layout="vertical">
                         <Row gutter={[12, 0]}>${forms
                             .map(
-                                (item) => `\n\t\t\t\t\t\t\t<Col xs={${item.xs}} md={${item.md}}>
+                                (item) => `<Col xs={${item.xs}} md={${item.md}}>
                                 ${getRenderByType(item)}
                             </Col>`,
                             )
                             ?.join('')}
                         </Row>
-                    </Form>
+                    </AntForm>
                 </Spin>
             </FormProvider>
-        </MainFormModal>
+        </FormWrapper>
     );
 }
 
-export default FormModal;
+export default Form;
 `;
 
     setResult(id, result);

@@ -1,5 +1,5 @@
 import { TTableFormValues } from '@/interfaces';
-import { snakeCase, startCase } from 'lodash';
+import { startCase } from 'lodash';
 
 export const generateTable = (id: string, data: TTableFormValues, setResult: (key: string, result: string) => void) => {
     const key = data.key;
@@ -9,7 +9,6 @@ export const generateTable = (id: string, data: TTableFormValues, setResult: (ke
     const columns = data.columns;
     const delete_ = actions.includes('delete');
     const update = actions.includes('update');
-    const view = actions.includes('view');
 
     const boolean = columns.find((item) => item.type === 'boolean');
     const number = columns.find((item) => item.type === 'number');
@@ -44,116 +43,81 @@ export const generateTable = (id: string, data: TTableFormValues, setResult: (ke
         return '';
     };
 
-    const result = `${boolean ? `import BooleanIcon from '@/components/shared/BooleanIcon';` : ''}${number ? `\nimport NumberFormat from '@/components/shared/NumberFormat';` : ''}${
-        date ? `\nimport TimeFormat from '@/components/shared/TimeFormat';` : ''
-    }
-import CustomTable, { ICustomTableProps } from '@/components/shared/CustomTable';
-${actions.length ? `import TableOperation from '@/components/shared/TableOperation';` : ''}${
-        actions.length
-            ? `\nimport { ${delete_ ? 'DROPDOWN_DELETE, ' : ''}${view ? 'DROPDOWN_VIEW, ' : ''}${update ? 'DROPDOWN_UPDATE, ' : ''}protectPaths, ${snakeCase(key).toUpperCase()}_PATH} from '@/data';`
-            : ''
-    }
-import { IColumnType, ITableForwardRef, ${interface_} } from '@/interfaces';${delete_ ? `\nimport { useConfirmModal } from '@/utils';` : ''}
+    const result = `
+${boolean ? `import BooleanIcon from '@/components/shared/BooleanIcon';` : ''}
+${number ? `import NumberFormat from '@/components/shared/NumberFormat';` : ''}
+${date ? `import TimeFormat from '@/components/shared/TimeFormat';` : ''}
+${actions.length ? `import TableOperation from '@/components/shared/TableOperation';` : ''}
+${delete_ ? `import { useConfirmModal } from '@/hooks/use-confirm';` : ''}
+import { ${interface_} } from '@/types';
+import { Table as AntTable, TableProps } from 'antd';
+import { ColumnType } from 'antd/es/table';
 import { useTranslations } from 'next-intl';
-import { forwardRef, useImperativeHandle } from 'react';
+import { useMemo } from 'react';
 
-export interface I${keyStartTitle}TableProps extends ICustomTableProps {
-    actionLoading: boolean;${update ? `\n    onEdit: (id: number) => void;` : ''}${delete_ ? `\n    onDelete: (id: number) => void;` : ''}${view ? `\n    onView: (id: number) => void;` : ''}
+export interface I${keyStartTitle}TableProps extends TableProps {
+    actionLoading: boolean;${update ? `\nonUpdate: (id: string | number) => void;` : ''}${delete_ ? `\nonDelete: (id: string | number) => void;` : ''}
 }
 
-function Table(props: I${keyStartTitle}TableProps, ref: ITableForwardRef<${interface_}>) {
-    const { ${update ? `onEdit, ` : ''}${delete_ ? `onDelete, ` : ''}${view ? `onView, ` : ''} actionLoading, ...tableProps } = props;
-    const currentMenu = protectPaths?.[${snakeCase(key).toUpperCase()}_PATH];${boolean ? `const tC = useTranslations('Common');\n` : ''}
-    const tT = useTranslations('Common.table');
+function Table (props: I${keyStartTitle}TableProps) {
+    const { actionLoading,${update ? `onUpdate, ` : ''}${delete_ ? `onDelete, ` : ''} ...tableProps } = props;
+    ${boolean ? `const tC = useTranslations('Common');` : ''}
+   ${delete_ ? `const tT = useTranslations('Common.table');` : ''}
     const t = useTranslations('${keyStartTitle}.table.columns');
-${delete_ ? `\nconst confirmModal = useConfirmModal();` : ''}
+    ${delete_ ? `const confirmModal = useConfirmModal();` : ''}
 
-    const columns: IColumnType<${interface_}>[] = [
+    const columns: ColumnType<${interface_}>[] = useMemo(() =>[
         ${columns
             ?.map((item) => {
                 return `{
+            key: '${item.key}',
             title: t('${item.key}'),
             dataIndex: '${item.key}',
-            key: '${item.key}',
-            ${getAlignByType(item.type)}${item.width ? `\n\t\twidth: ${item.width},` : ''}
-            ${item.exportable ? '__exportable: true,' : ''}
-            ${
-                item.exportable && item.type === 'boolean'
-                    ? `__extend: {
-                true_label: tC('boolean.true'),
-                false_label: tC('boolean.false'),
-            },`
-                    : ''
-            }${item.type !== 'string' ? `\t    render: (value) => ${getRenderByType(item.type)}` : ''}
-        },\n\t`;
+            ${getAlignByType(item.type)}
+            ${item.width ? `width: ${item.width},` : ''}
+            ${item.type !== 'string' ? `render: (value) => ${getRenderByType(item.type)}` : ''}
+        },`;
             })
-            .join('')}${
-        actions.length
-            ? `{
-            title: tT('columns.operation.label'),
-            key: 'operation',
-            fixed: 'right',
-            width: 90,
-            render: (_, record) => {
-                return (
-                   <TableOperation
-                        disabled={actionLoading}
-                        buttonColor={true}
-                        menuOptions={[
-                            ${
-                                view
-                                    ? `{
-                                id: DROPDOWN_VIEW,
-                                onClick: () => onView(record.id),
-                            },`
-                                    : ''
-                            }
-                            ${update ? `{ id: DROPDOWN_UPDATE, bit_index: currentMenu.action?.[DROPDOWN_UPDATE], onClick: () => onEdit(record.id)},` : ''}
+            .join('')}
+            ${
+                actions.length
+                    ? `{
+                title: tT('columns.operation.label'),
+                key: 'operation',
+                fixed: 'right',
+                width: 90,
+                render: (_, record) => {
+                    return (
+                        <TableOperation
+                            ${update ? `onUpdate={() => onUpdate(record.id)}` : ''}
                             ${
                                 delete_
-                                    ? `{
-                                id: DROPDOWN_DELETE,
-                                 bit_index: currentMenu.action?.[DROPDOWN_DELETE],
-                                type: 'danger',
-                                onClick: () =>
-                                    confirmModal.confirm({
-                                        title: tT('columns.operation.delete-confirm'),
-                                        onOk() {
-                                            onDelete(record.id);
-                                        },
-                                    }),
-                            },`
+                                    ? `onDelete={() =>
+                                confirmModal.confirm({
+                                    content: tT('columns.operation.delete-confirm'),
+                                    onOk() {
+                                        onDelete(record.id);
+                                    },
+                                })
+                            }`
                                     : ''
                             }
-                        ]}
-                    />
-                );
-            },
-        },`
-            : ''
-    }
-    ];
-
-    useImperativeHandle(
-        ref,
-        () => ({
-            getColumns: () => columns,
-        }),
-        //eslint-disable-next-line react-hooks/exhaustive-deps
-        [],
+                        />
+                    );
+                },
+            },`
+                    : ''
+            }
+    ],
+    [${delete_ ? 'confirmModal, onDelete, ' : ''}${update ? 'onUpdate, ' : ''}t,${delete_ ? ' tT' : ''}],
     );
 
     return (
-        <CustomTable
-            {...tableProps}
-            bordered
-            columns={columns}
-            rowKey={(record) => record.${data.rowKey}}
-        />
-    );
+        <AntTable {...tableProps} columns={columns} bordered rowKey={(record) => record.${data.rowKey}} />
+    )
 }
 
-export default forwardRef(Table);
+export default Table;
 `;
 
     setResult(id, result);

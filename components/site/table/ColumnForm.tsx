@@ -1,10 +1,7 @@
-import CheckBoxControl from '@/components/control/checkbox/CheckboxControl';
 import InputControl from '@/components/control/input/InputControl';
 import InputNumberControl from '@/components/control/input/InputNumberControl';
-import RadioControl from '@/components/control/radio/RadioControl';
 import SelectControl from '@/components/control/select/SelectControl';
 import TableFormControl from '@/components/control/table/TableFormControl';
-import NumberFormat from '@/components/shared/NumberFormat';
 import { TTableFormColumnValues } from '@/interfaces';
 import { useDeviceMobile } from '@/store/reducer/device/deviceHook';
 import { ColumnType } from 'antd/es/table';
@@ -78,14 +75,6 @@ function ActionForm(props: IActionFormProps) {
                     }}
                 />
             ),
-        },
-        {
-            align: 'left',
-            title: 'exportable',
-            dataIndex: 'exportable',
-            key: 'exportable',
-            width: 100,
-            render: (_, __, index) => <CheckBoxControl name={`${name}[${index}].width`} toggleError />,
         },
     ];
 
