@@ -9,3 +9,4 @@ export * from '@/data/common/be-error-code';
 export * from '@/data/common/color';
 export * from '@/data/common/boolean';
 export * from '@/data/common/regex';
+export * from '@/data/common/locale-key';

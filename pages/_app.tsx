@@ -4,7 +4,6 @@ import { locales, MOBILE_WIDTH } from '@/data';
 import { useApplyClientState } from '@/store/client';
 import { load, save, wrapper } from '@/store/store';
 import { Analytics } from '@vercel/analytics/react';
-
 import { updateHeadersForLocale, useModalHandle, usePageProcess, usePreload } from '@/utils';
 import { ConfigProvider, Layout, theme } from 'antd';
 import { NextComponentType, NextPageContext } from 'next';

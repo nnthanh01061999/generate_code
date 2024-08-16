@@ -1,5 +1,6 @@
+import { commonLocales } from '@/data';
 import { TTableFormValues } from '@/interfaces';
-import { startCase } from 'lodash';
+import { snakeCase, startCase } from 'lodash';
 
 export const generateTable = (id: string, data: TTableFormValues, setResult: (key: string, result: string) => void) => {
     const key = data.key;
@@ -7,12 +8,15 @@ export const generateTable = (id: string, data: TTableFormValues, setResult: (ke
     const interface_ = data.interface;
     const actions = data.actions || [];
     const columns = data.columns;
-    const delete_ = actions.includes('delete');
+    const workspace = data.workspace;
+
     const update = actions.includes('update');
+    const create = actions.includes('create');
 
     const boolean = columns.find((item) => item.type === 'boolean');
     const number = columns.find((item) => item.type === 'number');
     const date = columns.find((item) => item.type === 'date');
+    const string = columns.find((item) => item.type === 'string');
 
     const getRenderByType = (type?: string) => {
         if (type === 'boolean') {
@@ -44,80 +48,149 @@ export const generateTable = (id: string, data: TTableFormValues, setResult: (ke
     };
 
     const result = `
-${boolean ? `import BooleanIcon from '@/components/shared/BooleanIcon';` : ''}
-${number ? `import NumberFormat from '@/components/shared/NumberFormat';` : ''}
-${date ? `import TimeFormat from '@/components/shared/TimeFormat';` : ''}
-${actions.length ? `import TableOperation from '@/components/shared/TableOperation';` : ''}
-${delete_ ? `import { useConfirmModal } from '@/hooks/use-confirm';` : ''}
-import { ${interface_} } from '@/types';
-import { Table as AntTable, TableProps } from 'antd';
-import { ColumnType } from 'antd/es/table';
-import { useTranslations } from 'next-intl';
-import { useMemo } from 'react';
+    ${create && `import { PlusOutlined } from "@ant-design/icons"`};${boolean ? `import BooleanIcon from '@components/common/Table/BooleanIcon';` : ''}${
+        number ? `import NumberFormat from '@components/common/Table/NumberFormat';` : ''
+    }${date ? `import TimeFormat from '@components/common/Table/TimeFormat';` : ''}${string ? `import StringFormat from '@components/common/Table/StringFormat';` : ''}
+import { ${interface_} } from 'types';
+import BaseTable from "@components/common/BaseTable";
+import { useMemo, useState } from "react";
+import { PERMISSIONS } from "@configs/permission";
+import { renderActionButton } from "@helpers";
+import withLazy from "@hooks/withLazy";
+import { getSearchValues } from "@utils";
+import type { ColumnsType } from "antd/es/table";
+import { paginationConfig } from "constants/pagination";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
+${create && `import { Switch, Typography } from "antd";`}
 
-export interface I${keyStartTitle}TableProps extends TableProps {
-    actionLoading: boolean;${update ? `\nonUpdate: (id: string | number) => void;` : ''}${delete_ ? `\nonDelete: (id: string | number) => void;` : ''}
-}
+${create && `const ${key}Modal = withLazy(() => import("@pages/admin/${key}/${key}Modal"));`}
 
-function Table (props: I${keyStartTitle}TableProps) {
-    const { actionLoading,${update ? `onUpdate, ` : ''}${delete_ ? `onDelete, ` : ''} ...tableProps } = props;
-    ${boolean ? `const tC = useTranslations('Common');` : ''}
-   ${delete_ ? `const tT = useTranslations('Common.table');` : ''}
-    const t = useTranslations('${keyStartTitle}.table.columns');
-    ${delete_ ? `const confirmModal = useConfirmModal();` : ''}
+${update && `const { Link } = Typography;`}
 
-    const columns: ColumnType<${interface_}>[] = useMemo(() =>[
+function ${key}Table () {
+   const { t } = useTranslation(["common","${workspace}"]);
+     const [searchParams, setSearchParams] = useSearchParams();
+const [open, setOpen] = useState<boolean>(false);
+  const [detailUid, setDetailUid] = useState<string>();
+
+     const currentSearchValues = useMemo(() => {
+    return getSearchValues(searchParams);
+  }, [searchParams]);
+
+  const data = fakeData;
+
+  const { pagination, records } = data?.data || {};
+
+   const handleTableChange = (values: any) => {
+    const { current, pageSize } = values;
+    if (!current) return;
+    setSearchParams({
+      ...currentSearchValues,
+      page: current,
+      limit: pageSize,
+    });
+  };
+
+  ${
+      create &&
+      `const onAddNew = () => {
+    setDetailUid(undefined);
+    setOpen(true);
+  };`
+  }
+
+  ${
+      update &&
+      `const onUpdate = (uid: string) => () => {
+    setDetailUid(uid);
+    setOpen(true);
+  };
+  `
+  }
+
+  ${
+      (create || update) &&
+      ` const onClose = () => {
+    setDetailUid(undefined);
+    setOpen(false);
+  };`
+  }
+
+  const onRefresh = () => {
+    onClose();
+  };
+
+
+    const columns: ColumnsType<${interface_}> = useMemo(() =>[
         ${columns
             ?.map((item) => {
+                const key = snakeCase(item.key);
                 return `{
-            key: '${item.key}',
-            title: t('${item.key}'),
-            dataIndex: '${item.key}',
-            ${getAlignByType(item.type)}
+            key: '${key}',
+            title: t('${commonLocales?.[key as keyof typeof commonLocales] ? 'common' : workspace}:${key}'),
+            dataIndex: '${key}',
             ${item.width ? `width: ${item.width},` : ''}
-            ${item.type !== 'string' ? `render: (value) => ${getRenderByType(item.type)}` : ''}
+            ${
+                item.key === 'name'
+                    ? `render: (value, record) => <Link onClick={onUpdate(record.uid)}>{value}</Link>,`
+                    : item.type !== 'string'
+                    ? `render: (value) => ${getRenderByType(item.type)}`
+                    : ''
+            }
         },`;
             })
             .join('')}
-            ${
-                actions.length
-                    ? `{
-                title: tT('columns.operation.label'),
-                key: 'operation',
-                fixed: 'right',
-                width: 90,
-                render: (_, record) => {
-                    return (
-                        <TableOperation
-                            ${update ? `onUpdate={() => onUpdate(record.id)}` : ''}
-                            ${
-                                delete_
-                                    ? `onDelete={() =>
-                                confirmModal.confirm({
-                                    content: tT('columns.operation.delete-confirm'),
-                                    onOk() {
-                                        onDelete(record.id);
-                                    },
-                                })
-                            }`
-                                    : ''
-                            }
-                        />
-                    );
-                },
-            },`
-                    : ''
-            }
     ],
-    [${delete_ ? 'confirmModal, onDelete, ' : ''}${update ? 'onUpdate, ' : ''}t,${delete_ ? ' tT' : ''}],
+    [t],
     );
 
+    ${
+        create &&
+        `
+  const actionsBarConfig = useMemo(
+    () => [
+      {
+        name: t("common:create"),
+        icon: <PlusOutlined />,
+        type: "primary",
+        permission: PERMISSIONS.PUBLIC,
+        onClick: onAddNew,
+      },
+    ],
+    [t],
+  );
+
+  const renderActions = () => {
+    return <>{renderActionButton(actionsBarConfig)}</>;
+  };
+`
+    }
+
     return (
-        <AntTable {...tableProps} columns={columns} bordered rowKey={(record) => record.${data.rowKey}} />
+    <>
+        <BaseTable
+        rowKey="${data.rowKey}"
+        ${create && `renderActionsBar={renderActions}`}
+        loading={false}
+        dataSource={records || []}
+        columns={columns}
+        totalResult={pagination?.total_records}
+        pagination={{
+          ...paginationConfig,
+          total: pagination?.total_records,
+          current: Number.parseInt(currentSearchValues?.page) || 1,
+          pageSize: Number.parseInt(currentSearchValues?.limit) || 10,
+        }}
+        onChange={handleTableChange}
+      />
+     ${create && `<${key}Modal uid={detailUid} onSuccess={onRefresh} open={open} onCancel={onClose} />`}
+      </>
     )
 }
 
-export default Table;
+export default ${key}Table;
 `;
 
     setResult(id, result);

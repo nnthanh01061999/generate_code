@@ -13,4 +13,5 @@ export type TTableFormValues = {
     json: string;
     columns: TTableFormColumnValues[];
     actions: string[];
+    workspace: string;
 };

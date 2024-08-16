@@ -94,7 +94,10 @@ function Generate() {
                                     <InputControl name="interface" label="interface" />
                                 </Col>
                                 <Col md={12} sm={24} xs={24}>
-                                    <CheckBoxGroupControl name="actions" label="actions" childProps={{ options: ['delete', 'update'] }} />
+                                    <InputControl name="workspace" label="workspace" />
+                                </Col>
+                                <Col md={12} sm={24} xs={24}>
+                                    <CheckBoxGroupControl name="actions" label="actions" childProps={{ options: ['create', 'delete', 'update'] }} />
                                 </Col>
                             </Row>
                         </Col>
